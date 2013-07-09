@@ -1,0 +1,8 @@
+@mixin animation ($arguments...) {
+    -webkit-animation: $arguments;
+    -moz-animation: $arguments;
+    -o-animation: $arguments;
+    animation: $arguments;
+}
+@mixin animate ($arguments...) { @include animation($arguments);}
+@mixin anime ($arguments...) { @include animation($arguments);}

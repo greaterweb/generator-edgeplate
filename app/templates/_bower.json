@@ -1,0 +1,11 @@
+{
+    "title": "<%= appTitle %>",
+    "name": "<%= _.slugify(appTitle) %>",
+    "version": "0.1.0",
+    "dependencies": {
+        "sass-bootstrap": "~2.3.2",
+        "font-awesome": "~3.2.1",
+        "jquery": "~1.8.0",
+        "angular-all-unstable": "~1.1.5"
+    }
+}

@@ -1,0 +1,69 @@
+extends layout/_global
+
+append head
+  - var title = "Loading&hellip;"
+  title(ng-bind-html="page.title || '#{title}'") !{title}
+  link(rel="stylesheet", href="styles/app.css")
+
+append footer-scripts
+  //- socket.io
+  script(src="/socket.io/socket.io.js")
+
+  // build:js(src/public/) scripts/lib.js
+
+  //- jquery and jquery plugins
+  script(src="bower_lib/jquery/jquery.js")
+
+  //- bootstrap dependencies
+  //- script(src="bower_lib/sass-bootstrap/js/bootstrap-affix.js")
+  //- script(src="bower_lib/sass-bootstrap/js/bootstrap-alert.js")
+  //- script(src="bower_lib/sass-bootstrap/js/bootstrap-button.js")
+  //- script(src="bower_lib/sass-bootstrap/js/bootstrap-carousel.js")
+  //- script(src="bower_lib/sass-bootstrap/js/bootstrap-collapse.js")
+  //- script(src="bower_lib/sass-bootstrap/js/bootstrap-dropdown.js")
+  //- script(src="bower_lib/sass-bootstrap/js/bootstrap-modal.js")
+  //- script(src="bower_lib/sass-bootstrap/js/bootstrap-popover.js")
+  //- script(src="bower_lib/sass-bootstrap/js/bootstrap-scrollspy.js")
+  //- script(src="bower_lib/sass-bootstrap/js/bootstrap-tab.js")
+  //- script(src="bower_lib/sass-bootstrap/js/bootstrap-tooltip.js")
+  //- script(src="bower_lib/sass-bootstrap/js/bootstrap-transition.js")
+  //- script(src="bower_lib/sass-bootstrap/js/bootstrap-typeahead.js")
+
+  //- angular core and app dependencies
+  script(src="bower_lib/angular-all-unstable/angular.js")
+  //- script(src="bower_lib/angular-all-unstable/angular-resource.js")
+  //- script(src="bower_lib/angular-all-unstable/angular-sanitize.js")
+  //- script(src="bower_lib/angular-all-unstable/angular-cookies.js")
+  //- script(src="bower_lib/angular-all-unstable/angular-loader.js")
+  //- script(src="bower_lib/angular-all-unstable/angular-mobile.js")
+  //- script(src="bower_lib/angular-all-unstable/angular-mocks.js")
+  //- script(src="bower_lib/angular-all-unstable/angular-scenario.js")
+
+  //- gloal helpers
+  script(src="scripts/helper.js")
+
+  // endbuild
+
+  // build:js(.tmp/) scripts/app.js
+  //- everything beyond this point is assumed to be angular related
+      and will run through the ngmin task putting it in the temp
+      directory during the build process
+
+  //- main app
+  script(src="scripts/app.js")
+
+  //- angular services
+  script(src="scripts/services/edgePage.js")
+
+  //- angular directives
+
+  //- angular filters
+
+  //- angular controllers
+  script(src="controllers/Body/BodyController.js")
+  script(src="controllers/App/AppController.js")
+
+  //- page controllers
+  script(src="controllers/pages/Dashboard/DashboardController.js")
+
+  // endbuild
