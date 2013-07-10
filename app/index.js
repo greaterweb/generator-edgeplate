@@ -41,11 +41,7 @@ EdgeplateGenerator.prototype.askFor = function askFor() {
         default: 'Edge Project'
     }];
 
-    this.prompt(prompts, function (err, props) {
-        if (err) {
-            return this.emit('error', err);
-        }
-
+    this.prompt(prompts, function (props) {
         this.appTitle = props.appTitle;
 
         cb();
