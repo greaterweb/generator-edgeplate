@@ -11,8 +11,35 @@ var ComponentGenerator = module.exports = function ComponentGenerator(args, opti
 
 util.inherits(ComponentGenerator, yeoman.generators.NamedBase);
 
+ComponentGenerator.prototype.askFor = function askFor() {
+    var cb = this.async();
+
+    var prompts = [{
+        type: 'confirm',
+        name: 'hasSCSS',
+        message: 'Do you wish to include a SCSS file with your component?',
+        default: true
+    },{
+        type: 'confirm',
+        name: 'hasJS',
+        message: 'Do you wish to include a JavaScript file with your component?',
+        default: true
+    }];
+
+    this.prompt(prompts, function (props) {
+        this.hasSCSS = props.hasSCSS;
+        this.hasJS = props.hasJS;
+
+        cb();
+    }.bind(this));
+};
+
 ComponentGenerator.prototype.files = function files() {
-    this.copy('_styles.scss', 'app/public/components/' + this.componentName + '/_' + this.componentName + '.scss');
     this.copy('_view.jade', 'app/public/components/' + this.componentName + '/_' + this.componentName + '.jade');
-    this.copy('script.js', 'app/public/components/' + this.componentName + '/' + this.componentName + '.js');
+    if (this.hasSCSS) {
+        this.copy('_styles.scss', 'app/public/components/' + this.componentName + '/_' + this.componentName + '.scss');
+    }
+    if (this.hasJS) {
+        this.copy('script.js', 'app/public/components/' + this.componentName + '/' + this.componentName + '.js');
+    }
 };
