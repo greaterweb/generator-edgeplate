@@ -25,7 +25,7 @@ describe('edgeplate generator', function () {
             'app/public/layout/_global.jade',
             'app/public/layout/_page.jade',
             // components
-            'app/public/components/navBar/navBar.jade',
+            'app/public/components/navbar/navbar.jade',
             // controllers
             'app/public/controllers/App/AppController.js',
             'app/public/controllers/Body/BodyController.js',

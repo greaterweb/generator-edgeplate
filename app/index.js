@@ -75,7 +75,7 @@ EdgeplateGenerator.prototype.layout = function layoutFiles() {
 };
 
 EdgeplateGenerator.prototype.components = function componentFiles() {
-    this.copy('public/components/navBar/navBar.jade', 'app/public/components/navBar/navBar.jade');
+    this.copy('public/components/navbar/navbar.jade', 'app/public/components/navbar/navbar.jade');
 };
 
 EdgeplateGenerator.prototype.directives = function directiveFiles() {

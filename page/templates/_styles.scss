@@ -1,0 +1,4 @@
+body.page-<%= _.ltrim(_.dasherize(controllerName), '-') %> {
+    padding-top: 60px;
+    padding-bottom: 40px;
+}

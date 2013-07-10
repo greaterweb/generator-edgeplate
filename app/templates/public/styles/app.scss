@@ -68,6 +68,9 @@
 // Application styles
 @import "styles";
 
+// Component Styles
+@import "../components/navbar/_navbar";
+
 // Controller Styles
 @import "../controllers/pages/Dashboard/_Dashboard";
 
