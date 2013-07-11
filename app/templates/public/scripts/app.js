@@ -6,7 +6,7 @@ angular.module('edge.app.controllers', []);
 angular.module('edge.app.filters', []);
 
 // Declare services module
-angular.module('edge.app.services', []);
+angular.module('edge.app.services', ['ngResource','ngSanitize']);
 
 // Declare directives module
 angular.module('edge.app.directives', []);
