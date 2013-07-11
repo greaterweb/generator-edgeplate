@@ -5,11 +5,11 @@ var yeoman = require('yeoman-generator');
 var angularUtils = require('../util.js');
 
 var FilterGenerator = module.exports = function FilterGenerator(args, options, config) {
-  // By calling `NamedBase` here, we get the argument to the subgenerator call
-  // as `this.name`.
-  yeoman.generators.NamedBase.apply(this, arguments);
+    // By calling `NamedBase` here, we get the argument to the subgenerator call
+    // as `this.name`.
+    yeoman.generators.NamedBase.apply(this, arguments);
 
-  this.name = this._.ltrim(this._.camelize(this._.slugify(this.name)), '-') || 'edgeit';
+    this.name = this._.ltrim(this._.camelize(this._.slugify(this.name)), '-') || 'edgeit';
 };
 
 util.inherits(FilterGenerator, yeoman.generators.NamedBase);
