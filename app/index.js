@@ -102,6 +102,7 @@ EdgeplateGenerator.prototype.styles = function styleFiles() {
     this.copy('public/styles/_styles.scss', 'app/public/styles/_styles.scss');
     this.copy('public/styles/_variables.scss', 'app/public/styles/_variables.scss');
     this.copy('public/styles/app.scss', 'app/public/styles/app.scss');
+    this.directory('public/styles/fonts', 'app/public/styles/fonts');
 };
 
 EdgeplateGenerator.prototype.controllers = function controllerFiles() {
