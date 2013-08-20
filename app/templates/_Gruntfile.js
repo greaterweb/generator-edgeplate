@@ -11,8 +11,9 @@ module.exports = function (grunt) {
         project: {
             dir : 'public',
             pkg : grunt.file.readJSON('bower.json'),
-            hostname: 'localhost',
             port: 3000,
+            hostname: 'localhost',
+            baseUrl: '/',
             src: path.resolve('app'),
             app: '<%= project.src %>/<%= project.dir %>',
             dist: path.resolve('dist/'),
@@ -278,7 +279,10 @@ module.exports = function (grunt) {
         express: {
             server: {
                 options: {
-                    configPath: '<%= project.server %>'
+                    port: '<%= project.port %>',
+                    hostname: '<%= project.hostname %>',
+                    configPath: '<%= project.server %>',
+                    baseUrl: '<%= project.baseUrl %>'
                 }
             }
         }

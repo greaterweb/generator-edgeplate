@@ -82,7 +82,7 @@ PageGenerator.prototype.files = function files() {
             spliceAfter: true,
             splicable: [
                 'li',
-                '  a(href="#/' + this.name + '") ' + this._.capitalize(this.name)
+                '  a(href="#/' + this.name + '") ' + this._.titleize(this.name)
             ]
         });
     }

@@ -65,21 +65,6 @@
 // Utility classes
 @import "../bower_lib/sass-bootstrap/lib/utilities"; // Has to be last to override when necessary
 
-// Application styles
-@import "styles";
-
-// Angular Component Styles
-@import "../components/navbar/_navbar";
-
-// Angular Controller Styles
-@import "../controllers/pages/Dashboard/_Dashboard";
-
-// Page Controller Styles
-
-// Angular Directive Styles
-
-// Angular Filter Styles
-
 /*!
  * Bootstrap Responsive v2.3.1
  *
@@ -128,3 +113,21 @@
 
 // From 979px and below, show a button to toggle navbar contents
 @import "../bower_lib/sass-bootstrap/lib/responsive-navbar";
+
+
+// Application styles
+// ------------------
+
+@import "styles";
+
+// Angular Component Styles
+@import "../components/navbar/_navbar";
+
+// Angular Controller Styles
+@import "../controllers/pages/Dashboard/_Dashboard";
+
+// Page Controller Styles
+
+// Angular Directive Styles
+
+// Angular Filter Styles
