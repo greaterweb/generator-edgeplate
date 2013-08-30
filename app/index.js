@@ -1,7 +1,8 @@
 'use strict';
-var util = require('util');
-var path = require('path');
-var yeoman = require('yeoman-generator');
+var util = require('util'),
+    path = require('path'),
+    yeoman = require('yeoman-generator'),
+    chalk = require('chalk');
 
 var EdgeplateGenerator = module.exports = function EdgeplateGenerator(args, options, config) {
     yeoman.generators.Base.apply(this, arguments);
@@ -22,16 +23,17 @@ EdgeplateGenerator.prototype.askFor = function askFor() {
     var cb = this.async();
 
     // welcome message
-    var welcome =
-    '\n     _-----_' +
-    '\n    |       |' +
-    '\n    |' + '--(o)--'.red + '|   .--------------------------.' +
-    '\n   `---------´  |    ' + 'Welcome to Yeoman,'.yellow.bold + '    |' +
-    '\n    ' + '( '.yellow + '_' + '´U`'.yellow + '_' + ' )'.yellow + '   |   ' + 'ladies and gentlemen!'.yellow.bold + '  |' +
-    '\n    /___A___\\   \'__________________________\'' +
-    '\n     |  ~  |'.yellow +
-    '\n   __' + '\'.___.\''.yellow + '__' +
-    '\n ´   ' + '`  |'.red + '° ' + '´ Y'.red + ' `\n';
+    var welcome =[
+chalk.gray('   _____ ____   ____ _____ ____  _        _  _____ _____   '),
+chalk.gray('  | ____|  _ \\ / ___| ____|  _ \\| |      / \\|_   _| ____|  '),
+chalk.gray('  |  _| | | | | |  _|  _| | |_) | |     / _ \\ | | |  _|    '),
+chalk.gray('  | |___| |_| | |_| | |___|  __/| |___ / ___ \\| | | |___   '),
+chalk.gray('  |_____|____/ \\____|_____|_|   |_____/_/   \\_\\_| |_____|  '),
+chalk.gray('                                                           '),
+chalk.gray('  ====>>>>    ') + chalk.green('Angular Application Boilerplate') + chalk.gray('    <<<<===='),
+chalk.gray('  ====>>>>            ') + chalk.green('by Ron Edgecomb') + chalk.gray('            <<<<===='),
+chalk.gray('                                                           ')
+    ].join('\n');
 
     console.log(welcome);
 
