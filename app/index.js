@@ -24,15 +24,15 @@ EdgeplateGenerator.prototype.askFor = function askFor() {
 
     // welcome message
     var welcome =[
-chalk.gray('   _____ ____   ____ _____ ____  _        _  _____ _____   '),
-chalk.gray('  | ____|  _ \\ / ___| ____|  _ \\| |      / \\|_   _| ____|  '),
-chalk.gray('  |  _| | | | | |  _|  _| | |_) | |     / _ \\ | | |  _|    '),
-chalk.gray('  | |___| |_| | |_| | |___|  __/| |___ / ___ \\| | | |___   '),
-chalk.gray('  |_____|____/ \\____|_____|_|   |_____/_/   \\_\\_| |_____|  '),
-chalk.gray('                                                           '),
-chalk.gray('  ====>>>>    ') + chalk.green('Angular Application Boilerplate') + chalk.gray('    <<<<===='),
-chalk.gray('  ====>>>>            ') + chalk.green('by Ron Edgecomb') + chalk.gray('            <<<<===='),
-chalk.gray('                                                           ')
+        chalk.gray('   _____ ____   ____ _____ ____  _        _  _____ _____   '),
+        chalk.gray('  | ____|  _ \\ / ___| ____|  _ \\| |      / \\|_   _| ____|  '),
+        chalk.gray('  |  _| | | | | |  _|  _| | |_) | |     / _ \\ | | |  _|    '),
+        chalk.gray('  | |___| |_| | |_| | |___|  __/| |___ / ___ \\| | | |___   '),
+        chalk.gray('  |_____|____/ \\____|_____|_|   |_____/_/   \\_\\_| |_____|  '),
+        chalk.gray('                                                           '),
+        chalk.gray('  ====>>>>    ') + chalk.green('Angular Application Boilerplate') + chalk.gray('    <<<<===='),
+        chalk.gray('  ====>>>>            ') + chalk.green('by Ron Edgecomb') + chalk.gray('            <<<<===='),
+        chalk.gray('                                                           ')
     ].join('\n');
 
     console.log(welcome);
