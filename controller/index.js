@@ -17,20 +17,27 @@ ControllerGenerator.prototype.askFor = function askFor() {
     var cb = this.async();
 
     var prompts = [{
-        type: 'confirm',
-        name: 'hasSCSS',
-        message: 'Do you wish to include a SCSS file with your controller?',
-        default: true
-    },{
-        type: 'confirm',
-        name: 'hasView',
-        message: 'Do you wish to include a Jade view file with your controller?',
-        default: true
+        type: 'checkbox',
+        name: 'features',
+        message: 'Select the supporting files your controller needs:',
+        choices: [{
+            name: 'SCSS File',
+            value: 'hasSCSS',
+            checked: true
+        }, {
+            name: 'Jade File',
+            value: 'hasView',
+            checked: true
+        }]
     }];
 
-    this.prompt(prompts, function (props) {
-        this.hasSCSS = props.hasSCSS;
-        this.hasView = props.hasView;
+    this.prompt(prompts, function (answers) {
+        var features = answers.features;
+
+        function hasFeature(feat) { return features.indexOf(feat) !== -1; }
+
+        this.hasSCSS = hasFeature('hasSCSS');
+        this.hasView = hasFeature('hasView');
 
         cb();
     }.bind(this));
