@@ -1,12 +1,15 @@
 doctype
-html(ng-app="edge.app")
+html(ng-app="edge.app", ng-controller="AppController as app")
   block head
     meta(charset="utf-8")
     meta(http-equiv="X-UA-Compatible", content="IE=edge,chrome=1")
     meta(name="description", content="Another app by the Edge.")
     meta(name="author", content="Ron Edgecomb II")
-    meta(name="viewport", content="width=device-width")
-  body(ng-controller="BodyController", ng-class="page.bodyClass")
+    meta(name="HandheldFriendly",content="True")
+    meta(name="MobileOptimized", content="320")
+    meta(name="viewport", content="width=device-width, initial-scale=1")
+    meta(http-equiv="cleartype", content="on")
+  body(ng-class="app.edgePage.bodyClass")
 
     block content
       ng-view

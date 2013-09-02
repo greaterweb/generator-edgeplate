@@ -1,13 +1,7 @@
 .navbar.navbar-inverse.navbar-fixed-top
-  .navbar-inner
-    .container
-      button.btn.btn-navbar(type="button",data-toggle="collapse",data-target=".nav-collapse")
-        span.icon-bar
-        span.icon-bar
-        span.icon-bar
-      a.brand(href="#/dashboard") <%= appTitle %>
-      .nav-collapse.collapse
-        ul.nav
-          li
-            a(href="#/dashboard") Home
-          //- angular pages
+  .container
+    a.navbar-brand(href="#/dashboard") <%= appTitle %>
+    ul.nav.navbar-nav
+      li
+        a(href="#/dashboard") Home
+      //- angular pages

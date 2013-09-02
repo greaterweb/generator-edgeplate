@@ -1,27 +1,41 @@
 'use strict';
 
-angular.module('edge.app.services').factory('edgePage', function ($document, $rootScope) {
-    var edgePage = {};
+angular.module('edge.app.services').service('edgePage', function ($document, $rootScope) {
+    this.title = $document.title;
+    this.bodyClass = '';
 
-    edgePage.getTitle = function () {
-        return ($rootScope.page && $rootScope.page.title) ? $rootScope.page.title : $document.title;
+    this.getPageTitle = function () {
+        return this.title;
     };
 
-    edgePage.setPageTitle = function (title) {
-        $rootScope.page = $rootScope.page || {};
-        $rootScope.page.title = title;
-        return title;
+    this.setPageTitle = function (title) {
+        this.title = title;
+        return this.title;
     };
 
-    edgePage.getBodyClass = function () {
-        return ($rootScope.page && $rootScope.page.bodyClass) ? $rootScope.page.bodyClass : '';
+    this.getBodyClass = function () {
+        return this.bodyClass;
     };
 
-    edgePage.setBodyClass = function (className) {
-        $rootScope.page = $rootScope.page || {};
-        $rootScope.page.bodyClass = className;
-        return className;
+    this.setBodyClass = function (className) {
+        this.bodyClass = className;
+        return this.bodyClass;
     };
 
-    return edgePage;
+    this.addBodyClass = function (className) {
+        var bodyClass = (this.bodyClass).split(' ');
+        bodyClass.push(className);
+        this.bodyClass = bodyClass.join(' ');
+        return this.bodyClass;
+    };
+
+    this.removeBodyClass = function (className) {
+        var bodyClass = this.bodyClass.split(' ');
+        while (bodyClass.indexOf(className) > -1) {
+            bodyClass.splice(bodyClass.indexOf(className), 1);
+        }
+        this.bodyClass = bodyClass.join(' ');
+        return this.bodyClass;
+    };
 });
+

@@ -25,7 +25,16 @@ angular.module('edge.app', ['edge.app.controllers', 'edge.app.filters', 'edge.ap
         $routeProvider
             .when('/dashboard', {
                 templateUrl: 'controllers/pages/Dashboard/DashboardView',
-                controller: 'AppController'
+                controller: 'DashboardController as dashboard',
+                resolve: {
+                    app: ['$q', 'edgePage', function($q, edgePage) {
+                        var defer = $q.defer();
+                        edgePage.setPageTitle('Dashboard &raquo; <%= appTitle %>');
+                        edgePage.setBodyClass('edgePage-dashboard');
+                        defer.resolve();
+                        return defer.promise;
+                    }]
+                }
             })
             .otherwise({redirectTo: '/dashboard/'});
     });

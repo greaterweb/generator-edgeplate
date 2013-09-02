@@ -2,7 +2,7 @@ extends layout/_global
 
 append head
   - var title = "Loading&hellip;"
-  title(ng-bind-html="page.title || '#{title}'") !{title}
+  title(ng-bind-html="app.edgePage.title || '#{title}'") !{title}
   link(rel="stylesheet", href="styles/app.css")
 
 append footer-scripts
@@ -57,6 +57,8 @@ append footer-scripts
   //- main app
   script(src="scripts/app.js")
 
+  //- application components
+
   //- angular services
   script(src="scripts/services/edgePage.js")
 
@@ -65,7 +67,6 @@ append footer-scripts
   //- angular filters
 
   //- angular controllers
-  script(src="controllers/Body/BodyController.js")
   script(src="controllers/App/AppController.js")
 
   //- page controllers
