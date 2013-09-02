@@ -125,7 +125,6 @@ EdgeplateGenerator.prototype.styles = function styleFiles() {
 
 EdgeplateGenerator.prototype.controllers = function controllerFiles() {
     this.copy('public/controllers/App/AppController.js', 'app/public/controllers/App/AppController.js');
-    this.copy('public/controllers/Body/BodyController.js', 'app/public/controllers/Body/BodyController.js');
 
     this.copy('public/controllers/pages/Dashboard/_Dashboard.scss', 'app/public/controllers/pages/Dashboard/_Dashboard.scss');
     this.copy('public/controllers/pages/Dashboard/DashboardController.js', 'app/public/controllers/pages/Dashboard/DashboardController.js');
