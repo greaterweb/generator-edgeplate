@@ -1,118 +1,64 @@
 /*!
- * Bootstrap v2.3.1
+ * Bootstrap v3.0.0
  *
- * Copyright 2012 Twitter, Inc
+ * Copyright 2013 Twitter, Inc
  * Licensed under the Apache License v2.0
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Designed and built with all the love in the world @twitter by @mdo and @fat.
+ * Designed and built with all the love in the world by @mdo and @fat.
  */
 
 // Core variables and mixins
+@import "../bower_lib/sass-bootstrap/lib/variables";
 @import "variables"; // local variables
 @import "../bower_lib/sass-bootstrap/lib/mixins";
 @import "mixins"; // local mixins
 
-// CSS Reset
-@import "../bower_lib/sass-bootstrap/lib/reset";
+// Reset
+@import "../bower_lib/sass-bootstrap/lib/normalize";
+@import "../bower_lib/sass-bootstrap/lib/print";
 
-// Grid system and page structure
+// Core CSS
 @import "../bower_lib/sass-bootstrap/lib/scaffolding";
-@import "../bower_lib/sass-bootstrap/lib/grid";
-@import "../bower_lib/sass-bootstrap/lib/layouts";
-
-// Base CSS
 @import "../bower_lib/sass-bootstrap/lib/type";
 @import "../bower_lib/sass-bootstrap/lib/code";
-@import "../bower_lib/sass-bootstrap/lib/forms";
+@import "../bower_lib/sass-bootstrap/lib/grid";
 @import "../bower_lib/sass-bootstrap/lib/tables";
-
-// Components: common
-// @import "../bower_lib/sass-bootstrap/lib/sprites";
-@import "../bower_lib/font-awesome/scss/font-awesome.scss"; // replacing sprites with Font Awesome
-// @import "../bower_lib/font-awesome/scss/font-awesome-ie7.scss"; // IE7 Font Awesome support
-@import "../bower_lib/sass-bootstrap/lib/dropdowns";
-@import "../bower_lib/sass-bootstrap/lib/wells";
-@import "../bower_lib/sass-bootstrap/lib/component-animations";
-@import "../bower_lib/sass-bootstrap/lib/close";
-
-// Components: Buttons & Alerts
+@import "../bower_lib/sass-bootstrap/lib/forms";
 @import "../bower_lib/sass-bootstrap/lib/buttons";
-@import "../bower_lib/sass-bootstrap/lib/button-groups";
-@import "../bower_lib/sass-bootstrap/lib/alerts"; // Note: alerts share common CSS with buttons and thus have styles in buttons
 
-// Components: Nav
+// Components
+@import "../bower_lib/sass-bootstrap/lib/component-animations";
+@import "../bower_lib/sass-bootstrap/lib/glyphicons";
+@import "../bower_lib/sass-bootstrap/lib/dropdowns";
+@import "../bower_lib/sass-bootstrap/lib/button-groups";
+@import "../bower_lib/sass-bootstrap/lib/input-groups";
 @import "../bower_lib/sass-bootstrap/lib/navs";
 @import "../bower_lib/sass-bootstrap/lib/navbar";
 @import "../bower_lib/sass-bootstrap/lib/breadcrumbs";
 @import "../bower_lib/sass-bootstrap/lib/pagination";
 @import "../bower_lib/sass-bootstrap/lib/pager";
+@import "../bower_lib/sass-bootstrap/lib/labels";
+@import "../bower_lib/sass-bootstrap/lib/badges";
+@import "../bower_lib/sass-bootstrap/lib/jumbotron";
+@import "../bower_lib/sass-bootstrap/lib/thumbnails";
+@import "../bower_lib/sass-bootstrap/lib/alerts";
+@import "../bower_lib/sass-bootstrap/lib/progress-bars";
+@import "../bower_lib/sass-bootstrap/lib/media";
+@import "../bower_lib/sass-bootstrap/lib/list-group";
+@import "../bower_lib/sass-bootstrap/lib/panels";
+@import "../bower_lib/sass-bootstrap/lib/wells";
+@import "../bower_lib/sass-bootstrap/lib/close";
 
-// Components: Popovers
+// Components w/ JavaScript
 @import "../bower_lib/sass-bootstrap/lib/modals";
 @import "../bower_lib/sass-bootstrap/lib/tooltip";
 @import "../bower_lib/sass-bootstrap/lib/popovers";
-
-// Components: Misc
-@import "../bower_lib/sass-bootstrap/lib/thumbnails";
-@import "../bower_lib/sass-bootstrap/lib/media";
-@import "../bower_lib/sass-bootstrap/lib/labels-badges";
-@import "../bower_lib/sass-bootstrap/lib/progress-bars";
-@import "../bower_lib/sass-bootstrap/lib/accordion";
 @import "../bower_lib/sass-bootstrap/lib/carousel";
-@import "../bower_lib/sass-bootstrap/lib/hero-unit";
 
 // Utility classes
-@import "../bower_lib/sass-bootstrap/lib/utilities"; // Has to be last to override when necessary
-
-/*!
- * Bootstrap Responsive v2.3.1
- *
- * Copyright 2012 Twitter, Inc
- * Licensed under the Apache License v2.0
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Designed and built with all the love in the world @twitter by @mdo and @fat.
- */
-
-
-// Responsive
-// For phone and tablet devices
-// -------------------------------------------------------------
-
-
-// REPEAT VARIABLES & MIXINS
-// -------------------------
-// Required since we compile the responsive stuff separately
-
-// @import "../bower_lib/sass-bootstrap/lib/variables"; // Modify this for custom colors, font-sizes, etc
-// @import "../bower_lib/sass-bootstrap/lib/mixins";
-
-
-// RESPONSIVE CLASSES
-// ------------------
-
+@import "../bower_lib/sass-bootstrap/lib/utilities";
 @import "../bower_lib/sass-bootstrap/lib/responsive-utilities";
-
-
-// MEDIA QUERIES
-// ------------------
-
-// Large desktops
-@import "../bower_lib/sass-bootstrap/lib/responsive-1200px-min";
-
-// Tablets to regular desktops
-@import "../bower_lib/sass-bootstrap/lib/responsive-768px-979px";
-
-// Phones to portrait tablets and narrow desktops
-@import "../bower_lib/sass-bootstrap/lib/responsive-767px-max";
-
-
-// RESPONSIVE NAVBAR
-// ------------------
-
-// From 979px and below, show a button to toggle navbar contents
-@import "../bower_lib/sass-bootstrap/lib/responsive-navbar";
 
 
 // Application styles
@@ -120,7 +66,7 @@
 
 @import "styles";
 
-// Angular Component Styles
+// Application Component Styles
 @import "../components/navbar/_navbar";
 
 // Angular Controller Styles

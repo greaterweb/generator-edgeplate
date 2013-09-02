@@ -1,6 +1,7 @@
 'use strict';
 var util = require('util'),
     path = require('path'),
+    fs = require('fs.extra'),
     yeoman = require('yeoman-generator'),
     chalk = require('chalk');
 
@@ -11,7 +12,23 @@ var EdgeplateGenerator = module.exports = function EdgeplateGenerator(args, opti
     this.appSlug = this.slug || path.basename(process.cwd());
 
     this.on('end', function () {
-        this.installDependencies({ skipInstall: options['skip-install'] });
+        this.installDependencies({
+            callback: function () {
+                if (!options['skip-install']) {
+                    var sourceRoot = process.cwd(),
+                        fontSrc = path.join(sourceRoot, 'app/public/bower_lib/sass-bootstrap/fonts'),
+                        fontDest = path.join(sourceRoot, 'app/public/styles/fonts');
+
+                    // copy the bootstrap glyphicon fonts into the styles directory
+                    fs.copyRecursive(fontSrc, fontDest, function (err) {
+                        if (err) {
+                            throw err;
+                        }
+                    });
+                }
+            }.bind(this),
+            skipInstall: options['skip-install']
+        });
     });
 
     this.pkg = JSON.parse(this.readFileAsString(path.join(__dirname, '../package.json')));
@@ -104,7 +121,6 @@ EdgeplateGenerator.prototype.styles = function styleFiles() {
     this.copy('public/styles/_styles.scss', 'app/public/styles/_styles.scss');
     this.copy('public/styles/_variables.scss', 'app/public/styles/_variables.scss');
     this.copy('public/styles/app.scss', 'app/public/styles/app.scss');
-    this.directory('public/styles/fonts', 'app/public/styles/fonts');
 };
 
 EdgeplateGenerator.prototype.controllers = function controllerFiles() {
