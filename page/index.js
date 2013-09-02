@@ -10,7 +10,6 @@ var PageGenerator = module.exports = function PageGenerator(args, options, confi
     yeoman.generators.NamedBase.apply(this, arguments);
     this.controllerName = this._.capitalize(this._.camelize(this._.slugify(this.name))) || 'Page';
     this.pkg = JSON.parse(this.readFileAsString(path.join(process.cwd(), '/package.json')));
-    this.slug = this.pkg.name;
     this.appTitle = this.pkg.title;
 };
 
@@ -44,9 +43,18 @@ PageGenerator.prototype.files = function files() {
         file: '/app/public/scripts/app.js',
         needle: '.otherwise',
         splicable: [
-            '.when(\'/' + this.name + '\', {',
-            '    templateUrl: \'controllers/pages/' + this.controllerName + '/' + this.controllerName + 'View\',',
-            '    controller: \'AppController\'',
+            '.when(\'/' + this._.slugify(this.name) + '\', {',
+            '    templateUrl: \'controllers/pages/' + this.controllerName + '/' + this.controllerName + 'View.html\',',
+            '    controller: \'' + this.controllerName + 'Controller as ' + this.controllerName.toLowerCase() + '\',',
+            '    resolve: {',
+            '        app: [\'$q\', \'wkPage\', function ($q, edgePage) {',
+            '            var defer = $q.defer();',
+            '            edgePage.setPageTitle(\''+ this._.capitalize(this.name) + ' &raquo; ' + this.appTitle + '\');',
+            '            edgePage.setBodyClass(\'wkPage-'+ this._.ltrim(this._.dasherize(this.controllerName), '-') + '\');',
+            '            defer.resolve();',
+            '            return defer.promise;',
+            '        }]',
+            '    }',
             '})'
         ]
     });
