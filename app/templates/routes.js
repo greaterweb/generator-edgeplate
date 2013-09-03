@@ -10,8 +10,8 @@ exports.routes = function() {
 
         'get' : {
             // get routes
-            '/<%= _.slugify(appTitle) %>': function(req, res, next){
-                res.send('<%= appTitle %>, Another WK ATG App.');
+            '<%= _.slugify(appTitle) %>': function(req, res, next){
+                res.send('<%= appTitle %>, Another EdgePlate App.');
             }
         }
 
