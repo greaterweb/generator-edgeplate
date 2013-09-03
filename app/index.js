@@ -74,6 +74,7 @@ EdgeplateGenerator.prototype.app = function app() {
     this.mkdir('app/services/models');
 
     this.copy('app.js', 'app/app.js');
+    this.copy('routes.js', 'app/routes.js');
 
     this.copy('_Gruntfile.js', 'Gruntfile.js');
 
