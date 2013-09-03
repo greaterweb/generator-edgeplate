@@ -60,7 +60,7 @@ ServiceGenerator.prototype.files = function files() {
                 splicable: [
                     '\'' + this.endpoint + '\': function (req, res) {',
                     '    res.json({',
-                    '        wkatg: \'Wolters Kluwer Advanced Technology Group\'',
+                    '        data: \'EdgePlate service response\'',
                     '    });',
                     '},'
                 ]
