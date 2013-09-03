@@ -24,7 +24,7 @@ angular.module('edge.app', ['edge.app.controllers', 'edge.app.filters', 'edge.ap
     .config(function ($routeProvider) {
         $routeProvider
             .when('/dashboard', {
-                templateUrl: 'controllers/pages/Dashboard/DashboardView',
+                templateUrl: 'controllers/pages/Dashboard/DashboardView.html',
                 controller: 'DashboardController as dashboard',
                 resolve: {
                     app: ['$q', 'edgePage', function($q, edgePage) {
