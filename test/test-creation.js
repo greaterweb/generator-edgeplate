@@ -29,7 +29,6 @@ describe('edgeplate generator', function () {
             'app/public/components/navbar/navbar.jade',
             // controllers
             'app/public/controllers/App/AppController.js',
-            'app/public/controllers/Body/BodyController.js',
             'app/public/controllers/pages/Dashboard/_Dashboard.scss',
             'app/public/controllers/pages/Dashboard/DashboardController.js',
             'app/public/controllers/pages/Dashboard/DashboardView.jade',
@@ -45,6 +44,7 @@ describe('edgeplate generator', function () {
             'app/public/index.jade',
             // express config
             'app/app.js',
+            'app/routes.js',
             // misc app files
             '.bowerrc',
             'bower.json',
