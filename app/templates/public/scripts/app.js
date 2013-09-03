@@ -27,7 +27,7 @@ angular.module('edge.app', ['edge.app.controllers', 'edge.app.filters', 'edge.ap
                 templateUrl: 'controllers/pages/Dashboard/DashboardView.html',
                 controller: 'DashboardController as dashboard',
                 resolve: {
-                    app: ['$q', 'edgePage', function($q, edgePage) {
+                    app: ['$q', 'edgePage', function ($q, edgePage) {
                         var defer = $q.defer();
                         edgePage.setPageTitle('Dashboard &raquo; <%= appTitle %>');
                         edgePage.setBodyClass('edgePage-dashboard');
