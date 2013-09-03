@@ -1,7 +1,5 @@
 'use strict';
 
-angular.module('edge.app.services').factory('<%= name %>', function ($document, $rootScope) {
-    var <%= name %> = {};
-
-    return <%= name %>;
+angular.module('edge.app.services').service('<%= name %>', function ($document, $rootScope) {
+    this.name: '<%= name %>';
 });
