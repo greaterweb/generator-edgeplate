@@ -138,7 +138,6 @@ module.exports = function (grunt) {
                         '<%= project.dir %>/styles/**/*.gif',
                         '<%= project.dir %>/styles/fonts/**/*',
                         'services/**/*',
-                        'uploads/',
                         'package.json',
                         'routes.js',
                         'server.js'
