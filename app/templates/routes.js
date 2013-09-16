@@ -2,18 +2,16 @@
 
 var path = require('path');
 
-exports.routes = function() {
+exports.routes = function () {
 
-    var appPath = path.resolve(__dirname + '/public');
+    // var appPath = path.resolve(__dirname + '/public');
 
     return {
-
         'get' : {
             // get routes
-            '<%= _.slugify(appTitle) %>': function(req, res, next){
-                res.send('<%= appTitle %>, Another EdgePlate App.');
+            '<%= _.slugify(appTitle) %>': function (req, res, next) {
+                res.send('Edge Project, Another EdgePlate App.');
             }
         }
-
     };
 };
