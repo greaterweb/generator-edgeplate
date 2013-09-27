@@ -1,7 +1,7 @@
 extends ../../../layout/_page
 
 block container
-  .page-<%= _.ltrim(_.dasherize(controllerName), '-') %>.container(ng-controller="<%= controllerName %>Controller")
+  .edgePage-<%= _.ltrim(_.dasherize(controllerName), '-') %>
 
     h1 <%= _.capitalize(name) %>
-    p.lead This page has an Edge.
+    p.lead {{<%= controllerName.toLowerCase() %>.wkatg}}.
