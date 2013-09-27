@@ -4,7 +4,7 @@ var path = require('path');
 var yeoman = require('yeoman-generator');
 var angularUtils = require('../util.js');
 
-var PageGenerator = module.exports = function PageGenerator(args, options, config) {
+var PageGenerator = module.exports = function PageGenerator() {
     // By calling `NamedBase` here, we get the argument to the subgenerator call
     // as `this.name`.
     yeoman.generators.NamedBase.apply(this, arguments);
@@ -49,8 +49,8 @@ PageGenerator.prototype.files = function files() {
             '    resolve: {',
             '        app: [\'$q\', \'edgePage\', function ($q, edgePage) {',
             '            var defer = $q.defer();',
-            '            edgePage.setPageTitle(\''+ this._.capitalize(this.name) + ' &raquo; ' + this.appTitle + '\');',
-            '            edgePage.setBodyClass(\'edgePage-'+ this._.ltrim(this._.dasherize(this.controllerName), '-') + '\');',
+            '            edgePage.setPageTitle(\'' + this._.capitalize(this.name) + ' &raquo; ' + this.appTitle + '\');',
+            '            edgePage.setBodyClass(\'edgePage-' + this._.ltrim(this._.dasherize(this.controllerName), '-') + '\');',
             '            defer.resolve();',
             '            return defer.promise;',
             '        }]',
@@ -90,7 +90,7 @@ PageGenerator.prototype.files = function files() {
             spliceAfter: true,
             splicable: [
                 'li',
-                '  a(href="#/' + this.name + '") ' + this._.titleize(this.name)
+                '  a(href="#/' + this._.slugify(this.name) + '") ' + this.name
             ]
         });
     }
