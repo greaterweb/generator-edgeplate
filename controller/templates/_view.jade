@@ -1,2 +1,2 @@
-.<%= _.ltrim(_.dasherize(controllerName), '-') %>-controller(ng-controller="<%= controllerName %>Controller")
-    p.lead New controller, <%= controllerName %>.
+.<%= _.ltrim(_.dasherize(controllerName), '-') %>-controller(ng-controller="<%= controllerName %>Controller as <%= controllerName %>")
+  p.lead {{<%= controllerName %>.name}}.
