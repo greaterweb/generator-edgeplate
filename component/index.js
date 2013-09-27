@@ -1,8 +1,9 @@
 'use strict';
-var util = require('util');
-var yeoman = require('yeoman-generator');
+var util = require('util'),
+    yeoman = require('yeoman-generator'),
+    angularUtils = require('../util.js');
 
-var ComponentGenerator = module.exports = function ComponentGenerator(args, options, config) {
+var ComponentGenerator = module.exports = function ComponentGenerator() {
     // By calling `NamedBase` here, we get the argument to the subgenerator call
     // as `this.name`.
     yeoman.generators.NamedBase.apply(this, arguments);
@@ -42,11 +43,31 @@ ComponentGenerator.prototype.askFor = function askFor() {
 };
 
 ComponentGenerator.prototype.files = function files() {
-    this.copy('_view.jade', 'app/public/components/' + this.componentName + '/_' + this.componentName + '.jade');
+    this.copy('_view.jade', 'app/public/components/' + this.componentName + '/' + this.componentName + '.jade');
     if (this.hasSCSS) {
         this.copy('_styles.scss', 'app/public/components/' + this.componentName + '/_' + this.componentName + '.scss');
+        // add stylesheet reference to app.scss
+        angularUtils.rewriteFile({
+            path: process.cwd(),
+            file: '/app/public/styles/app.scss',
+            needle: '// Application Component Styles',
+            spliceAfter: true,
+            splicable: [
+                '@import "../components/' + this.componentName + '/_' + this.componentName + '";'
+            ]
+        });
     }
     if (this.hasJS) {
         this.copy('script.js', 'app/public/components/' + this.componentName + '/' + this.componentName + '.js');
+        // add script tag to index.jade
+        angularUtils.rewriteFile({
+            path: process.cwd(),
+            file: '/app/public/index.jade',
+            needle: '//- application components',
+            spliceAfter: true,
+            splicable: [
+                'script(src="components/' + this.componentName + '/' + this.componentName + '.js")'
+            ]
+        });
     }
 };
