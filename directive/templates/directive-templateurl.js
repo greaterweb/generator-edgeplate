@@ -2,7 +2,7 @@
 
 angular.module('edge.app.directives').directive('<%= name %>', function () {
     return {
-        templateUrl: 'directives/<%= name %>/<%= name %>-view',
+        templateUrl: 'directives/<%= name %>/<%= name %>View',
         replace: true,
         restrict: 'E',
         link: function postLink(scope, element, attrs) {
