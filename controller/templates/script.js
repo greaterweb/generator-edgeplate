@@ -1,5 +1,6 @@
 'use strict';
 
 angular.module('edge.app.controllers').controller('<%= controllerName %>Controller', function () {
-    this.name = '<%= controllerName %> Controller';
+    var <%= controllerName.toLowerCase() %> = this;
+    <%= controllerName.toLowerCase() %>.name = '<%= controllerName %> Controller';
 });
