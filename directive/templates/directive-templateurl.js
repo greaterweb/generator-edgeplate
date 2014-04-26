@@ -1,8 +1,8 @@
 'use strict';
 
-angular.module('edge.app.directives').directive('<%= name %>', function () {
+angular.module('edge.app.directives').directive('<%= camelName %>', function () {
     return {
-        templateUrl: 'directives/<%= name %>/<%= name %>View.html',
+        templateUrl: 'directives/<%= camelName %>/<%= camelName %>View.html',
         replace: true,
         restrict: 'E',
         link: function postLink(scope, element, attrs) {
