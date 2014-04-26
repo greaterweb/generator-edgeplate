@@ -1,0 +1,37 @@
+@mixin animate-enter () {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes animate-enter { @include animate-enter; }
+@-moz-keyframes animate-enter { @include animate-enter; }
+@-o-keyframes animate-enter { @include animate-enter; }
+@keyframes animate-enter { @include animate-enter; }
+
+.animate-enter {
+    @include animation(animate-enter .25s ease-in-out);
+    @include translate3d(0, 0, 0);
+}
+
+@mixin animate-leave () {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+@-webkit-keyframes animate-leave { @include animate-leave; }
+@-moz-keyframes animate-leave { @include animate-leave; }
+@-o-keyframes animate-leave { @include animate-leave; }
+@keyframes animate-leave { @include animate-leave; }
+
+.animate-leave {
+    @include animation(animate-leave .25s ease-in-out);
+    @include translate3d(0, 0, 0);
+}

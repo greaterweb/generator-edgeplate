@@ -16,7 +16,7 @@ var EdgeplateGenerator = module.exports = function EdgeplateGenerator(args, opti
             callback: function () {
                 if (!options['skip-install']) {
                     var sourceRoot = process.cwd(),
-                        fontSrc = path.join(sourceRoot, 'app/public/bower_lib/sass-bootstrap/fonts'),
+                        fontSrc = path.join(sourceRoot, '/app/public/bower_lib/bootstrap-sass/vendor/assets/fonts/bootstrap'),
                         fontDest = path.join(sourceRoot, 'app/public/styles/fonts');
 
                     // copy the bootstrap glyphicon fonts into the styles directory
@@ -118,6 +118,7 @@ EdgeplateGenerator.prototype.scripts = function scriptFiles() {
 
 EdgeplateGenerator.prototype.styles = function styleFiles() {
     this.mkdir('app/public/styles');
+    this.copy('public/styles/_animate.scss', 'app/public/styles/_animate.scss');
     this.copy('public/styles/_mixins.scss', 'app/public/styles/_mixins.scss');
     this.copy('public/styles/_styles.scss', 'app/public/styles/_styles.scss');
     this.copy('public/styles/_variables.scss', 'app/public/styles/_variables.scss');

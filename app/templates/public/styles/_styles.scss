@@ -1,2 +1,14 @@
 // Global App Styles
 // --------------------------------------------------
+.edge-app-view.ng-enter {
+    @extend .animate-enter;
+}
+
+.edge-app-view.ng-leave {
+    @extend .hidden;
+}
+
+.has-app-header body {
+    padding-top: 60px;
+    padding-bottom: 40px;
+}
