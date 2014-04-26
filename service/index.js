@@ -51,21 +51,6 @@ ServiceGenerator.prototype.getEndpoint = function askFor() {
 ServiceGenerator.prototype.files = function files() {
     if (this.isResourceService) {
         this.copy('resource-service.js', 'app/public/scripts/services/' + this.name + '.js');
-        if (this.endpoint.indexOf('http://') == -1) {
-            angularUtils.rewriteFile({
-                path: process.cwd(),
-                file: '/app/routes.js',
-                needle: '// get routes',
-                spliceAfter: true,
-                splicable: [
-                    '\'' + this.endpoint + '\': function (req, res) {',
-                    '    res.json({',
-                    '        data: \'EdgePlate service response\'',
-                    '    });',
-                    '},'
-                ]
-            });
-        }
     } else {
         this.copy('service.js', 'app/public/scripts/services/' + this.name + '.js');
     }

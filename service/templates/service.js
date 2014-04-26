@@ -1,5 +1,6 @@
 'use strict';
 
 angular.module('edge.app.services').service('<%= name %>', function () {
-    this.name = '<%= name %>';
+    var <%= name.toLowerCase() %> = this;
+    <%= name.toLowerCase() %>.name = '<%= name %>';
 });
