@@ -75,6 +75,8 @@ EdgeplateGenerator.prototype.app = function app() {
 
     this.mkdir('app/services/models');
 
+    this.directory('views/', 'app/views/');
+
     this.copy('app.js', 'app/app.js');
     this.copy('routes.js', 'app/routes.js');
 
@@ -85,10 +87,17 @@ EdgeplateGenerator.prototype.app = function app() {
     this.copy('_package.json', 'package.json');
     this.copy('bowerrc', '.bowerrc');
     this.copy('_bower.json', 'bower.json');
+
+    this.copy('deploy.sh', 'deploy.sh');
+    this.copy('favicon.sh', 'favicon.sh');
+    this.copy('node-ctrl.sh', 'node-ctrl.sh');
+    this.copy('remote.sh', 'remote.sh');
+    this.copy('tail-log.sh', 'tail-log.sh');
 };
 
 EdgeplateGenerator.prototype.layout = function layoutFiles() {
     this.copy('public/layout/_global.jade', 'app/public/layout/_global.jade');
+    this.copy('public/layout/_touchIcons.jade', 'app/public/layout/_touchIcons.jade');
 };
 
 EdgeplateGenerator.prototype.components = function componentFiles() {
@@ -101,7 +110,9 @@ EdgeplateGenerator.prototype.directives = function directiveFiles() {
 };
 
 EdgeplateGenerator.prototype.images = function imageFiles() {
-    this.mkdir('app/public/images');
+    this.mkdir('public/images/')
+    this.directory('public/images/favicon/', 'app/public/images/favicon/');
+    this.copy('public/favicon.ico', 'app/public/favicon.ico');
 };
 
 EdgeplateGenerator.prototype.filters = function filterFiles() {
@@ -115,6 +126,8 @@ EdgeplateGenerator.prototype.services = function serviceFiles() {
 EdgeplateGenerator.prototype.scripts = function scriptFiles() {
     this.copy('public/scripts/app.js', 'app/public/scripts/app.js');
     this.copy('public/scripts/helper.js', 'app/public/scripts/helper.js');
+    this.copy('public/scripts/foot-init.js', 'app/public/scripts/foot-init.js');
+    this.copy('public/scripts/head-init.js', 'app/public/scripts/head-init.js');
 };
 
 EdgeplateGenerator.prototype.styles = function styleFiles() {
