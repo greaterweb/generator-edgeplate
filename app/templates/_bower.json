@@ -3,10 +3,16 @@
     "name": "<%= _.slugify(appTitle) %>",
     "version": "0.1.0",
     "dependencies": {
-        "sass-bootstrap": "~3.0.0",
+        "bootstrap-sass": "twbs/bootstrap-sass#~3.1.1",
         "jquery": "~1.9.0",
-        "angular-all-unstable": "~1.1.5",
         "underscore": "~1.5.1",
-        "html5-mobile-boilerplate": "~4.1.0"
+        "angular": "~1.2.16",
+        "angular-route": "~1.2.16",
+        "angular-animate": "~1.2.16",
+        "angular-resource": "~1.2.16",
+        "angular-cookies": "~1.2.16",
+        "angular-touch": "~1.2.16",
+        "angular-sanitize": "~1.2.16",
+        "angular-mocks": "~1.2.16"
     }
 }
