@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('edge.app.controllers').controller('AppController', function (edgePage) {
+angular.module('edge.app.controllers').controller('AppController', function (edgePage, $scope) {
     var app = this;
     app.edgePage = edgePage;
 
