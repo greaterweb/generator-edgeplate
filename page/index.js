@@ -49,8 +49,10 @@ PageGenerator.prototype.files = function files() {
             '    resolve: {',
             '        app: [\'$q\', \'edgePage\', function ($q, edgePage) {',
             '            var defer = $q.defer();',
-            '            edgePage.setPageTitle(\'' + this._.capitalize(this.name) + ' &raquo; ' + this.appTitle + '\');',
-            '            edgePage.setBodyClass(\'edgePage-' + this._.ltrim(this._.dasherize(this.controllerName), '-') + '\');',
+            '            edgePage.pageConfig({',
+            '                title: \'' + this._.capitalize(this.name) + ' &raquo; ' + this.appTitle + '\',',
+            '                bodyClass: \'edgePage-' + this._.ltrim(this._.dasherize(this.controllerName), '-') + '\'',
+            '            });',
             '            defer.resolve();',
             '            return defer.promise;',
             '        }]',
@@ -89,8 +91,7 @@ PageGenerator.prototype.files = function files() {
             needle: '//- angular pages',
             spliceAfter: true,
             splicable: [
-                'li',
-                '  a(href="#/' + this._.slugify(this.name) + '") ' + this.name
+                'li: a(href="#/' + this._.slugify(this.name) + '") ' + this.name
             ]
         });
     }
