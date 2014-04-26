@@ -5,6 +5,7 @@ module.exports = function (grunt) {
     require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
     var path = require('path');
+    var sprintf = require('sprintf');
 
     grunt.initConfig({
 
@@ -19,9 +20,61 @@ module.exports = function (grunt) {
             dist: path.resolve('dist/'),
             temp: path.resolve('.tmp/'),
             test: path.resolve('test/'),
-            server: '<%= project.src %>/app.js'
+            server: '<%= project.src %>/app.js',
+            buildTarget: 'dev',
+            today: new Date(),
+            version: '0.0'
         },
 
+        usebanner: {
+            dist: {
+                options: {
+                    position: 'top',
+                    banner: '/*\n' +
+                    '* Copyright FIXME and others. See credits page.\n' +
+                    '* Revision: <%= project.revision %>\n' +
+                    '* Build: <%= project.today.toString() %>\n' +
+                    '*/',
+                    linebreak: true
+                },
+                files: {
+                    src: [
+                        '<%= project.dist %>/**/*.css',
+                        '<%= project.dist %>/public/scripts/*.js'
+                    ]
+                }
+            }
+        },
+
+        revision: {
+            options: {
+                property: 'project.revision',
+                ref: 'HEAD',
+                short: true
+            }
+        },
+
+        jsonlint: {
+            dist: {
+                src: ['<%= project.app %>/locales/**/*.json']
+            }
+        },
+
+        uglify: {
+            /*jshint camelcase: false */
+            options: {
+                compress: {
+                    dead_code: true
+                }
+            },
+            www: {
+                options: {
+                    compress: {
+                        drop_debugger: true
+                    }
+                }
+            }
+        },
         watch: {
             sass: {
                 files: [
@@ -29,11 +82,17 @@ module.exports = function (grunt) {
                 ],
                 tasks: ['sass:server']
             },
+            jsonlint: {
+                files: [
+                    '<%= project.app %>/locales/**/*.json'
+                ],
+                tasks: ['jsonlint:dist']
+            },
             jade: {
                 files: [
                     '<%= project.app %>/**/*.jade'
                 ],
-                tasks: ['jade:server']
+                tasks: ['config.sh', 'jade:server']
             },
             livereload: {
                 files: [
@@ -95,19 +154,20 @@ module.exports = function (grunt) {
         },
 
         useminPrepare: {
-            html: ['<%= project.app %>/*.html','<%= project.temp %>/*.html'],
             options: {
                 baseUrl: '<%= project.app %>',
-                dest: '<%= project.dist %>/<%= project.dir %>'
-            }
+                dest: '<%= project.dist %>/<%= project.dir %>',
+                uglify: 'uglify.<%= project.buildTarget %>.files'
+            },
+            html: ['<%= project.app %>/*.html','<%= project.temp %>/**/*.html']
         },
 
         usemin: {
-            html: ['<%= project.dist %>/<%= project.dir %>/*.html'],
-            css: ['<%= project.dist %>/<%= project.dir %>/styles/*.css'],
             options: {
                 dirs: ['<%= project.dist %>/<%= project.dir %>']
-            }
+            },
+            html: ['<%= project.dist %>/<%= project.dir %>/**/*.html'],
+            css: ['<%= project.dist %>/<%= project.dir %>/styles/*.css']
         },
 
         imagemin: {
@@ -137,10 +197,10 @@ module.exports = function (grunt) {
                         '<%= project.dir %>/partials/**/*',
                         '<%= project.dir %>/styles/**/*.gif',
                         '<%= project.dir %>/styles/fonts/**/*',
+                        'views/**/*',
                         'services/**/*',
                         'package.json',
-                        'routes.js',
-                        'server.js'
+                        'app.js'
                     ]
                 },{
                     expand: true,
@@ -153,6 +213,9 @@ module.exports = function (grunt) {
         },
 
         sass: {
+            options: {
+                precision: 10
+            },
             server: {
                 options: {
                     debugInfo: true,
@@ -163,7 +226,15 @@ module.exports = function (grunt) {
                     '<%= project.temp %>/styles/app.css': '<%= project.app %>/styles/app.scss'
                 }
             },
-            dist: {
+            dev: {
+                options: {
+                    style: 'expanded'
+                },
+                files: {
+                    '<%= project.dist %>/<%= project.dir %>/styles/app.css': '<%= project.app %>/styles/app.scss'
+                }
+            },
+            www: {
                 options: {
                     style: 'compressed'
                 },
@@ -178,7 +249,12 @@ module.exports = function (grunt) {
                 options: {
                     pretty: true,
                     data: {
-                        debug: true
+                        debug: true,
+                        ENV: 'local',
+                        GIT_REVISION: '<%= project.revision %>',
+                        VERSION: '<%= project.version %>',
+                        DATE_STAMP: '<%= project.today.toString() %>',
+                        YEAR: '<%= project.today.getFullYear() %>'
                     }
                 },
                 files: [{
@@ -186,9 +262,56 @@ module.exports = function (grunt) {
                     cwd: '<%= project.app %>',
                     dest: '<%= project.temp %>',
                     ext: '.html',
+                    //every jade file that doesn’t start with an underscore (_)
                     src: [
                         '**/*.jade',
                         '!**/_*.jade'
+                    ]
+                }]
+            },
+            dev: {
+                options: {
+                    pretty: true,
+                    data: {
+                        debug: true,
+                        ENV: 'dev',
+                        GIT_REVISION: '<%= project.revision %>',
+                        VERSION: '<%= project.version %>',
+                        DATE_STAMP: '<%= project.today.toString() %>',
+                        YEAR: '<%= project.today.getFullYear() %>'
+                    }
+                },
+                files: [{
+                    expand: true,
+                    cwd: '<%= project.src %>',
+                    dest: '<%= project.temp %>',
+                    ext: '.html',
+                    src: [
+                        '<%= project.dir %>/**/*.jade',
+                        '!<%= project.dir %>/**/_*.jade'
+                    ]
+                }]
+            },
+            www: {
+                options: {
+                    pretty: true,
+                    data: {
+                        debug: false,
+                        ENV: 'www',
+                        GIT_REVISION: '<%= project.revision %>',
+                        VERSION: '<%= project.version %>',
+                        DATE_STAMP: '<%= project.today.toString() %>',
+                        YEAR: '<%= project.today.getFullYear() %>'
+                    }
+                },
+                files: [{
+                    expand: true,
+                    cwd: '<%= project.src %>',
+                    dest: '<%= project.temp %>',
+                    ext: '.html',
+                    src: [
+                        '<%= project.dir %>/**/*.jade',
+                        '!<%= project.dir %>/**/_*.jade'
                     ]
                 }]
             },
@@ -267,52 +390,58 @@ module.exports = function (grunt) {
                 dest: '<%= project.temp %>'
             }
 
-        },
-
-        awsdeploy: {
-            options: {
-                name: '<%= project.pkg.name %>'
-            }
-        },
-
-        express: {
-            server: {
-                options: {
-                    port: '<%= project.port %>',
-                    hostname: '<%= project.hostname %>',
-                    configPath: '<%= project.server %>',
-                    baseUrl: '<%= project.baseUrl %>'
-                }
-            }
         }
     });
 
     grunt.registerTask('server', 'Server tasks to test specified project', function () {
         grunt.task.run([
+            'config.sh',
             'clean:server',
+            'jsonlint:dist',
             'sass:server',
+            'revision', //run revision before jade so it's available there
             'jade:server',
             'livereload-start',
-            'express:server',
+            //'express:server', //FIXME replace me
             'open',
             'watch'
         ]);
     });
 
+    //FIXME express:start replaced
     grunt.registerTask('server:quick', ['livereload-start','express:start','open','watch']);
 
-    grunt.registerTask('build', [
-        'clean:dist',
-        'jshint',
-        'sass:dist',
-        'jade',
-        'useminPrepare',
-        'imagemin',
-        'ngmin',
-        'concat',
-        'uglify',
-        'copy:dist',
-        'usemin'
-    ]);
+    grunt.registerTask('config.sh', function () {
+        //make .config.sh from package.json for deploy.sh
+        var packageJson = grunt.file.readJSON('package.json');
+        var contents = sprintf('#Auto-generated by grunt build from values in package.json\nHOST="%s";\nWWW_PORT="%d";\nDEV_PORT="%d";\nSSH_PORT="%d";\nDIR="%s";\n', packageJson.host, +packageJson.ports.www, +packageJson.ports.dev, +packageJson.ports.ssh, packageJson.name);
+        grunt.file.write('./.config.sh', contents);
+
+        //read the version from package.json. destined for the footer of the site
+        //given version "a.b.c", give me "a.b" - I don’t want to see ".c" though ".c" is required by node in the package.json file
+        grunt.config.set('project.version', packageJson.version.replace(/\.\d+$/, ''));
+    });
+    grunt.registerTask('build', function (target) {
+        target = target || 'dev';
+        grunt.config('project.buildTarget', target);
+
+        grunt.task.run([
+            'config.sh',
+            'clean:dist',
+            'jshint',
+            'jsonlint:dist',
+            'sass:' + target,
+            'revision', //run revision before jade so it's available there
+            'jade:' + target,
+            'useminPrepare',
+            'imagemin',
+            'ngmin',
+            'concat',
+            'uglify',
+            'copy:dist',
+            'usemin',
+            'usebanner' //add banner after everything else is done to js, css
+        ]);
+    });
 
 };

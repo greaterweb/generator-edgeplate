@@ -1,5 +1,24 @@
 doctype
-html(ng-app="edge.app", ng-class="app.edgePage.htmlClass", ng-controller="AppController as app")
+<!--[if lt IE 7]>
+<html lang="en" ng-app="edge.app" ng-controller="AppController as app" ng-class="{'mobile': (app.shared.isMobile)}" class="no-js ie lt9 lt8 lt7">
+<![endif]-->
+
+<!--[if IE 7]>
+<html lang="en" ng-app="edge.app" ng-controller="AppController as app" ng-class="{'mobile': (app.shared.isMobile)}" class="no-js ie lt9 lt8 ie7">
+<![endif]-->
+
+<!--[if IE 8]>
+<html lang="en" ng-app="edge.app" ng-controller="AppController as app" ng-class="{'mobile': (app.shared.isMobile)}" class="no-js ie lt9 ie8">
+<![endif]-->
+
+<!--[if IE 9]>
+<html lang="en" ng-app="edge.app" ng-controller="AppController as app" ng-class="{'mobile': (app.shared.isMobile)}" class="no-js ie ie9">
+<![endif]-->
+
+// [if gt IE 9] <!
+html.no-js.gte-ie10-or-not-ie(lang="en", ng-app="edge.app", ng-controller="AppController as app", ng-class="{'mobile': (app.shared.isMobile)}")
+  // <![endif]
+
   block head
     meta(charset="utf-8")
     meta(http-equiv="X-UA-Compatible", content="IE=edge,chrome=1")
@@ -9,12 +28,25 @@ html(ng-app="edge.app", ng-class="app.edgePage.htmlClass", ng-controller="AppCon
     meta(name="MobileOptimized", content="320")
     meta(name="viewport", content="width=device-width, initial-scale=1")
     meta(http-equiv="cleartype", content="on")
+
+    //- for internal debugging purposes
+    meta(name="build", content="#{DATE_STAMP}")
+    meta(name="revision", content="#{GIT_REVISION}")
+    meta(name="environment", content="#{ENV}")
+
+    include _touchIcons.jade
+
+    // build:js(app/public/) scripts/head.js
+    script(src="bower_lib/modernizr/modernizr.js")
+    script(src="scripts/head-init.js")
+    // endbuild
+
   body(ng-class="app.edgePage.bodyClass")
 
     ng-include(src="'components/navbar/navbar.html'", ng-if="app.showNavbar")
 
     .container
-      .wk-app-view(ng-view)
+      .edge-app-view(ng-view)
 
       hr
       footer(ng-if="app.showFooter")
