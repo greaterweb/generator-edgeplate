@@ -11,6 +11,7 @@ var EdgeplateGenerator = module.exports = function EdgeplateGenerator(args, opti
     this.argument('slug', { type: String, required: false });
     this.appSlug = this.slug || path.basename(process.cwd());
     this.currentYear = new Date().getFullYear();
+    this.version = require('../package.json').version;
 
     this.on('end', function () {
         this.installDependencies({
