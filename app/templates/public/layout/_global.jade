@@ -1,5 +1,5 @@
 doctype
-html(ng-app="edge.app", ng-controller="AppController as app")
+html(ng-app="edge.app", ng-class="app.edgePage.htmlClass", ng-controller="AppController as app")
   block head
     meta(charset="utf-8")
     meta(http-equiv="X-UA-Compatible", content="IE=edge,chrome=1")
@@ -11,7 +11,13 @@ html(ng-app="edge.app", ng-controller="AppController as app")
     meta(http-equiv="cleartype", content="on")
   body(ng-class="app.edgePage.bodyClass")
 
-    block content
-      ng-view
+    ng-include(src="'components/navbar/navbar.html'", ng-if="app.showNavbar")
+
+    .container
+      .wk-app-view(ng-view)
+
+      hr
+      footer(ng-if="app.showFooter")
+        p &copy; <%= appTitle %> <%= currentYear %>
 
     block footer-scripts
