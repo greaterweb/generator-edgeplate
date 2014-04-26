@@ -23,7 +23,6 @@ describe('edgeplate generator', function () {
             // add files you expect to exist here.
             // layout
             'app/public/layout/_global.jade',
-            'app/public/layout/_page.jade',
             // components
             'app/public/components/navbar/_navbar.scss',
             'app/public/components/navbar/navbar.jade',
