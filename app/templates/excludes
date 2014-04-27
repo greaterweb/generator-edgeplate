@@ -1,0 +1,10 @@
+.DS_Store
+node_modules
+.gitignore
+.git
+*.swp
+.excludes
+deploy.sh
+.config.sh
+remote.sh
+tail-log.sh
