@@ -41,5 +41,11 @@
     },
     "edgeplate": {
         "generator": "<%= version %>"
+    },
+    "host": "<%= hostDomain %>",
+    "ports": {
+        "dev": "<%= devPort %>",
+        "www": "<%= wwwPort %>",
+        "ssh": "<%= sshPort %>"
     }
 }

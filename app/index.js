@@ -60,10 +60,30 @@ EdgeplateGenerator.prototype.askFor = function askFor() {
         name: 'appTitle',
         message: 'What is the display title of your app?',
         default: 'Edge Project'
+    },{
+        name: 'hostDomain',
+        message: 'Where is your project hosted?',
+        default: 'host.example.com'
+    },{
+        name: 'devPort',
+        message: 'What port will your express development service run on?',
+        default: '8000'
+    },{
+        name: 'wwwPort',
+        message: 'What port will your express production service run on?',
+        default: '80'
+    },{
+        name: 'sshPort',
+        message: 'What port will you use for ssh?',
+        default: '22'
     }];
 
     this.prompt(prompts, function (props) {
         this.appTitle = props.appTitle;
+        this.hostDomain = props.hostDomain;
+        this.devPort = props.devPort;
+        this.wwwPort = props.wwwPort;
+        this.sshPort = props.sshPort;
 
         cb();
     }.bind(this));
