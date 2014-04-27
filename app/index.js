@@ -118,6 +118,7 @@ EdgeplateGenerator.prototype.app = function app() {
 EdgeplateGenerator.prototype.layout = function layoutFiles() {
     this.copy('public/layout/_global.jade', 'app/public/layout/_global.jade');
     this.copy('public/layout/_touchIcons.jade', 'app/public/layout/_touchIcons.jade');
+    this.copy('public/layout/_browserWarnings.jade', 'app/public/layout/_browserWarnings.jade');
 };
 
 EdgeplateGenerator.prototype.components = function componentFiles() {
