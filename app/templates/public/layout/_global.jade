@@ -1,22 +1,22 @@
 doctype
 <!--[if lt IE 7]>
-<html lang="en" ng-app="edge.app" ng-controller="AppController as app" ng-class="{'mobile': (app.shared.isMobile)}" class="no-js ie lt9 lt8 lt7">
+<html lang="en" ng-app="edge.app" ng-controller="AppController as app" ng-class="app.edgePage.htmlClass" class="no-js ie lt9 lt8 lt7">
 <![endif]-->
 
 <!--[if IE 7]>
-<html lang="en" ng-app="edge.app" ng-controller="AppController as app" ng-class="{'mobile': (app.shared.isMobile)}" class="no-js ie lt9 lt8 ie7">
+<html lang="en" ng-app="edge.app" ng-controller="AppController as app" ng-class="app.edgePage.htmlClass" class="no-js ie lt9 lt8 ie7">
 <![endif]-->
 
 <!--[if IE 8]>
-<html lang="en" ng-app="edge.app" ng-controller="AppController as app" ng-class="{'mobile': (app.shared.isMobile)}" class="no-js ie lt9 ie8">
+<html lang="en" ng-app="edge.app" ng-controller="AppController as app" ng-class="app.edgePage.htmlClass" class="no-js ie lt9 ie8">
 <![endif]-->
 
 <!--[if IE 9]>
-<html lang="en" ng-app="edge.app" ng-controller="AppController as app" ng-class="{'mobile': (app.shared.isMobile)}" class="no-js ie ie9">
+<html lang="en" ng-app="edge.app" ng-controller="AppController as app" ng-class="app.edgePage.htmlClass" class="no-js ie ie9">
 <![endif]-->
 
 // [if gt IE 9] <!
-html.no-js.gte-ie10-or-not-ie(lang="en", ng-app="edge.app", ng-controller="AppController as app", ng-class="{'mobile': (app.shared.isMobile)}")
+html.no-js.gte-ie10-or-not-ie(lang="en", ng-app="edge.app", ng-controller="AppController as app", ng-class="app.edgePage.htmlClass")
   // <![endif]
 
   block head
