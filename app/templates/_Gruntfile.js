@@ -390,6 +390,13 @@ module.exports = function (grunt) {
                 dest: '<%= project.temp %>'
             }
 
+        },
+        express: {
+            server: {
+                options: {
+                    script: '<%= project.server %>'
+                }
+            }
         }
     });
 
@@ -402,7 +409,7 @@ module.exports = function (grunt) {
             'revision', //run revision before jade so it's available there
             'jade:server',
             'livereload-start',
-            //'express:server', //FIXME replace me
+            'express:server',
             'open',
             'watch'
         ]);
