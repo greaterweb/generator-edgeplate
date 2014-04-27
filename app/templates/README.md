@@ -32,6 +32,10 @@ Then install the application dependencies.
     npm install
     bower install
 
+Replace the `app/public/images/favicon/favicon-master.png` with a high resolution **square** version of what will become your favicons.  The `favicon.sh` script will create the .ico and .png files at multiple resolutions and place them in the `app/public` and `app/public/images/favicon/` directories respectively. To run the script:
+
+    ./favicon.sh
+
 Local development environment [localhost:3000](http://localhost:3000)
 
     grunt server
