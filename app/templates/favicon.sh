@@ -2,18 +2,19 @@
 # @company Daily Raisin LLC
 # @author Joe Kovach
 # @role generate the favicon images needed nowadays
-# @usage: ./favicon.sh 
+# @usage: ./favicon.sh
 
-#dependencies: 
+#dependencies:
 #   brew install imagemagick
 #   brew install pngcrush
 #   brew install png2ico
-#   (a file named favicon-master.png)
+#   (a file named app/public/images/favicon-master.png)
+FAVPATH="app/public/images/favicon"
 
 # create these sizes from a large source image favicon-master.png
 for DIM in 16 32 48 57 64 72 96 114 120 128 144 152 195 228
 do
-    convert -resize ${DIM}x${DIM} favicon-master.png favicon-${DIM}.png
+    convert -resize ${DIM}x${DIM} ${FAVPATH}/favicon-master.png favicon-${DIM}.png
     pngcrush -rem allb -brute -reduce favicon-${DIM}.png favicon-${DIM}-crushed.png
     mv favicon-${DIM}-crushed.png favicon-${DIM}.png
 done
@@ -24,7 +25,7 @@ png2ico --colors 16 favicon.ico favicon-16.png favicon-32.png favicon-48.png fav
 #move pngs and ico to root directory
 for DIM in 16 32 57 72 96 114 120 128 144 152 195 228
 do
-    mv favicon-${DIM}.png app/public/images/
+    mv favicon-${DIM}.png $FAVPATH
 done
 mv favicon.ico app/public/
 
