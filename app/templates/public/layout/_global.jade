@@ -42,6 +42,7 @@ html.no-js.gte-ie10-or-not-ie(lang="en", ng-app="edge.app", ng-controller="AppCo
     // endbuild
 
   body(ng-class="app.edgePage.bodyClass")
+    include _browserWarnings.jade
 
     ng-include(src="'components/navbar/navbar.html'", ng-if="app.showNavbar")
 

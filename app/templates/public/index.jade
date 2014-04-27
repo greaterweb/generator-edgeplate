@@ -7,6 +7,10 @@ append head
   link(rel="stylesheet", href="styles/app.css")
   // endbuild
 
+  script.
+    var ENV = '#{ENV}';
+    var VERSION = '#{VERSION}';
+
   if LOCAL
     script.
       document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js"></' + 'script>');
