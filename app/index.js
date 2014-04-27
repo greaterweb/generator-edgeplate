@@ -106,6 +106,7 @@ EdgeplateGenerator.prototype.app = function app() {
     this.copy('_package.json', 'package.json');
     this.copy('bowerrc', '.bowerrc');
     this.copy('_bower.json', 'bower.json');
+    this.copy('excludes', '.excludes');
 
     this.copy('deploy.sh', 'deploy.sh');
     this.copy('favicon.sh', 'favicon.sh');
