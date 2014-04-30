@@ -135,7 +135,6 @@ EdgeplateGenerator.prototype.directives = function directiveFiles() {
 };
 
 EdgeplateGenerator.prototype.images = function imageFiles() {
-    this.mkdir('public/images/')
     this.directory('public/images/favicon/', 'app/public/images/favicon/');
     this.copy('public/favicon.ico', 'app/public/favicon.ico');
 };
