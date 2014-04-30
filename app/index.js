@@ -110,7 +110,6 @@ EdgeplateGenerator.prototype.app = function app() {
 
     this.copy('deploy.sh', 'deploy.sh');
     this.copy('favicon.sh', 'favicon.sh');
-    this.copy('node-ctrl.sh', 'node-ctrl.sh');
     this.copy('remote.sh', 'remote.sh');
     this.copy('tail-log.sh', 'tail-log.sh');
 };

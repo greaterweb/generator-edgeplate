@@ -20,14 +20,11 @@ dev)
 esac
 DST_PATH="/www/$DIR/$1"
 
-#rsync node-ctrl.sh script for startup and shutdown of separate express servers
-rsync -avz node-ctrl.sh -e ssh $HOST:~ ;
-
 #stop the node service
-ssh $HOST "mkdir -pv $DST_PATH; ~/node-ctrl.sh $DST_PATH/app.js $PORT stop; exit" ;
+ssh $HOST "mkdir -pv $DST_PATH; /usr/local/bin/node-ctrl.sh $DST_PATH/app.js $PORT stop; exit" ;
 
 #rsync
 rsync -avz --delete-excluded --exclude-from=.excludes dist/ package.json -e ssh $HOST:$DST_PATH ;
 
 #start the node service
-ssh $HOST "cd $DST_PATH && npm install --production; ~/node-ctrl.sh $DST_PATH/app.js $PORT start; exit" ;
+ssh $HOST "cd $DST_PATH && npm install --production; /usr/local/bin/node-ctrl.sh $DST_PATH/app.js $PORT start; exit" ;

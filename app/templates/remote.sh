@@ -32,5 +32,5 @@ stop)
     exit 1
 esac
 
-echo ssh $HOST "~/node-ctrl.sh $DST_PATH/app.js $PORT $2; exit" ;
-ssh $HOST "~/node-ctrl.sh $DST_PATH/app.js $PORT $2; exit" ;
+echo ssh $HOST "/usr/local/bin/node-ctrl.sh $DST_PATH/app.js $PORT $2; exit" ;
+ssh $HOST "/usr/local/bin/node-ctrl.sh $DST_PATH/app.js $PORT $2; exit" ;
