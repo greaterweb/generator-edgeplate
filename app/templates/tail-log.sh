@@ -26,7 +26,7 @@ express)
     LOG="/var/tmp/app.js-$PORT.out"
 ;;
 apache)
-    LOG="/var/log/httpd/$PREFIX.ghosteo.com"
+    LOG="/var/log/httpd/$PREFIX.$BASEDOMAIN"
 ;;
 *)
     echo "Usage: $0 {dev|www} {apache|express}";

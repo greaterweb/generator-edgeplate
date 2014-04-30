@@ -43,6 +43,7 @@
         "generator": "<%= version %>"
     },
     "host": "<%= hostDomain %>",
+    "baseDomain": "<%= baseDomain %>",
     "ports": {
         "dev": "<%= devPort %>",
         "www": "<%= wwwPort %>",
