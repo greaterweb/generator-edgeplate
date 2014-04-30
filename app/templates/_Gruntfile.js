@@ -197,6 +197,7 @@ module.exports = function (grunt) {
                         '<%= project.dir %>/partials/**/*',
                         '<%= project.dir %>/styles/**/*.gif',
                         '<%= project.dir %>/styles/fonts/**/*',
+                        '<%= project.dir %>/favicon.ico',
                         'views/**/*',
                         'services/**/*',
                         'package.json',
@@ -208,6 +209,14 @@ module.exports = function (grunt) {
                     src: [
                         'package.json'
                     ]
+                }]
+            },
+            postJade: {
+                files: [{
+                    expand: true,
+                    cwd: '<%= project.temp %>',
+                    dest: '<%= project.dist %>',
+                    src: ['**/*.html']
                 }]
             }
         },
@@ -433,6 +442,7 @@ module.exports = function (grunt) {
             'sass:' + target,
             'revision', //run revision before jade so it's available there
             'jade:' + target,
+            'copy:postJade', //.tmp/*.html files to dist
             'useminPrepare',
             'imagemin',
             'ngmin',
