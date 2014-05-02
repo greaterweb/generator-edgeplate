@@ -62,16 +62,20 @@ EdgeplateGenerator.prototype.askFor = function askFor() {
         default: 'Edge Project'
     },{
         name: 'hostDomain',
-        message: 'Where is your project hosted?',
+        message: 'Where is your project hosted (server name)?',
         default: 'host.example.com'
     },{
-        name: 'devPort',
-        message: 'What port will your express development service run on?',
-        default: '8000'
+        name: 'baseDomain',
+        message: 'What is your base domain for this project?',
+        default: 'project.example.com'
     },{
         name: 'wwwPort',
         message: 'What port will your express production service run on?',
         default: '80'
+    },{
+        name: 'devPort',
+        message: 'What port will your express development service run on?',
+        default: '8000'
     },{
         name: 'sshPort',
         message: 'What port will you use for ssh?',
@@ -81,6 +85,7 @@ EdgeplateGenerator.prototype.askFor = function askFor() {
     this.prompt(prompts, function (props) {
         this.appTitle = props.appTitle;
         this.hostDomain = props.hostDomain;
+        this.baseDomain = props.baseDomain;
         this.devPort = props.devPort;
         this.wwwPort = props.wwwPort;
         this.sshPort = props.sshPort;
@@ -110,7 +115,6 @@ EdgeplateGenerator.prototype.app = function app() {
 
     this.copy('deploy.sh', 'deploy.sh');
     this.copy('favicon.sh', 'favicon.sh');
-    this.copy('node-ctrl.sh', 'node-ctrl.sh');
     this.copy('remote.sh', 'remote.sh');
     this.copy('tail-log.sh', 'tail-log.sh');
 };
@@ -131,7 +135,6 @@ EdgeplateGenerator.prototype.directives = function directiveFiles() {
 };
 
 EdgeplateGenerator.prototype.images = function imageFiles() {
-    this.mkdir('public/images/')
     this.directory('public/images/favicon/', 'app/public/images/favicon/');
     this.copy('public/favicon.ico', 'app/public/favicon.ico');
 };

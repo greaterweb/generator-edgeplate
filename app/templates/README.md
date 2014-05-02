@@ -73,7 +73,7 @@ Jshint won’t check for this `[1,2,3,]` but older versions of IE will die on th
 
 Environments live within `/www/<%= _.slugify(appTitle) %>/{dev|www}`. The following command is built into `deploy.sh` and `remote.sh` but can be called manually on the remote host. 
 
-    ~/node-ctrl.sh /www/<%= _.slugify(appTitle) %>/{dev|www}/app.js {port} {start|stop|restart}
+    /usr/local/bin/node-ctrl.sh /www/<%= _.slugify(appTitle) %>/{dev|www}/app.js {port} {start|stop|restart}
 
 If you start a service with `node-ctrl.sh app.js 8000 start` the Express dev log will be in `/var/tmp/app.js-8000.out`. The log file is continually appended. 
 
