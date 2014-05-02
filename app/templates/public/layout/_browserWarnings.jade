@@ -1,0 +1,45 @@
+noscript
+  #noscript.row
+    .col-md-12
+      .alert.alert-danger.text-center
+        //- NOTE: manually add translations as angular is not working at this point
+        h1(lang="en", xml-lang="en") Javascript must be enabled to use this site.
+        //-p(lang="es", xml-lang="es") Javascript necesita estar habilitado para usar este sitio.
+
+        //- add your logo
+        //-img(src="images/logo.png")
+
+
+//- hard fail, need at least IE 9
+//if lt IE 9
+  #lessThanIE9Fail.row
+    .col-md-12
+      .alert.alert-danger
+        //- NOTE: manually add translations as angular is not working at this point
+        p(lang="en", xml-lang="en")
+          span Your browser is outdated. 
+          span &nbsp;
+          span We recommend 
+          span &nbsp;
+          a(href="http://getfirefox.com/") Firefox.
+          span &nbsp;
+          a(href="http://browsehappy.com/") Other choices here.
+
+    //- add your logo
+    //-.col-md-12
+    //-  .text-center
+    //-    img(src="images/logo.png")
+      
+//- recommend they update, still works in IE 9
+//if IE 9
+  .row
+    .col-md-12
+      .alert.alert-warning
+        p(lang="en", xml-lang="en")
+          span Your browser is outdated. 
+          span &nbsp;
+          span We recommend 
+          span &nbsp;
+          a(href="http://getfirefox.com/") Firefox.
+          span &nbsp;
+          a(href="http://browsehappy.com/") Other choices here.

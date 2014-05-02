@@ -37,7 +37,7 @@ ServiceGenerator.prototype.getEndpoint = function askFor() {
         var prompts = [{
             name: 'endpoint',
             message: 'What is your service endpoint?',
-            default: 'services/edge-service'
+            default: 'services/' + this.name
         }];
 
         this.prompt(prompts, function (props) {

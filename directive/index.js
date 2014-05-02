@@ -8,7 +8,9 @@ var DirectiveGenerator = module.exports = function DirectiveGenerator(args, opti
     // as `this.name`.
     yeoman.generators.NamedBase.apply(this, arguments);
 
-    this.name = (this._.camelize(this._.slugify(this.name))).toLowerCase() || 'edgedirective';
+    // name needs to be in all lowercase for custom element support in browser
+    this.name = (this._.slugify(this.name)).toLowerCase() || 'edgeDirective';
+    this.camelName = this._.camelize(this.name);
 };
 
 util.inherits(DirectiveGenerator, yeoman.generators.NamedBase);
@@ -33,13 +35,13 @@ DirectiveGenerator.prototype.askFor = function askFor() {
 DirectiveGenerator.prototype.files = function files() {
 
     if (this.useTemplateURL) {
-        this.copy('directive-templateurl.js', 'app/public/directives/' + this.name + '/' + this.name + '-directive.js');
-        this.copy('_view.jade', 'app/public/directives/' + this.name + '/' + this.name + '-view.jade');
+        this.copy('directive-templateurl.js', 'app/public/directives/' + this.camelName + '/' + this.camelName + 'Directive.js');
+        this.copy('_view.jade', 'app/public/directives/' + this.camelName + '/' + this.camelName + 'View.jade');
     } else {
-        this.copy('directive.js', 'app/public/directives/' + this.name + '/' + this.name + '-directive.js');
+        this.copy('directive.js', 'app/public/directives/' + this.camelName + '/' + this.camelName + 'Directive.js');
     }
 
-    this.copy('_styles.scss', 'app/public/directives/' + this.name + '/_' + this.name + '.scss');
+    this.copy('_styles.scss', 'app/public/directives/' + this.camelName + '/_' + this.camelName + '.scss');
 
     angularUtils.rewriteFile({
         path: process.cwd(),
@@ -47,7 +49,7 @@ DirectiveGenerator.prototype.files = function files() {
         needle: '// Angular Directive Styles',
         spliceAfter: true,
         splicable: [
-            '@import "../directives/' + this.name + '/_' + this.name + '";'
+            '@import "../directives/' + this.camelName + '/_' + this.camelName + '";'
         ]
     });
 
@@ -58,7 +60,7 @@ DirectiveGenerator.prototype.files = function files() {
         needle: '//- angular directives',
         spliceAfter: true,
         splicable: [
-            'script(src="directives/' + this.name + '/' + this.name + '-directive.js")'
+            'script(src="directives/' + this.camelName + '/' + this.camelName + 'Directive.js")'
         ]
     });
 };

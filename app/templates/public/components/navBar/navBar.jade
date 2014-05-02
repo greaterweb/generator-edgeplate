@@ -1,13 +1,13 @@
-.navbar.navbar-inverse.navbar-fixed-top
-  .navbar-inner
-    .container
-      button.btn.btn-navbar(type="button",data-toggle="collapse",data-target=".nav-collapse")
+nav.navbar.navbar-inverse.navbar-fixed-top(role="navigation")
+  .container
+    .navbar-header
+      button.navbar-toggle(type="button", ng-click="app.toggleNavbar()")
+        span.sr-only Toggle navigation
         span.icon-bar
         span.icon-bar
         span.icon-bar
-      a.brand(href="#/dashboard") <%= appTitle %>
-      .nav-collapse.collapse
-        ul.nav
-          li
-            a(href="#/dashboard") Home
-          //- angular pages
+      a.navbar-brand(href="#/dashboard") <%= appTitle %>
+    .navbar-collapse(ng-class="{ 'collapse': app.collapseNavbar }")
+      ul.nav.navbar-nav
+        li: a(href="#/dashboard") Home
+        //- angular pages

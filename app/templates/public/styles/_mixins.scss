@@ -6,3 +6,13 @@
 }
 @mixin animate ($arguments...) { @include animation($arguments);}
 @mixin anime ($arguments...) { @include animation($arguments);}
+
+@mixin manual-hide {
+    display:none !important;
+    visibility:hidden !important;
+}
+
+@mixin manual-show {
+    display:block !important;
+    visibility:visible !important;
+}

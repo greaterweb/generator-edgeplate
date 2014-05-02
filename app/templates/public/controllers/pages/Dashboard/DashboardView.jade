@@ -1,7 +1,4 @@
-extends ../../../layout/_page
+#edgePage_dashboard
 
-block container
-  #edgePage_dashboard.edge_page.container(ng-controller="DashboardController")
-
-    h1 Welcome to <%= appTitle %>, an EdgePlate Project.
-    p.lead Now build something cool.
+  h1 Welcome to <%= appTitle %>, an EdgePlate Project.
+  p.lead {{dashboard.intro}}

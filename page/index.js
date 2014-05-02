@@ -4,13 +4,12 @@ var path = require('path');
 var yeoman = require('yeoman-generator');
 var angularUtils = require('../util.js');
 
-var PageGenerator = module.exports = function PageGenerator(args, options, config) {
+var PageGenerator = module.exports = function PageGenerator() {
     // By calling `NamedBase` here, we get the argument to the subgenerator call
     // as `this.name`.
     yeoman.generators.NamedBase.apply(this, arguments);
     this.controllerName = this._.capitalize(this._.camelize(this._.slugify(this.name))) || 'Page';
     this.pkg = JSON.parse(this.readFileAsString(path.join(process.cwd(), '/package.json')));
-    this.slug = this.pkg.name;
     this.appTitle = this.pkg.title;
 };
 
@@ -44,9 +43,20 @@ PageGenerator.prototype.files = function files() {
         file: '/app/public/scripts/app.js',
         needle: '.otherwise',
         splicable: [
-            '.when(\'/' + this.name + '\', {',
-            '    templateUrl: \'controllers/pages/' + this.controllerName + '/' + this.controllerName + 'View\',',
-            '    controller: \'AppController\'',
+            '.when(\'/' + this._.slugify(this.name) + '\', {',
+            '    templateUrl: \'controllers/pages/' + this.controllerName + '/' + this.controllerName + 'View.html\',',
+            '    controller: \'' + this.controllerName + 'Controller as ' + this.controllerName.toLowerCase() + '\',',
+            '    resolve: {',
+            '        app: [\'$q\', \'edgePage\', function ($q, edgePage) {',
+            '            var defer = $q.defer();',
+            '            edgePage.pageConfig({',
+            '                title: \'' + this._.capitalize(this.name) + ' &raquo; ' + this.appTitle + '\',',
+            '                bodyClass: \'edgePage-' + this._.ltrim(this._.dasherize(this.controllerName), '-') + '\'',
+            '            });',
+            '            defer.resolve();',
+            '            return defer.promise;',
+            '        }]',
+            '    }',
             '})'
         ]
     });
@@ -81,8 +91,7 @@ PageGenerator.prototype.files = function files() {
             needle: '//- angular pages',
             spliceAfter: true,
             splicable: [
-                'li',
-                '  a(href="#/' + this.name + '") ' + this._.titleize(this.name)
+                'li: a(href="#/' + this._.slugify(this.name) + '") ' + this.name
             ]
         });
     }

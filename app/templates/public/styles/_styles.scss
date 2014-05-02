@@ -1,0 +1,58 @@
+// Global App Styles
+// --------------------------------------------------
+html.windows {
+    .mac {
+        display: none !important;
+    }
+    .linux {
+        display: none !important;
+    }
+}
+
+html.mac {
+    .windows {
+        display: none !important;
+    }
+    .linux {
+        display: none !important;
+    }
+}
+
+html.linux {
+    .windows {
+        display: none !important;
+    }
+    .mac {
+        display: none !important;
+    }
+}
+
+html.ie9 {
+    .input-group .form-control {
+        //display:table-cell doesn’t go 100% wide on IE9, this fixes that.
+        display: block;
+    }
+}
+
+//hard fail when either IE 8 and lower, or javascript disabled
+html.no-js, html.ie.lt9 {
+    .edge-app-view,
+    nav,
+    footer {
+        @include manual-hide();
+    }
+}
+
+
+.edge-app-view.ng-enter {
+    @extend .animate-enter;
+}
+
+.edge-app-view.ng-leave {
+    @extend .hidden;
+}
+
+.has-app-header body {
+    padding-top: 60px;
+    padding-bottom: 40px;
+}

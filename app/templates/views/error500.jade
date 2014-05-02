@@ -1,0 +1,9 @@
+extends _errGlobal.jade
+
+block content
+  h1 500 Error
+
+  if __env !== 'www'
+    h3 #{error}
+
+  p Something went wrong. Our team has been notified. We’ll try to fix it. 

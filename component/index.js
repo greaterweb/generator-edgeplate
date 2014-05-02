@@ -1,12 +1,13 @@
 'use strict';
-var util = require('util');
-var yeoman = require('yeoman-generator');
+var util = require('util'),
+    yeoman = require('yeoman-generator'),
+    angularUtils = require('../util.js');
 
-var ComponentGenerator = module.exports = function ComponentGenerator(args, options, config) {
+var ComponentGenerator = module.exports = function ComponentGenerator() {
     // By calling `NamedBase` here, we get the argument to the subgenerator call
     // as `this.name`.
     yeoman.generators.NamedBase.apply(this, arguments);
-    this.componentName = (this._.camelize(this._.slugify(this.name))).toLowerCase() || 'edge';
+    this.componentName = this._.camelize(this._.slugify(this.name)) || 'edge';
 };
 
 util.inherits(ComponentGenerator, yeoman.generators.NamedBase);
@@ -15,31 +16,58 @@ ComponentGenerator.prototype.askFor = function askFor() {
     var cb = this.async();
 
     var prompts = [{
-        type: 'confirm',
-        name: 'hasSCSS',
-        message: 'Do you wish to include a SCSS file with your component?',
-        default: true
-    },{
-        type: 'confirm',
-        name: 'hasJS',
-        message: 'Do you wish to include a JavaScript file with your component?',
-        default: true
+        type: 'checkbox',
+        name: 'features',
+        message: 'Select the supporting files your component needs:',
+        choices: [{
+            name: 'SCSS File',
+            value: 'hasSCSS',
+            checked: true
+        }, {
+            name: 'JS File',
+            value: 'hasJS',
+            checked: true
+        }]
     }];
 
-    this.prompt(prompts, function (props) {
-        this.hasSCSS = props.hasSCSS;
-        this.hasJS = props.hasJS;
+    this.prompt(prompts, function (answers) {
+        var features = answers.features;
+
+        function hasFeature(feat) { return features.indexOf(feat) !== -1; }
+
+        this.hasSCSS = hasFeature('hasSCSS');
+        this.hasJS = hasFeature('hasJS');
 
         cb();
     }.bind(this));
 };
 
 ComponentGenerator.prototype.files = function files() {
-    this.copy('_view.jade', 'app/public/components/' + this.componentName + '/_' + this.componentName + '.jade');
+    this.copy('_view.jade', 'app/public/components/' + this.componentName + '/' + this.componentName + '.jade');
     if (this.hasSCSS) {
         this.copy('_styles.scss', 'app/public/components/' + this.componentName + '/_' + this.componentName + '.scss');
+        // add stylesheet reference to app.scss
+        angularUtils.rewriteFile({
+            path: process.cwd(),
+            file: '/app/public/styles/app.scss',
+            needle: '// Application Component Styles',
+            spliceAfter: true,
+            splicable: [
+                '@import "../components/' + this.componentName + '/_' + this.componentName + '";'
+            ]
+        });
     }
     if (this.hasJS) {
         this.copy('script.js', 'app/public/components/' + this.componentName + '/' + this.componentName + '.js');
+        // add script tag to index.jade
+        angularUtils.rewriteFile({
+            path: process.cwd(),
+            file: '/app/public/index.jade',
+            needle: '//- application components',
+            spliceAfter: true,
+            splicable: [
+                'script(src="components/' + this.componentName + '/' + this.componentName + '.js")'
+            ]
+        });
     }
 };

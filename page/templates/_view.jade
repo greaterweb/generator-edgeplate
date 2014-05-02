@@ -1,7 +1,4 @@
-extends ../../../layout/_page
+.edgePage-<%= _.ltrim(_.dasherize(controllerName), '-') %>
 
-block container
-  .page-<%= _.ltrim(_.dasherize(controllerName), '-') %>.container(ng-controller="<%= controllerName %>Controller")
-
-    h1 <%= _.capitalize(name) %>
-    p.lead This page has an Edge.
+  h1 <%= _.capitalize(name) %>
+  p.lead {{<%= controllerName.toLowerCase() %>.info}}.

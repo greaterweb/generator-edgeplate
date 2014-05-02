@@ -3,35 +3,51 @@
     "name": "<%= _.slugify(appTitle) %>",
     "version": "0.1.0",
     "dependencies": {
-        "express": "~3.3.1",
-        "jade": "~0.32.0",
-        "mongodb": "~1.3.10",
-        "mongoose": "~3.6.13",
+        "express": "~3.3.7",
+        "edgeplate-express-helpers": "~0.1.0",
+        "jade": "~0.35.0",
+        "mongodb": "~1.3.19",
+        "mongoose": "~3.7.3",
         "socket.io": "~0.9.16",
-        "sprintf-js": "0.0.7",
         "q": "~0.9.6",
-        "underscore": "~1.4.4",
-        "nopt": "~2.1.1"
+        "underscore": "~1.5.1",
+        "nopt": "~2.1.2",
+        "jade": "~1.1.5",
+        "nodemailer": "0.6.2"
     },
     "devDependencies": {
         "grunt": "~0.4.1",
-        "grunt-contrib-clean": "~0.4.1",
+        "grunt-jsonlint": "~1.0.4",
+        "grunt-banner": "~0.2.0",
+        "grunt-contrib-clean": "~0.5.0",
         "grunt-contrib-concat": "~0.3.0",
         "grunt-contrib-copy": "~0.4.1",
-        "grunt-contrib-imagemin": "~0.1.4",
-        "grunt-contrib-jade": "~0.7.0",
-        "grunt-contrib-jshint": "~0.6.0",
+        "grunt-contrib-imagemin": "~0.2.0",
+        "grunt-contrib-jade": "~0.8.0",
+        "grunt-contrib-jshint": "~0.10.0",
         "grunt-contrib-livereload": "~0.1.2",
-        "grunt-contrib-sass": "~0.3.0",
+        "grunt-contrib-sass": "~0.5.0",
         "grunt-contrib-uglify": "~0.2.2",
-        "grunt-contrib-watch": "~0.4.4",
-        "grunt-edge-express": "~0.1.0",
-        "grunt-ngmin": "0.0.2",
-        "grunt-open": "~0.2.0",
+        "grunt-contrib-watch": "~0.5.3",
+        "grunt-git-revision": "~0.0.1",
+        "grunt-ngmin": "0.0.3",
+        "grunt-open": "~0.2.2",
         "grunt-usemin": "~0.1.12",
-        "matchdep": "~0.1.2"
+        "sprintf": "0.1.3",
+        "matchdep": "~0.1.2",
+        "grunt-express-server": "~0.4.17"
     },
     "engines": {
         "node": ">=0.8.0"
+    },
+    "edgeplate": {
+        "generator": "<%= version %>"
+    },
+    "host": "<%= hostDomain %>",
+    "baseDomain": "<%= baseDomain %>",
+    "ports": {
+        "dev": "<%= devPort %>",
+        "www": "<%= wwwPort %>",
+        "ssh": "<%= sshPort %>"
     }
 }

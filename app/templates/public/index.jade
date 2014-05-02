@@ -2,47 +2,43 @@ extends layout/_global
 
 append head
   - var title = "Loading&hellip;"
-  title(ng-bind-html="page.title || '#{title}'") !{title}
+  title(ng-bind-html="app.edgePage.title || '#{title}'") !{title}
+  // build:css styles/app.css
   link(rel="stylesheet", href="styles/app.css")
+  // endbuild
+
+  script.
+    var ENV = '#{ENV}';
+    var VERSION = '#{VERSION}';
+
+  if LOCAL
+    script.
+      document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js"></' + 'script>');
+    script.
+      var LOCAL = true,
+          SERVER = '#{SERVER}',
+          PROJECT = '#{PROJECT}';
 
 append footer-scripts
   //- socket.io
-  script(src="/socket.io/socket.io.js")
+  //- script(src="/socket.io/socket.io.js")
 
   // build:js(app/public/) scripts/lib.js
   //- underscore js
   script(src="bower_lib/underscore/underscore.js")
 
-  //- html5 mobile boilerplate
-  script(src="bower_lib/html5-mobile-boilerplate/js/helper.js")
-
   //- jquery and jquery plugins
   script(src="bower_lib/jquery/jquery.js")
 
   //- bootstrap dependencies
-  //- script(src="bower_lib/sass-bootstrap/js/bootstrap-affix.js")
-  //- script(src="bower_lib/sass-bootstrap/js/bootstrap-alert.js")
-  //- script(src="bower_lib/sass-bootstrap/js/bootstrap-button.js")
-  //- script(src="bower_lib/sass-bootstrap/js/bootstrap-carousel.js")
-  //- script(src="bower_lib/sass-bootstrap/js/bootstrap-collapse.js")
-  //- script(src="bower_lib/sass-bootstrap/js/bootstrap-dropdown.js")
-  //- script(src="bower_lib/sass-bootstrap/js/bootstrap-modal.js")
-  //- script(src="bower_lib/sass-bootstrap/js/bootstrap-popover.js")
-  //- script(src="bower_lib/sass-bootstrap/js/bootstrap-scrollspy.js")
-  //- script(src="bower_lib/sass-bootstrap/js/bootstrap-tab.js")
-  //- script(src="bower_lib/sass-bootstrap/js/bootstrap-tooltip.js")
-  //- script(src="bower_lib/sass-bootstrap/js/bootstrap-transition.js")
-  //- script(src="bower_lib/sass-bootstrap/js/bootstrap-typeahead.js")
-
+  //- options: affix, alert, button, carousel, collapse, dropdown, modal, popover, scrollspy, tab, tooltip, transition
+  //- each src in ['affix', 'alert', 'button', 'carousel', 'collapse', 'dropdown', 'modal', 'popover', 'scrollspy', 'tab', 'tooltip', 'transition']
+    script(src="bower_lib/bootstrap-sass/vendor/assets/javascripts/bootstrap/#{src}.js")
+  
   //- angular core and app dependencies
-  script(src="bower_lib/angular-all-unstable/angular.js")
-  script(src="bower_lib/angular-all-unstable/angular-resource.js")
-  script(src="bower_lib/angular-all-unstable/angular-sanitize.js")
-  //- script(src="bower_lib/angular-all-unstable/angular-cookies.js")
-  //- script(src="bower_lib/angular-all-unstable/angular-loader.js")
-  //- script(src="bower_lib/angular-all-unstable/angular-mobile.js")
-  //- script(src="bower_lib/angular-all-unstable/angular-mocks.js")
-  //- script(src="bower_lib/angular-all-unstable/angular-scenario.js")
+  //- options: angular, angular-animate, angular-cookies, angular-mocks, angular-resource, angular-route, angular-sanitize, angular-touch
+  each src in ['angular', 'angular-animate', 'angular-resource', 'angular-route', 'angular-sanitize']
+    script(src="bower_lib/#{src}/#{src}.js")
 
   //- gloal helpers
   script(src="scripts/helper.js")
@@ -57,6 +53,8 @@ append footer-scripts
   //- main app
   script(src="scripts/app.js")
 
+  //- application components
+
   //- angular services
   script(src="scripts/services/edgePage.js")
 
@@ -65,7 +63,6 @@ append footer-scripts
   //- angular filters
 
   //- angular controllers
-  script(src="controllers/Body/BodyController.js")
   script(src="controllers/App/AppController.js")
 
   //- page controllers

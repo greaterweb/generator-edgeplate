@@ -1,4 +1,3 @@
 .<%= componentName %> {
-    color: #ccc;
-    font-style: italic;
+    @extend .lead;
 }
