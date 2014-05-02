@@ -41,12 +41,12 @@ Local development environment [localhost:3000](http://localhost:3000)
 
 #### Web - Deployment
 
-Remote development environment [dev.<%= hostDomain %>](http:/dev.<%= hostDomain %>/)
+Remote development environment [dev.<%= baseDomain %>](http://dev.<%= baseDomain %>/)
 
 	grunt build:dev
     ./deploy.sh dev 
 
-Production environment [<%= hostDomain %>](http:/<%= hostDomain %>/)
+Production environment [<%= baseDomain %>](http://<%= baseDomain %>/)
 
 	grunt build:www
     ./deploy.sh www
