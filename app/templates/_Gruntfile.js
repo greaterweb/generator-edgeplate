@@ -446,7 +446,6 @@ module.exports = function (grunt) {
             'clean:dist',
             'jshint',
             'jsonlint:dist',
-            'sass:' + target,
             'revision', //run revision before jade so it's available there
             'jade:' + target,
             'copy:postJade', //.tmp/*.html files to dist
@@ -457,6 +456,7 @@ module.exports = function (grunt) {
             'uglify',
             'copy:dist',
             'usemin',
+            'sass:' + target,
             'usebanner' //add banner after everything else is done to js, css
         ]);
     });
