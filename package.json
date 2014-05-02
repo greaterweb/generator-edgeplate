@@ -1,6 +1,6 @@
 {
   "name": "generator-edgeplate",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Yeoman generator for EdgePlate projects. AKA, the preferred libraries, project organization and tooling of Ron Edgecomb.",
   "keywords": [
     "yeoman-generator"
