@@ -166,9 +166,9 @@ EdgeplateGenerator.prototype.styles = function styleFiles() {
 EdgeplateGenerator.prototype.controllers = function controllerFiles() {
     this.copy('public/controllers/App/AppController.js', 'app/public/controllers/App/AppController.js');
 
-    this.copy('public/controllers/pages/Dashboard/_Dashboard.scss', 'app/public/controllers/pages/Dashboard/_Dashboard.scss');
-    this.copy('public/controllers/pages/Dashboard/DashboardController.js', 'app/public/controllers/pages/Dashboard/DashboardController.js');
-    this.copy('public/controllers/pages/Dashboard/DashboardView.jade', 'app/public/controllers/pages/Dashboard/DashboardView.jade');
+    this.copy('public/controllers/pages/Index/_Index.scss', 'app/public/controllers/pages/Index/_Index.scss');
+    this.copy('public/controllers/pages/Index/IndexController.js', 'app/public/controllers/pages/Index/IndexController.js');
+    this.copy('public/controllers/pages/Index/IndexView.jade', 'app/public/controllers/pages/Index/IndexView.jade');
 };
 
 EdgeplateGenerator.prototype.projectfiles = function projectfiles() {

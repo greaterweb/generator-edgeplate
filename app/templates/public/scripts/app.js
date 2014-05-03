@@ -23,20 +23,20 @@ angular.module('edge.app', ['ngRoute', 'ngSanitize', 'ngAnimate', 'edge.app.cont
 
     .config(function ($routeProvider) {
         $routeProvider
-            .when('/dashboard', {
-                templateUrl: 'controllers/pages/Dashboard/DashboardView.html',
-                controller: 'DashboardController as dashboard',
+            .when('/', {
+                templateUrl: 'controllers/pages/Index/IndexView.html',
+                controller: 'IndexController as index',
                 resolve: {
                     app: ['$q', 'edgePage', function ($q, edgePage) {
                         var defer = $q.defer();
                         edgePage.pageConfig({
-                            title: 'Dashboard &raquo; WK ATG Project',
-                            bodyClass: 'edgePage-dashboard'
+                            title: 'Edgeplate Project',
+                            bodyClass: 'edgePage-index'
                         });
                         defer.resolve();
                         return defer.promise;
                     }]
                 }
             })
-            .otherwise({redirectTo: '/dashboard/'});
+            .otherwise({redirectTo: '/'});
     });

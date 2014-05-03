@@ -31,9 +31,9 @@ describe('edgeplate generator', function () {
             'app/public/components/navbar/navbar.jade',
             // controllers
             'app/public/controllers/App/AppController.js',
-            'app/public/controllers/pages/Dashboard/_Dashboard.scss',
-            'app/public/controllers/pages/Dashboard/DashboardController.js',
-            'app/public/controllers/pages/Dashboard/DashboardView.jade',
+            'app/public/controllers/pages/Index/_Index.scss',
+            'app/public/controllers/pages/Index/IndexController.js',
+            'app/public/controllers/pages/Index/IndexView.jade',
             // scripts
             'app/public/scripts/app.js',
             'app/public/scripts/helper.js',
