@@ -169,6 +169,7 @@ EdgeplateGenerator.prototype.controllers = function controllerFiles() {
 
     this.copy('public/controllers/pages/Index/_Index.scss', 'app/public/controllers/pages/Index/_Index.scss');
     this.copy('public/controllers/pages/Index/IndexController.js', 'app/public/controllers/pages/Index/IndexController.js');
+    this.copy('public/controllers/pages/Index/IndexResolver.js', 'app/public/controllers/pages/Index/IndexResolver.js');
     this.copy('public/controllers/pages/Index/IndexView.jade', 'app/public/controllers/pages/Index/IndexView.jade');
 };
 

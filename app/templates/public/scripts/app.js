@@ -44,20 +44,13 @@ angular.module('edge.app', ['ui.router', 'ngSanitize', 'ngAnimate', 'edge.app.co
     //     });
     // })
 
-    .config(function ($stateProvider, $urlRouterProvider) {
+    .config(function ($stateProvider, $urlRouterProvider, $injector) {
         $stateProvider
             .state('index', {
                 url: '/',
                 templateUrl: 'controllers/pages/Index/IndexView.html',
                 controller: 'IndexController as index',
-                resolve: {
-                    app: ['$q', 'edgePage', function ($q, edgePage) {
-                        edgePage.pageConfig({
-                            title: 'Edgeplate Project',
-                            bodyClass: 'edgePage-index'
-                        });
-                    }]
-                }
+                resolve: $injector.get('IndexResolver')
             });
         $urlRouterProvider.otherwise('/');
     });
