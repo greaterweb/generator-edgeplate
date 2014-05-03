@@ -34,6 +34,9 @@ describe('edgeplate generator', function () {
             'app/public/controllers/pages/Index/_Index.scss',
             'app/public/controllers/pages/Index/IndexController.js',
             'app/public/controllers/pages/Index/IndexView.jade',
+            // services
+            'app/public/scripts/services/edgePage.js',
+            'app/public/scripts/services/edgeResolver.js',
             // scripts
             'app/public/scripts/app.js',
             'app/public/scripts/helper.js',
