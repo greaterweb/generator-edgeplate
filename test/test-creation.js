@@ -50,15 +50,14 @@ describe('edgeplate generator', function () {
             'app/public/styles/app.scss',
             // images
             // TODO: list image paths
+            'app/public/images/favicon/favicon-master.png',
             // index
             'app/public/index.jade',
             // express config
             'app/app.js',
-            'app/routes.js',
             // misc app files
             '.bowerrc',
             'bower.json',
-            'favicon-master.png',
             'package.json',
             '.jshintrc',
             '.editorconfig',
@@ -67,7 +66,6 @@ describe('edgeplate generator', function () {
             'README.md',
             'deploy.sh',
             'favicon.sh',
-            'node-ctrl.sh',
             'remote.sh',
             'tail-log.sh'
         ];
