@@ -37,8 +37,11 @@ append footer-scripts
   
   //- angular core and app dependencies
   //- options: angular, angular-animate, angular-cookies, angular-mocks, angular-resource, angular-route, angular-sanitize, angular-touch
-  each src in ['angular', 'angular-animate', 'angular-resource', 'angular-route', 'angular-sanitize']
+  each src in ['angular', 'angular-animate', 'angular-resource', 'angular-sanitize']
     script(src="bower_lib/#{src}/#{src}.js")
+
+  //- angular-ui-router
+  script(src="bower_lib/angular-ui-router/release/angular-ui-router.js")
 
   //- gloal helpers
   script(src="scripts/helper.js")

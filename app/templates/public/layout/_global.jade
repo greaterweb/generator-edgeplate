@@ -47,7 +47,7 @@ html.no-js.gte-ie10-or-not-ie(lang="en", ng-app="edge.app", ng-controller="AppCo
     ng-include(src="'components/navbar/navbar.html'", ng-if="app.showNavbar")
 
     .container
-      .edge-app-view(ng-view)
+      .edge-app-view(ui-view)
 
       hr
       footer(ng-if="app.showFooter")

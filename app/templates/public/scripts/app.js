@@ -12,7 +12,7 @@ angular.module('edge.app.services', ['ngResource']);
 angular.module('edge.app.directives', []);
 
 // Declare app level module which depends on filters, and services
-angular.module('edge.app', ['ngRoute', 'ngSanitize', 'ngAnimate', 'edge.app.controllers', 'edge.app.filters', 'edge.app.services', 'edge.app.directives'])
+angular.module('edge.app', ['ui.router', 'ngSanitize', 'ngAnimate', 'edge.app.controllers', 'edge.app.filters', 'edge.app.services', 'edge.app.directives'])
 
     //.config(function ($locationProvider) {
     //    // disabling html5 mode until pre and post
@@ -21,22 +21,20 @@ angular.module('edge.app', ['ngRoute', 'ngSanitize', 'ngAnimate', 'edge.app.cont
     //    // $locationProvider.hashPrefix('!');
     //})
 
-    .config(function ($routeProvider) {
-        $routeProvider
-            .when('/', {
+    .config(function ($stateProvider, $urlRouterProvider) {
+        $stateProvider
+            .state('index', {
+                url: '/',
                 templateUrl: 'controllers/pages/Index/IndexView.html',
                 controller: 'IndexController as index',
                 resolve: {
                     app: ['$q', 'edgePage', function ($q, edgePage) {
-                        var defer = $q.defer();
                         edgePage.pageConfig({
                             title: 'Edgeplate Project',
                             bodyClass: 'edgePage-index'
                         });
-                        defer.resolve();
-                        return defer.promise;
                     }]
                 }
-            })
-            .otherwise({redirectTo: '/'});
+            });
+        $urlRouterProvider.otherwise('/');
     });
