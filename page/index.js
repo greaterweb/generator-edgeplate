@@ -36,32 +36,25 @@ PageGenerator.prototype.files = function files() {
     this.copy('_styles.scss', 'app/public/controllers/pages/' + this.controllerName + '/_' + this.controllerName + '.scss');
     this.copy('_view.jade', 'app/public/controllers/pages/' + this.controllerName + '/' + this.controllerName + 'View.jade');
     this.copy('script.js', 'app/public/controllers/pages/' + this.controllerName + '/' + this.controllerName + 'Controller.js');
+    this.copy('resolver.js', 'app/public/controllers/pages/' + this.controllerName + '/' + this.controllerName + 'Resolver.js');
 
     // add route to app.js
     angularUtils.rewriteFile({
         path: process.cwd(),
         file: '/app/public/scripts/app.js',
-        needle: '.otherwise',
+        needle: '$stateProvider',
+        spliceAfter: true,
         splicable: [
-            '.when(\'/' + this._.slugify(this.name) + '\', {',
-            '    templateUrl: \'controllers/pages/' + this.controllerName + '/' + this.controllerName + 'View.html\',',
-            '    controller: \'' + this.controllerName + 'Controller as ' + this.controllerName.toLowerCase() + '\',',
-            '    resolve: {',
-            '        app: [\'$q\', \'edgePage\', function ($q, edgePage) {',
-            '            var defer = $q.defer();',
-            '            edgePage.pageConfig({',
-            '                title: \'' + this._.capitalize(this.name) + ' &raquo; ' + this.appTitle + '\',',
-            '                bodyClass: \'edgePage-' + this._.ltrim(this._.dasherize(this.controllerName), '-') + '\'',
-            '            });',
-            '            defer.resolve();',
-            '            return defer.promise;',
-            '        }]',
-            '    }',
-            '})'
+            '    .state(\'' + this._.slugify(this.name) + '\', {',
+            '        url: \'/' + this._.slugify(this.name) + '\',',
+            '        templateUrl: \'controllers/pages/' + this.controllerName + '/' + this.controllerName + 'View.html\',',
+            '        controller: \'' + this.controllerName + 'Controller as ' + this.controllerName.toLowerCase() + '\',',
+            '        resolve: $injector.get(\'' + this.controllerName + 'Resolver\')',
+            '    })'
         ]
     });
 
-    // add script tag to index.jade
+    // add controller script tag to index.jade
     angularUtils.rewriteFile({
         path: process.cwd(),
         file: '/app/public/index.jade',
@@ -69,6 +62,17 @@ PageGenerator.prototype.files = function files() {
         spliceAfter: true,
         splicable: [
             'script(src="controllers/pages/' + this.controllerName + '/' + this.controllerName + 'Controller.js")'
+        ]
+    });
+
+    // add resolver script tag to index.jade
+    angularUtils.rewriteFile({
+        path: process.cwd(),
+        file: '/app/public/index.jade',
+        needle: '//- page resolvers',
+        spliceAfter: true,
+        splicable: [
+            'script(src="controllers/pages/' + this.controllerName + '/' + this.controllerName + 'Resolver.js")'
         ]
     });
 
@@ -91,7 +95,7 @@ PageGenerator.prototype.files = function files() {
             needle: '//- angular pages',
             spliceAfter: true,
             splicable: [
-                'li: a(href="#/' + this._.slugify(this.name) + '") ' + this.name
+                'li: a(href="#/' + this._.slugify(this.name) + '", ui-sref="' + this._.slugify(this.name) + '") ' + this.name
             ]
         });
     }
