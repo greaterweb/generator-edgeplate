@@ -38,6 +38,7 @@ describe('edgeplate generator', function () {
             // services
             'app/public/scripts/services/edgePage.js',
             'app/public/scripts/services/edgeResolver.js',
+            'app/public/scripts/services/NProgress.js',
             // scripts
             'app/public/scripts/app.js',
             'app/public/scripts/helper.js',

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('edge.app.controllers').controller('AppController', function (edgePage, $scope) {
+angular.module('edge.app.controllers').controller('AppController', function (edgePage, $scope, $timeout, NProgress) {
     var app = this;
     app.edgePage = edgePage;
 
@@ -24,4 +24,20 @@ angular.module('edge.app.controllers').controller('AppController', function (edg
     app.toggleNavbar = function () {
         app.collapseNavbar = !app.collapseNavbar;
     };
+
+    var loaderTimeout;
+    $scope.$on('$stateChangeStart', function () {
+        loaderTimeout = $timeout(function() {
+            NProgress.start();
+            NProgress.inc();
+        }, 250);
+    });
+    $scope.$on('$stateChangeSuccess', function () {
+        $timeout.cancel(loaderTimeout);
+        NProgress.done();
+    });
+    $scope.$on('$stateNotFound', function () {
+        $timeout.cancel(loaderTimeout);
+        NProgress.done();
+    });
 });

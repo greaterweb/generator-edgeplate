@@ -146,6 +146,7 @@ EdgeplateGenerator.prototype.filters = function filterFiles() {
 EdgeplateGenerator.prototype.services = function serviceFiles() {
     this.copy('public/scripts/services/edgePage.js', 'app/public/scripts/services/edgePage.js');
     this.copy('public/scripts/services/edgeResolver.js', 'app/public/scripts/services/edgeResolver.js');
+    this.copy('public/scripts/services/NProgress.js', 'app/public/scripts/services/NProgress.js');
 };
 
 EdgeplateGenerator.prototype.scripts = function scriptFiles() {
