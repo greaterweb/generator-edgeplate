@@ -95,7 +95,7 @@ PageGenerator.prototype.files = function files() {
             needle: '//- angular pages',
             spliceAfter: true,
             splicable: [
-                'li: a(href="#/' + this._.slugify(this.name) + '", ui-sref="' + this._.slugify(this.name) + '") ' + this.name
+                'li(ui-sref-active="active"): a(href="#/' + this._.slugify(this.name) + '", ui-sref="' + this._.slugify(this.name) + '") ' + this.name
             ]
         });
     }

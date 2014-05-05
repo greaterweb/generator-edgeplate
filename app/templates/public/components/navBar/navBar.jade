@@ -9,5 +9,5 @@ nav.navbar.navbar-default.navbar-fixed-top(role="navigation")
       a.navbar-brand(href="/", ui-sref="index") <%= appTitle %>
     .navbar-collapse(ng-class="{ 'collapse': app.collapseNavbar }")
       ul.nav.navbar-nav
-        li: a(href="/", ui-sref="index") Home
+        li(ui-sref-active="active"): a(href="/", ui-sref="index") Home
         //- angular pages
