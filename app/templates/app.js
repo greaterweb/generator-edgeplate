@@ -5,6 +5,8 @@ var fs = require('fs'),
     path = require('path'),
     http = require('http'),
     nopt = require('nopt'),
+    _ = require('underscore'),
+    ua = require('ua-parser'),
     loopback = require('loopback'),
     nodemailer = require('nodemailer');
 
@@ -32,10 +34,23 @@ var interfaces = 'localhost';
 var localDevelopment = false;
 var robotsView = '';
 var jadeEnvironment; // local || dev || www - this string available to jade templates on the server side
+
+//CHANGEME
 var mailOptions = {
     from: 'error.generation.bot@example.com',
     to: 'error.report@example.com'
 };
+
+//CHANGEME
+var smtpTransport = nodemailer.createTransport('SMTP', {
+    host: 'mail.example.com',
+    port: 587,
+    auth: {
+        user: 'error.generation.bot@example.com',
+        pass: 'smtp-password'
+    }
+});
+
 
 var sendEmail = function(err) {
     mailOptions.subject = err.split('\n')[0]; //first line of error
@@ -76,7 +91,6 @@ else { //else env is development
     jadeEnvironment = 'dev';
 }
 
-
 //if local development, then 0.0.0.0 so I can share between other virtual machines and emulators for testing
 if(localDevelopment) {
     interfaces = '0.0.0.0';
@@ -111,13 +125,56 @@ app.use(function removePoweredBy(req, res, next) {
     next();
 });
 
-//robots.txt
-app.get('/robots.txt', function(req, res) {
-    //automatically does text/plain content-type
-    res.sendfile(__dirname + '/views/' + robotsView);
+//---- all redirects come before other stuff that adds headers ----
+
+//possibly redirect if IE 9 - also get the path
+app.use(function detection(req, res, next) {
+    res.locals['_urlParts'] = null;
+    res.locals['_urlParts'] = req.path.match(/^\/(DEFAULT-ROUTE|SOME-ROUTE|ANOTHER-ROUTE)/); //these are the angular routes you want to maintain when adding them in angular
+    res.locals['_ua'] = ua.parse(req.headers['user-agent']);
+    res.locals['_ie9'] = false;
+
+    if(res.locals['_ua'].ua.family === 'IE' && res.locals['_ua'].ua.major == 9) {
+        res.locals['_ie9'] = true;
+    }
+    next();
 });
 
-//cache policy
+//if you want angular’s default route to not be '/', but something like '/DEFAULT-ROUTE', then use this function. Equivalent to the otherwise() of $routeProvider
+//app.use(function rootRedirect(req, res, next) {
+//    if(req.path === '/' && !res.locals['_ie9']) { //if going to '/', redirect to '/DEFAULT-ROUTE'
+//        res.redirect(302, sprintf('%s://%s/DEFAULT-ROUTE', req.protocol, req.get('Host')));
+//    }
+//    else {
+//        next();
+//    }
+//});
+
+//if going to something like '/SOME-ROUTE' and that’s an angular route being handled by a certain HTML file, serve that HTML page (which has the angular app that knows what to do with that route)
+app.use(function rewritten(req, res, next) {
+
+    //if it looks like an absolute path for the angular app
+    if(!_.isNull(res.locals['_urlParts'])) {
+
+        //if IE 9, redirect to the # version of this URL
+        if(res.locals['_ie9']) {
+            res.redirect(302, sprintf('%s://%s/#/%s', req.protocol, req.get('Host'), res.locals['_urlParts'][1]));
+        }
+        else if(localDevelopment) { //if local, this serves from .tmp
+            res.sendfile(path.resolve(__dirname + '/../.tmp/index.html'));
+        }
+        else { //if hosted on dev or production, this is a static file
+            res.sendfile(path.resolve(__dirname + '/public/index.html'));
+        }
+    }
+    else {
+        next();
+    }
+});
+
+
+
+//cache policy - comes after redirects - okay to modify headers at this point
 app.use(function cacheHeaders(req, res, next) {
     if(/\.html$/.test(req.url)) {
         res.header('Cache-Control', 'no-cache, no-store, must-revalidate');
@@ -130,6 +187,13 @@ app.use(function cacheHeaders(req, res, next) {
     }
     next();
 });
+
+//robots.txt
+app.get('/robots.txt', function(req, res) {
+    //automatically does text/plain content-type
+    res.sendfile(__dirname + '/views/' + robotsView);
+});
+
 
 app.use(app.router);
 
@@ -169,7 +233,7 @@ app.use(function logErrors(err, req, res, next) {
 
 //error in ajax
 app.use(function clientErrorHandler(err, req, res, next) {
-    if(req.xhr) {
+    if(req.xhr || req.accepts('application/json')) {
         res.send(500, { error: 'Something blew up!' });
     }
     else {

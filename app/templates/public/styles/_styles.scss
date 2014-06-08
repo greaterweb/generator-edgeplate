@@ -34,8 +34,22 @@ html.ie9 {
     }
 }
 
-//hard fail when either IE 8 and lower, or javascript disabled
-html.no-js, html.ie.lt9 {
+//by default, hide Firefox less than 4 messages
+html {
+    .firefoxlt4 {
+        @include manual-hide();
+    }
+}
+
+//if Firefox less than 4, show such messages
+html.firefoxlt4 {
+    .firefoxlt4 {
+        @include manual-show();
+    }
+}
+
+//hard fail when either IE 8 and lower, javascript disabled, or Firefox less than version 4
+html.no-js, html.ie.lt9, html.firefoxlt4 {
     .edge-app-view,
     nav,
     footer {

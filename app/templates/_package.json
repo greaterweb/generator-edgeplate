@@ -7,7 +7,9 @@
     "socket.io": "~0.9.16",
     "nopt": "~2.1.2",
     "nodemailer": "0.6.2",
-    "loopback": "~1.8.6"
+    "loopback": "~1.8.6",
+    "ua-parser": "0.3.3",
+    "underscore": "~1.6.0"
   },
   "devDependencies": {
     "grunt": "~0.4.1",

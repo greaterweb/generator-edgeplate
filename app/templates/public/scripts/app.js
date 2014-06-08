@@ -13,13 +13,13 @@ angular.module('edge.app.directives', []);
 
 // Declare app level module which depends on filters, and services
 angular.module('edge.app', ['ui.router', 'ngSanitize', 'ngAnimate', 'edge.app.controllers', 'edge.app.filters', 'edge.app.services', 'edge.app.directives'])
+    .config(function ($locationProvider) {
+        $locationProvider.html5Mode(false);
 
-    //.config(function ($locationProvider) {
-    //    // disabling html5 mode until pre and post
-    //    // config server options are implemented
-    //    // $locationProvider.html5Mode(true);
-    //    // $locationProvider.hashPrefix('!');
-    //})
+        if(angular.element('html').hasClass('hashchange') && angular.element('html').hasClass('history')) {
+            $locationProvider.html5Mode(true);
+        }
+    })
 
     // .run(function (edgeResolver) {
     //     // example adding app resolvers (runs once start of first state chane)
