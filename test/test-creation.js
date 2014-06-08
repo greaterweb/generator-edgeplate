@@ -36,6 +36,7 @@ describe('edgeplate generator', function () {
             'app/public/controllers/pages/Index/IndexResolver.js',
             'app/public/controllers/pages/Index/IndexView.jade',
             // services
+            'app/public/scripts/services/lbServices.js',
             'app/public/scripts/services/edgePage.js',
             'app/public/scripts/services/edgeResolver.js',
             'app/public/scripts/services/NProgress.js',
@@ -60,6 +61,8 @@ describe('edgeplate generator', function () {
             '.bowerrc',
             'bower.json',
             'package.json',
+            'datasources.json',
+            'models.json',
             '.jshintrc',
             '.editorconfig',
             '.gitignore',

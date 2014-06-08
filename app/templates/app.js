@@ -5,13 +5,11 @@ var fs = require('fs'),
     path = require('path'),
     http = require('http'),
     nopt = require('nopt'),
-    express = require('express'),
+    loopback = require('loopback'),
     nodemailer = require('nodemailer');
 
-var app = express(),
-    server = http.createServer(app);
+var app = module.exports = loopback();
 
-//var socketio;
 var baseURL;
 
 //FIXME
@@ -27,7 +25,7 @@ var options = nopt({
 
 var port = process.env.PORT || options.port || myPort,
     hostname = options.hostname || null,
-    baseURL = options.baseurl || '/',
+    baseUrl = options.baseurl || '/',
     appPath = path.resolve(__dirname + '/public');
 
 var interfaces = 'localhost';
@@ -85,21 +83,31 @@ if(localDevelopment) {
     jadeEnvironment = 'local';
 }
 
+/*
+ * Configure LoopBack models and datasources
+ *
+ * Read more at http://apidocs.strongloop.com/loopback#appbootoptions
+ */
+app.boot(__dirname + '/');
+
 //server side jade (for error pages now)
 app.set('views', __dirname + '/views');
 app.engine('jade', require('jade').__express);
 app.set('view engine', 'jade');
 
-app.use(express.logger('dev')); //as long as proxied through apache, apache handles the log files for analytics, so we can use express's dev logging for debugging
-app.use(express.compress()); //gzip, equivalent to apache's mod_deflate
-app.use(express.bodyParser());
-app.use(express.methodOverride());
-app.use(express.cookieParser('cookies-rock'));
-app.use(express.session());
+app.use(loopback.logger('dev')); //as long as proxied through apache, apache handles the log files for analytics, so we can use express's dev logging for debugging
+app.use(loopback.compress()); //gzip, equivalent to apache's mod_deflate
+app.use(loopback.cookieParser('cookies-rock'));
+app.use(loopback.token({model: app.models.accessToken}));
+app.use(loopback.bodyParser());
+app.use(loopback.methodOverride());
+
+// LoopBack REST interface
+app.use(baseUrl + 'api', loopback.rest());
 
 //remove this header that I don’t like
 app.use(function removePoweredBy(req, res, next) {
-    res.removeHeader("X-Powered-By");
+    res.removeHeader('X-Powered-By');
     next();
 });
 
@@ -112,24 +120,40 @@ app.get('/robots.txt', function(req, res) {
 //cache policy
 app.use(function cacheHeaders(req, res, next) {
     if(/\.html$/.test(req.url)) {
-        res.header("Cache-Control", "no-cache, no-store, must-revalidate");
-        res.header("Pragma", "no-cache");
-        res.header("Expires", 0);
+        res.header('Cache-Control', 'no-cache, no-store, must-revalidate');
+        res.header('Pragma', 'no-cache');
+        res.header('Expires', 0);
     }
     else if(/\.(js|css|png|jpe?g|gif|ico|eot|svg|ttf|woff)$/.test(req.url)) {
-        res.header("Cache-Control", "public");
-        res.header("Expires", 60*60*24*3);
+        res.header('Cache-Control', 'public');
+        res.header('Expires', 60*60*24*3);
     }
     next();
 });
 
 app.use(app.router);
-app.use(express.static(appPath));
 
 //only /.tmp directory on local development
 if(localDevelopment) {
-    app.use(express.static(__dirname + '/../.tmp'));
+    // Look in .tmp before appPath
+    app.use(baseUrl, loopback.static(__dirname + '/../.tmp'));
+    // Loopback Explorer
+    var explorer = require('loopback-explorer')(app);
+    app.use(baseUrl + 'explorer', explorer);
+    app.once('started', function(url) {
+        console.log('Browse your REST API at %s%s', url, explorer.route);
+    });
 }
+
+app.use(baseUrl, loopback.static(appPath));
+
+// Enable access control and token based authentication.
+// not really sure though what swaggerRemote is...
+var swaggerRemote = app.remotes().exports.swagger;
+if (swaggerRemote) {
+    swaggerRemote.requireToken = false;
+}
+app.enableAuth();
 
 //404 app.use comes last as it’s the catch all
 app.use(function fourOhFour(req, res) {
@@ -167,15 +191,26 @@ app.use(function displayError(err, req, res, next) {
     res.render('error500', {title:'500: Internal Server Error', error: err});
 });
 
-//socketio = require('socket.io').listen(server);
+/*
+ * 7. Optionally start the server
+ *
+ * (only if this module is the main module)
+ */
 
-// web sockets connection
-//socketio.sockets.on('connection', function (socket) {
-//});
+app.start = function() {
+    //var socketio = require('socket.io').listen(server);
+    // web sockets connection
+    //socketio.sockets.on('connection', function (socket) {
+    //});
 
-//listen on localhost only as apache will proxy when hosted or in local development mode which is localhost anyway!
-server.listen(port, interfaces, function () {
-    console.log('Express server started.');
-    console.log('Port: ' + port);
-    console.log('Env: ' + app.get('env'));
-});
+    //listen on localhost only as apache will proxy when hosted or in local development mode which is localhost anyway!
+    return app.listen(port, interfaces, function () {
+        console.log('Express server started.');
+        console.log('Port: ' + port);
+        console.log('Env: ' + app.get('env'));
+    });
+};
+
+if(require.main === module) {
+    app.start();
+}

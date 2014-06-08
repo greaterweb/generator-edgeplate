@@ -98,7 +98,7 @@ EdgeplateGenerator.prototype.app = function app() {
 
     this.copy('public/index.jade', 'app/public/index.jade');
 
-    this.mkdir('app/services/models');
+    this.mkdir('app/models');
 
     this.directory('views/', 'app/views/');
 
@@ -112,6 +112,9 @@ EdgeplateGenerator.prototype.app = function app() {
     this.copy('bowerrc', '.bowerrc');
     this.copy('_bower.json', 'bower.json');
     this.copy('excludes', '.excludes');
+
+    this.copy('datasources.json', 'datasources.json');
+    this.copy('models.json', 'models.json');
 
     this.copy('deploy.sh', 'deploy.sh');
     this.copy('favicon.sh', 'favicon.sh');
@@ -144,6 +147,7 @@ EdgeplateGenerator.prototype.filters = function filterFiles() {
 };
 
 EdgeplateGenerator.prototype.services = function serviceFiles() {
+    this.copy('public/scripts/services/lbServices.js', 'app/public/scripts/services/lbServices.js');
     this.copy('public/scripts/services/edgePage.js', 'app/public/scripts/services/edgePage.js');
     this.copy('public/scripts/services/edgeResolver.js', 'app/public/scripts/services/edgeResolver.js');
     this.copy('public/scripts/services/NProgress.js', 'app/public/scripts/services/NProgress.js');
