@@ -9,10 +9,18 @@ noscript
         //- add your logo
         //-img(src="images/logo.png")
 
+#firefoxlt4Fail.firefoxlt4.row.hidden-print
+  .col-md-12
+    .alert.alert-danger
+      //- NOTE: manually add translations as angular is not working at this point
+      p(lang="en", xml-lang="en")
+        span You are using an outdated version of Firefox.
+        span &nbsp;
+        a(href="http://getfirefox.com/") Upgrade your browser now.
 
 //- hard fail, need at least IE 9
 //if lt IE 9
-  #lessThanIE9Fail.row
+  #lessThanIE9Fail.row.hidden-print
     .col-md-12
       .alert.alert-danger
         //- NOTE: manually add translations as angular is not working at this point
@@ -32,7 +40,7 @@ noscript
       
 //- recommend they update, still works in IE 9
 //if IE 9
-  .row
+  #isIE9.row.hidden-print
     .col-md-12
       .alert.alert-warning
         p(lang="en", xml-lang="en")

@@ -12,7 +12,9 @@ if(Function('/*@cc_on return document.documentMode===10@*/')()){
 }
 /* jshint ignore:end */
 
+window.firefox = 'not-firefox';
 window.OSName = 'unknown-os';
+
 if(navigator.appVersion.indexOf('Win') !== -1) {
     window.OSName = 'windows';
 }
@@ -26,4 +28,21 @@ else if(navigator.appVersion.indexOf('X11') !== -1) {
     window.OSName = 'unix';
 }
 
-document.documentElement.className = document.documentElement.className + ' ' +  window.OSName;
+if((navigator.userAgent.indexOf('Firefox')) !== -1) {
+    var browserString = 'firefox';
+    var match = navigator.userAgent.match(/Firefox\/(\d+)(\.\d+(\.\d+)?)?/);
+    if(match !== null) {
+        var version = match[1];
+        browserString += ' firefox' + version;
+        if(version < 4) {
+            browserString += ' firefoxlt4';
+        }
+        else {
+            browserString += ' firefoxgte4';
+        }
+    }
+
+    window.firefox = browserString;
+}
+
+document.documentElement.className = document.documentElement.className + ' ' +  window.OSName + ' ' + window.firefox;
