@@ -149,7 +149,8 @@ module.exports = function (grunt) {
                 '<%= project.app %>/components/**/*.js',
                 '<%= project.app %>/controllers/**/*.js',
                 '<%= project.app %>/directives/**/*.js',
-                '<%= project.app %>/scripts/**/*.js'
+                '<%= project.app %>/scripts/**/*.js',
+                '!<%= project.app %>/scripts/services/lbServices.js'
             ]
         },
 
