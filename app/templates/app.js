@@ -12,18 +12,13 @@ var fs = require('fs'),
 
 var app = module.exports = loopback();
 
-var baseURL;
-
-//FIXME
-var options = nopt({
-    hostname: String,
-    port: Number,
-    baseurl: String
-},{
-    port: ['--port'],
-    hostname: ['--hostname'],
-    baseurl: ['--baseurl']
-}, process.argv, 2);
+var baseURL,
+    options = nopt({
+        hostname: String,
+        port: Number,
+        baseurl: String,
+        local: Boolean
+    }, {}, process.argv, 2);
 
 var port = process.env.PORT || options.port || myPort,
     hostname = options.hostname || null,
