@@ -67,6 +67,7 @@ describe('edgeplate generator', function () {
             '.editorconfig',
             '.gitignore',
             'Gruntfile.js',
+            'gulpfile.js',
             'README.md',
             'deploy.sh',
             'favicon.sh',
