@@ -44,7 +44,9 @@ var tasks = {
             path.join(config.app, 'components/**/*.js'),
             path.join(config.app, 'controllers/**/*.js'),
             path.join(config.app, 'directives/**/*.js'),
-            path.join(config.app, 'scripts/**/*.js')
+            path.join(config.app, 'scripts/**/*.js'),
+            // exclude loopback services file, it fails miserably
+            '!' + path.join(config.app, 'scripts/services/lbServices.js')
         ];
         return gulp.src(glob)
             .pipe($.jshint('.jshintrc'))
