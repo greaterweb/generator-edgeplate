@@ -3,7 +3,7 @@
 var myPort = 3000;
 var fs = require('fs'),
     path = require('path'),
-    http = require('http'),
+    util = require('util'),
     nopt = require('nopt'),
     _ = require('underscore'),
     ua = require('ua-parser'),
@@ -12,8 +12,7 @@ var fs = require('fs'),
 
 var app = module.exports = loopback();
 
-var baseURL,
-    options = nopt({
+var options = nopt({
         hostname: String,
         port: Number,
         baseurl: String,
@@ -21,7 +20,8 @@ var baseURL,
     }, {}, process.argv, 2);
 
 var port = process.env.PORT || options.port || myPort,
-    hostname = options.hostname || null,
+    // TODO: resolve hostname variable vs. interfaces variable
+    // hostname = options.hostname || null,
     baseUrl = options.baseurl || '/',
     appPath = path.resolve(__dirname + '/public');
 
@@ -124,13 +124,13 @@ app.use(function removePoweredBy(req, res, next) {
 
 //possibly redirect if IE 9 - also get the path
 app.use(function detection(req, res, next) {
-    res.locals['_urlParts'] = null;
-    res.locals['_urlParts'] = req.path.match(/^\/(DEFAULT-ROUTE|SOME-ROUTE|ANOTHER-ROUTE)/); //these are the angular routes you want to maintain when adding them in angular
-    res.locals['_ua'] = ua.parse(req.headers['user-agent']);
-    res.locals['_ie9'] = false;
+    res.locals._urlParts = null;
+    res.locals._urlParts = req.path.match(/^\/(DEFAULT-ROUTE|SOME-ROUTE|ANOTHER-ROUTE)/); //these are the angular routes you want to maintain when adding them in angular
+    res.locals._ua = ua.parse(req.headers['user-agent']);
+    res.locals._ie9 = false;
 
-    if(res.locals['_ua'].ua.family === 'IE' && res.locals['_ua'].ua.major == 9) {
-        res.locals['_ie9'] = true;
+    if(res.locals._ua.ua.family === 'IE' && res.locals._ua.ua.major === 9) {
+        res.locals._ie9 = true;
     }
     next();
 });
@@ -138,7 +138,7 @@ app.use(function detection(req, res, next) {
 //if you want angular’s default route to not be '/', but something like '/DEFAULT-ROUTE', then use this function. Equivalent to the otherwise() of $routeProvider
 //app.use(function rootRedirect(req, res, next) {
 //    if(req.path === '/' && !res.locals['_ie9']) { //if going to '/', redirect to '/DEFAULT-ROUTE'
-//        res.redirect(302, sprintf('%s://%s/DEFAULT-ROUTE', req.protocol, req.get('Host')));
+//        res.redirect(302, util.format('%s://%s/DEFAULT-ROUTE', req.protocol, req.get('Host')));
 //    }
 //    else {
 //        next();
@@ -149,11 +149,11 @@ app.use(function detection(req, res, next) {
 app.use(function rewritten(req, res, next) {
 
     //if it looks like an absolute path for the angular app
-    if(!_.isNull(res.locals['_urlParts'])) {
+    if(!_.isNull(res.locals._urlParts)) {
 
         //if IE 9, redirect to the # version of this URL
-        if(res.locals['_ie9']) {
-            res.redirect(302, sprintf('%s://%s/#/%s', req.protocol, req.get('Host'), res.locals['_urlParts'][1]));
+        if(res.locals._ie9) {
+            res.redirect(302, util.format('%s://%s/#/%s', req.protocol, req.get('Host'), res.locals._urlParts[1]));
         }
         else if(localDevelopment) { //if local, this serves from .tmp
             res.sendfile(path.resolve(__dirname + '/../.tmp/index.html'));
@@ -245,7 +245,7 @@ app.use(function emailError(err, req, res, next) {
     next(err);
 });
 
-app.use(function displayError(err, req, res, next) {
+app.use(function displayError(err, req, res) {
     res.status(500);
     res.render('error500', {title:'500: Internal Server Error', error: err});
 });
