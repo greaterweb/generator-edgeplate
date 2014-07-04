@@ -16,7 +16,7 @@ angular.module('edge.app', ['ui.router', 'ngSanitize', 'ngAnimate', 'edge.app.co
     .config(function ($locationProvider) {
         $locationProvider.html5Mode(false);
 
-        if(angular.element('html').hasClass('hashchange') && angular.element('html').hasClass('history')) {
+        if(angular.element('html').hasClass('hashchange') && angular.element('html').hasClass('history') && window.ENV !== 'cordova') {
             $locationProvider.html5Mode(true);
         }
     })

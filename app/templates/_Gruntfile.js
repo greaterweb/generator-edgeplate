@@ -22,6 +22,7 @@ module.exports = function (grunt) {
             test: path.resolve('test/'),
             server: '<%= project.src %>/app.js',
             buildTarget: 'dev',
+            cordova: path.resolve('cordova/www/'),
             today: new Date(),
             version: '0.0'
         },
@@ -68,6 +69,13 @@ module.exports = function (grunt) {
                 }
             },
             www: {
+                options: {
+                    compress: {
+                        drop_debugger: true
+                    }
+                }
+            },
+            cordova: {
                 options: {
                     compress: {
                         drop_debugger: true
@@ -133,6 +141,12 @@ module.exports = function (grunt) {
             server: {
                 src: [
                     '<%= project.temp %>/*'
+                ]
+            },
+            cordova: {
+                src: [
+                    '<%= project.cordova %>/*',
+                    '!<%= project.cordova %>/config.xml'
                 ]
             }
         },
@@ -212,6 +226,16 @@ module.exports = function (grunt) {
                     ]
                 }]
             },
+            cordova: {
+                files: [{
+                    expand: true,
+                    cwd: '<%= project.dist %>/<%= project.dir %>',
+                    dest: '<%= project.cordova %>',
+                    src: [
+                        '**/*'
+                    ]
+                }]
+            },
             postJade: {
                 files: [{
                     expand: true,
@@ -245,6 +269,14 @@ module.exports = function (grunt) {
                 }
             },
             www: {
+                options: {
+                    style: 'compressed'
+                },
+                files: {
+                    '<%= project.dist %>/<%= project.dir %>/styles/app.css': '<%= project.app %>/styles/app.scss'
+                }
+            },
+            cordova: {
                 options: {
                     style: 'compressed'
                 },
@@ -325,6 +357,29 @@ module.exports = function (grunt) {
                     ]
                 }]
             },
+            cordova: {
+                options: {
+                    pretty: true,
+                    data: {
+                        debug: false,
+                        ENV: 'cordova',
+                        GIT_REVISION: '<%= project.revision %>',
+                        VERSION: '<%= project.version %>',
+                        DATE_STAMP: '<%= project.today.toString() %>',
+                        YEAR: '<%= project.today.getFullYear() %>'
+                    }
+                },
+                files: [{
+                    expand: true,
+                    cwd: '<%= project.src %>',
+                    dest: '<%= project.temp %>',
+                    ext: '.html',
+                    src: [
+                        '<%= project.dir %>/**/*.jade',
+                        '!<%= project.dir %>/**/_*.jade'
+                    ]
+                }]
+            },
             // 2 dist tasks needed as the usemin task breaks when
             // the jade templates are minified to a single line
             dist: {
@@ -365,6 +420,10 @@ module.exports = function (grunt) {
         },
 
         ngmin: {
+            cordova: {
+                src: '<%= project.app %>/scripts/cordova.js',
+                dest: '<%= project.temp %>/scripts/cordova.js'
+            },
             app: {
                 src: '<%= project.app %>/scripts/app.js',
                 dest: '<%= project.temp %>/scripts/app.js'
@@ -460,6 +519,18 @@ module.exports = function (grunt) {
             'sass:' + target,
             'usebanner' //add banner after everything else is done to js, css
         ]);
+
+        if(target === 'cordova') {
+            grunt.task.run([
+                'clean:cordova',
+                'copy:cordova'
+            ]);
+        }
     });
+
+    grunt.registerTask('cordova', [
+        'clean:cordova',
+        'copy:cordova'
+    ]);
 
 };
