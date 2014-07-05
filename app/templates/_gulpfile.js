@@ -16,6 +16,8 @@ var shell = require('shelljs');
 
 var gitRevision = shell.exec('git rev-parse --short HEAD', { silent:true }).output;
 
+var environments = ['dev', 'www'];
+
 var config = {
     pub: 'public',
     pkg: require('./package.json'),
@@ -211,21 +213,13 @@ gulp.task('jshint', tasks.jshint);
 var taskList = Object.keys(tasks);
 
 taskList.forEach(function (taskName) {
-    gulp.task(taskName, [taskName + ':dev']);
-    gulp.task(taskName + ':dev', function() {
-        config.buildTarget = 'dev';
-        return tasks[taskName]('dist');
-    });
-    gulp.task(taskName + ':www', function() {
-        config.buildTarget = 'www';
-        return tasks[taskName]('dist');
-    });
-    gulp.task(taskName + ':pub', function() {
-        config.buildTarget = 'pub';
-        return tasks[taskName]('dist');
-    });
-    gulp.task(taskName + ':tmp', function() {
-        return tasks[taskName]('tmp');
+    // use first environment as default task, should be dev
+    gulp.task(taskName, [taskName + ':' + environments[0]]);
+    environments.forEach(function (environment) {
+        gulp.task(taskName + ':' + environment, function() {
+            config.buildTarget = environment;
+            return tasks[taskName]('dist');
+        });
     });
 });
 
