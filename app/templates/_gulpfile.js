@@ -11,6 +11,10 @@ var openApp = require('open');
 var path = require('path');
 var Q = require('q');
 
+var shell = require('shelljs');
+
+var gitRevision = shell.exec('git rev-parse --short HEAD', { silent:true }).output;
+
 var config = {
     pub: 'public',
     pkg: require('./package.json'),
@@ -24,8 +28,13 @@ var config = {
     server: path.resolve('app', 'app.js'),
     hostname: 'localhost',
     port: 3000,
-    baseUrl: '/'
+    baseUrl: '/',
+    revision: (gitRevision.indexOf('fatal') > -1)?null:gitRevision
 };
+
+if (!config.revision) {
+    $.util.log($.util.colors.yellow('Git repository missing.'), 'Consider running', $.util.colors.cyan('git init'));
+}
 
 var tasks = {
     clean: function (taskTarget) {
