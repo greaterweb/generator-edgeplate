@@ -327,6 +327,19 @@ gulp.task('server', function() {
                 }));
         });
 
+        var livereloadGlob = [
+            path.join(config.app, 'images/**/*.{gif,png,jpg,jpeg}'),
+            path.join(config.app, 'styles/images/**/*.{gif,png,jpg,jpeg}'),
+            path.join(config.app, 'components/**/*.js'),
+            path.join(config.app, 'controllers/**/*.js'),
+            path.join(config.app, 'directives/**/*.js'),
+            path.join(config.app, 'scripts/**/*.js')
+        ];
+        gulp.watch(livereloadGlob, function (file) {
+            $.util.log('File updated', $.util.colors.magenta(file.path));
+            server.changed(file.path);
+        });
+
         nodemon({
             script: config.server,
             args: [
@@ -337,8 +350,8 @@ gulp.task('server', function() {
             ],
             stdout: false,
             watch: [
-                config.src,
-                '!' + config.app
+                config.server,
+                config.models
             ]
         })
             .once('start', function () {
