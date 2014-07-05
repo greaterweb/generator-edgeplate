@@ -375,40 +375,44 @@ environments.forEach(function (environment) {
         // TODO: check dist source is present before proceeding
         var destPath = path.join('/www', config.pkg.name, environment);
 
+        // TODO: save each command to a local variable and dump in error output if exit code is not 0
         // stop the node service
         $.util.log('Preparing to stop node service...');
-        shell.exec('ssh ' + config.pkg.edgeplate.host + ' "mkdir -pv ' + destPath + '; /usr/local/bin/node-ctrl.sh ' + destPath + '/app.js ' + deployPort + ' stop; exit" ',
-            { silent: true },
-            function(code
-                if (code === 0) {
-                    $.util.log('Server successfully stopped...');
-                } else {
-                    $.util.log($.util.colors.yellow('Problem stopping server, please check status manually...'));
-                }
+        var stopNode = shell.exec('ssh ' + config.pkg.edgeplate.host + ' "mkdir -pv ' + destPath + '; /usr/local/bin/node-ctrl.sh ' + destPath + '/app.js ' + deployPort + ' stop; exit" ',
+            {
+                silent: true
             });
+
+        if (stopNode.code === 0) {
+            $.util.log('Server successfully stopped...');
+        } else {
+            return $.util.log($.util.colors.yellow('Problem stopping server, please check status manually...'));
+        }
 
         // rsync dist directory
         $.util.log('Preparing to sync local files to remote server...');
-        shell.exec('rsync -avz --delete-excluded --exclude-from=.excludes dist/' + environment + '/ package.json -e ssh ' + config.pkg.edgeplate.host + ':' + destPath +';',
-            { silent: true },
-            function(code) {
-                if (code === 0) {
-                    $.util.log('Files successfully synced...');
-                } else {
-                    $.util.log($.util.colors.yellow('Problem syncing files, please check command manually...'));
-                }
+        var rsyncFiles = shell.exec('rsync -avz --delete-excluded --exclude-from=.excludes dist/' + environment + '/ package.json -e ssh ' + config.pkg.edgeplate.host + ':' + destPath +';',
+            {
+                silent: true
             });
 
+        if (rsyncFiles.code === 0) {
+            $.util.log('Files successfully synced...');
+        } else {
+            return $.util.log($.util.colors.yellow('Problem syncing files, please check command manually...'));
+        }
+
         // start the node service
-        $.util.log('Preparing to start node service...');
-        shell.exec('ssh ' + config.pkg.edgeplate.host + ' "cd ' + destPath + ' && npm install --production; /usr/local/bin/node-ctrl.sh ' + destPath + '/app.js ' + deployPort + ' start; exit" ',
-            { silent: true },
-            function(code) {
-                if (code === 0) {
-                    $.util.log('Server successfully started...');
-                } else {
-                    $.util.log($.util.colors.yellow('Problem starting server, please check status manually...'));
-                }
+        $.util.log('Preparing to install dependencies start node service...');
+        var startNode = shell.exec('ssh ' + config.pkg.edgeplate.host + ' "cd ' + destPath + ' && npm install --production; /usr/local/bin/node-ctrl.sh ' + destPath + '/app.js ' + deployPort + ' start; exit" ',
+            {
+                silent: true
             });
+
+        if (startNode.code === 0) {
+            $.util.log('Dependencies installed and server successfully started...');
+        } else {
+            return $.util.log($.util.colors.yellow('Problem installing dependencies and starting server, please check status manually...'));
+        }
     });
 });
