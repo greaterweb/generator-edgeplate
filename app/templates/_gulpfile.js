@@ -213,8 +213,9 @@ gulp.task('jshint', tasks.jshint);
 var taskList = Object.keys(tasks);
 
 taskList.forEach(function (taskName) {
-    // use first environment as default task, should be dev
-    gulp.task(taskName, [taskName + ':' + environments[0]]);
+    gulp.task(taskName, function() {
+        return tasks[taskName]();
+    });
     environments.forEach(function (environment) {
         gulp.task(taskName + ':' + environment, function() {
             config.buildTarget = environment;
@@ -292,22 +293,13 @@ function startServer () {
 
 // Gulp Tasks
 
-// allias for build:dev task
-gulp.task('build', ['build:dev']);
-
-gulp.task('build:dev', function() {
-    config.buildTarget = 'dev';
-    return buildProject('dev');
-});
-
-gulp.task('build:www', function() {
-    config.buildTarget = 'www';
-    return buildProject('www');
-});
-
-gulp.task('build:prod', function() {
-    config.buildTarget = 'prod';
-    return buildProject('prod');
+// use first environment as default build alias, should be dev
+gulp.task('build', ['build:' + environments[0]]);
+environments.forEach(function (environment) {
+    gulp.task('build:' + environment, function() {
+        config.buildTarget = environment;
+        return buildProject(environment);
+    });
 });
 
 gulp.task('server', function() {
