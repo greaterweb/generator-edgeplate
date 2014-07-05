@@ -186,7 +186,7 @@ var tasks = {
         var dest = (taskTarget === 'dist')?path.join(config.dist, config.buildTarget, config.pub):config.temp;
         var banner = [
             '/**',
-            ' * <%= pkg.name %> - <%= pkg.description %>',
+            ' * <%= pkg.title %> - <%= pkg.description %>',
             ' * @version v<%= pkg.version %>',
             ' * @link <%= pkg.homepage %>',
             ' * @license <%= pkg.license %>',
