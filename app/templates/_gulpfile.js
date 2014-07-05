@@ -86,9 +86,10 @@ var tasks = {
             // .pipe($.changed(dest, { extension: '.css' }))
             .pipe($.rubySass({
                 sourcemap: true,
-                style: (taskTarget === 'dist')?'compressed':'expanded',
+                style: (taskTarget === 'dist' && config.buildTarget !== 'dev')?'compressed':'expanded',
                 precision: 10,
-                lineNumbers: (taskTarget === 'dist')?false:true
+                lineNumbers: (taskTarget === 'dist')?false:true,
+                debugInfo: (taskTarget === 'dist')?false:true
             }))
             .pipe(gulp.dest(dest));
     },
