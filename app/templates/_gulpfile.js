@@ -42,7 +42,10 @@ if (!config.revision) {
 
 var tasks = {
     clean: function (taskTarget) {
-        var glob = (taskTarget === 'dist')?path.join(config.dist, config.buildTarget):config.temp;
+        var glob = [config.temp];
+        if (taskTarget === 'dist') {
+            glob.push(path.join(config.dist, config.buildTarget));
+        }
         $.util.log('Cleaning ', $.util.colors.magenta(glob));
         return gulp.src(glob, { read: false })
             .pipe($.rimraf({ force: true }));
