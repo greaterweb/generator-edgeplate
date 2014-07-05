@@ -10,6 +10,7 @@ var openApp = require('open');
 
 var path = require('path');
 var Q = require('q');
+var strftime = require('strftime');
 
 var shell = require('shelljs');
 
@@ -153,6 +154,33 @@ var tasks = {
         var dest = (taskTarget === 'dist')?path.join(config.dist, config.buildTarget):config.temp;
         return gulp.src(glob)
             .pipe(gulp.dest(dest));
+    },
+    addBanner: function (taskTarget) {
+        $.util.log('Add debug header to files...');
+        var glob = [
+            path.join(config.dist, config.buildTarget, config.pub, '**/*.css'),
+            path.join(config.dist, config.buildTarget, config.pub, '**/*.js')
+        ];
+        var dest = (taskTarget === 'dist')?path.join(config.dist, config.buildTarget, config.pub):config.temp;
+        var banner = [
+            '/**',
+            ' * <%= pkg.name %> - <%= pkg.description %>',
+            ' * @version v<%= pkg.version %>',
+            ' * @link <%= pkg.homepage %>',
+            ' * @license <%= pkg.license %>',
+            ' * @revision <%= revision %>',
+            ' * @build <%= build %>',
+            ' */',
+            ''
+        ].join('\n');
+
+        return gulp.src(glob)
+            .pipe($.header(banner, {
+                pkg : config.pkg,
+                revision: config.revision,
+                build: strftime('%B %d, %Y %H:%M:%S', new Date(config.today))
+            }))
+            .pipe(gulp.dest(dest));
     }
 };
 
@@ -160,16 +188,8 @@ var tasks = {
 gulp.task('jshint', tasks.jshint);
 
 // taskify individual build and server tasks
-var taskList = [
-    'clean',
-    'sass',
-    'jade',
-    'image',
-    'usemin',
-    'copyAssets',
-    'copyServer',
-    'copyPackage'
-];
+var taskList = Object.keys(tasks);
+
 taskList.forEach(function (taskName) {
     gulp.task(taskName, [taskName + ':dev']);
     gulp.task(taskName + ':dev', function() {
@@ -201,7 +221,8 @@ function buildProject () {
         'usemin',
         'copyAssets',
         'copyServer',
-        'copyPackage'
+        'copyPackage',
+        'addBanner'
     ];
     var queue = new Q();
     taskList.forEach(function (task) {
