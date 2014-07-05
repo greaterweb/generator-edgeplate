@@ -99,14 +99,19 @@ var tasks = {
         var dest = (taskTarget === 'dist')?path.join(config.dist, config.buildTarget, config.pub):config.temp;
         var LOCALS = {
             DEBUG: (taskTarget === 'dist')?false:true,
-            LOCAL: (taskTarget === 'dist')?false:true
+            LOCAL: (taskTarget === 'dist')?false:true,
+            ENV: (taskTarget === 'server')?'local':config.buildTarget,
+            GIT_REVISION: config.revision,
+            VERSION: 'v' + config.pkg.version,
+            DATE_STAMP: strftime('%B %d, %Y %H:%M:%S', new Date(config.today)),
+            YEAR: new Date(config.today).getFullYear()
         };
         return gulp.src(glob)
             // as the jade files are not 1-to-1 this doesn't work as expected
             // .pipe($.changed(dest, { extension: '.html' }))
             .pipe($.jade({
                 locals: LOCALS,
-                pretty: (taskTarget === 'dist')?false:true
+                pretty: (taskTarget === 'dist' && config.buildTarget !== 'dev')?false:true
             }))
             .pipe(gulp.dest(dest));
     },
