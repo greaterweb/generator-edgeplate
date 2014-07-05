@@ -60,13 +60,13 @@
     "node": ">=0.8.0"
   },
   "edgeplate": {
-    "generator": "<%= version %>"
-  },
-  "host": "<%= hostDomain %>",
-  "baseDomain": "<%= baseDomain %>",
-  "ports": {
-    "dev": "<%= devPort %>",
-    "www": "<%= wwwPort %>",
-    "ssh": "<%= sshPort %>"
+    "generator": "v<%= version %>",
+    "host": "<%= hostDomain %>",
+    "domain": "<%= baseDomain %>",
+    "ports": {
+      "dev": "<%= devPort %>",
+      "www": "<%= wwwPort %>",
+      "ssh": "<%= sshPort %>"
+    }
   }
 }
