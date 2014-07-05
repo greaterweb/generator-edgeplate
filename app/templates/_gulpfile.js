@@ -8,8 +8,8 @@ var $ = require('gulp-load-plugins')();
 var nodemon = require('nodemon');
 var openApp = require('open');
 
-var path = require('path'),
-    Q = require('q');
+var path = require('path');
+var Q = require('q');
 
 var config = {
     pub: 'public',
