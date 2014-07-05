@@ -72,7 +72,7 @@ if(!fs.existsSync(packageJson)) { //when developing locally package.json is in t
 }
 
 //read package.json for configuration parameters
-var wwwConfigPort = JSON.parse(fs.readFileSync(packageJson)).ports.www;
+var wwwConfigPort = JSON.parse(fs.readFileSync(packageJson)).edgeplate.ports.www;
 
 //if current port === www's port then env is production
 if(port === +wwwConfigPort) {
