@@ -65,6 +65,15 @@ var tasks = {
             .pipe($.jshint('.jshintrc'))
             .pipe($.jshint.reporter('jshint-stylish'));
     },
+    jsonlint: function () {
+        $.util.log('Linting JSON files...');
+        var glob = [
+            '*.json'
+        ];
+        return gulp.src(glob)
+            .pipe($.jsonlint())
+            .pipe($.jsonlint.reporter());
+    },
     sass: function (taskTarget) {
         $.util.log('Compiling SASS files...');
         var glob = path.join(config.app, 'styles/app.scss');
@@ -215,6 +224,7 @@ function buildProject () {
     var taskList = [
         'clean',
         'jshint',
+        'jsonlint',
         'sass',
         'jade',
         'image',
@@ -251,6 +261,7 @@ function startServer () {
     var taskList = [
         'clean',
         'jshint',
+        'jsonlint',
         'sass',
         'jade'
     ];
