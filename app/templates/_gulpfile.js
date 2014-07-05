@@ -139,7 +139,8 @@ var tasks = {
             // copy gif files manually as they are not compressed
             path.join(config.app, 'images/**/*.gif'),
             path.join(config.app, 'styles/**/*.gif'),
-            path.join(config.app, 'styles/fonts/**/*')
+            path.join(config.app, 'styles/fonts/**/*'),
+            path.join(config.app, 'favicon.ico')
         ];
         var dest = (taskTarget === 'dist')?path.join(config.dist, config.buildTarget, config.pub):config.temp;
         return gulp.src(glob, { base: config.app })
@@ -153,7 +154,8 @@ var tasks = {
             path.join(config.src, 'app.js'),
             path.join(config.src, 'app.json'),
             path.join(config.src, 'datasources.json'),
-            path.join(config.src, 'models.json')
+            path.join(config.src, 'models.json'),
+            path.join(config.src, 'views/**/*')
         ];
         var dest = (taskTarget === 'dist')?path.join(config.dist, config.buildTarget):config.temp;
         return gulp.src(glob, { base: config.src })
