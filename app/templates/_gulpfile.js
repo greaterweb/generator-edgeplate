@@ -362,3 +362,53 @@ gulp.task('server', function() {
             });
     });
 });
+
+
+// use first environment as default build alias, should be dev
+gulp.task('deploy', ['deploy:' + environments[0]]);
+environments.forEach(function (environment) {
+    gulp.task('deploy:' + environment, function() {
+        var deployPort = config.pkg.edgeplate.ports[environment];
+        if (!deployPort) {
+            return $.util.log($.util.colors.yellow('Port not configured for'), $.util.colors.yellow(environment), $.util.colors.yellow('environment'));
+        }
+        // TODO: check dist source is present before proceeding
+        var destPath = path.join('/www', config.pkg.name, environment);
+
+        // stop the node service
+        $.util.log('Preparing to stop node service...');
+        shell.exec('ssh ' + config.pkg.edgeplate.host + ' "mkdir -pv ' + destPath + '; /usr/local/bin/node-ctrl.sh ' + destPath + '/app.js ' + deployPort + ' stop; exit" ',
+            { silent: true },
+            function(code
+                if (code === 0) {
+                    $.util.log('Server successfully stopped...');
+                } else {
+                    $.util.log($.util.colors.yellow('Problem stopping server, please check status manually...'));
+                }
+            });
+
+        // rsync dist directory
+        $.util.log('Preparing to sync local files to remote server...');
+        shell.exec('rsync -avz --delete-excluded --exclude-from=.excludes dist/' + environment + '/ package.json -e ssh ' + config.pkg.edgeplate.host + ':' + destPath +';',
+            { silent: true },
+            function(code) {
+                if (code === 0) {
+                    $.util.log('Files successfully synced...');
+                } else {
+                    $.util.log($.util.colors.yellow('Problem syncing files, please check command manually...'));
+                }
+            });
+
+        // start the node service
+        $.util.log('Preparing to start node service...');
+        shell.exec('ssh ' + config.pkg.edgeplate.host + ' "cd ' + destPath + ' && npm install --production; /usr/local/bin/node-ctrl.sh ' + destPath + '/app.js ' + deployPort + ' start; exit" ',
+            { silent: true },
+            function(code) {
+                if (code === 0) {
+                    $.util.log('Server successfully started...');
+                } else {
+                    $.util.log($.util.colors.yellow('Problem starting server, please check status manually...'));
+                }
+            });
+    });
+});
