@@ -22,6 +22,7 @@ var config = {
     app: path.resolve('app', 'public'),
     models: path.resolve('app', 'models'),
     dist: path.resolve('dist'),
+    cordova: path.resolve('cordova/www/'),
     buildTarget: 'dev', // ['dev', 'www', 'pub']
     temp: path.resolve('.tmp'),
     test: path.resolve('test'),
@@ -29,7 +30,9 @@ var config = {
     hostname: 'localhost',
     port: 3000,
     baseUrl: '/',
-    revision: (gitRevision.indexOf('fatal') > -1)?null:gitRevision
+    today: Date.now(),
+    revision: (gitRevision.indexOf('fatal') > -1)?null:gitRevision.replace(/(\r\n|\n|\r)/gm, ''),
+    version: require('./package.json').version
 };
 
 if (!config.revision) {
