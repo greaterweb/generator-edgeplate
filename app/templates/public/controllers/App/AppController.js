@@ -27,6 +27,9 @@ angular.module('edge.app.controllers').controller('AppController', function (edg
 
     var loaderTimeout;
     $scope.$on('$stateChangeStart', function () {
+        if(loaderTimeout) {
+            $timeout.cancel(loaderTimeout);
+        }
         loaderTimeout = $timeout(function() {
             NProgress.start();
             NProgress.inc();
