@@ -390,6 +390,7 @@ environments.forEach(function (environment) {
                     $.util.log('Complete:', $.util.colors.cyan(task.name));
                 } else {
                     runTasks = false;
+                    $.util.beep();
                     return $.util.log($.util.colors.yellow('Command failed:', task.command));
                 }
             }
