@@ -206,9 +206,6 @@ var tasks = {
     }
 };
 
-// make individual tasks available
-gulp.task('jshint', tasks.jshint);
-
 // taskify individual build and server tasks
 var taskList = Object.keys(tasks);
 
