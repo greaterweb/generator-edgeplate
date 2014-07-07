@@ -2,17 +2,15 @@
 
 var gulp = require('gulp');
 
-// load plugins
-var $ = require('gulp-load-plugins')();
-
-var nodemon = require('nodemon');
-var openApp = require('open');
-
 var path = require('path');
+
 var Q = require('q');
+var openApp = require('open');
+var shell = require('shelljs');
+var nodemon = require('nodemon');
 var strftime = require('strftime');
 
-var shell = require('shelljs');
+var $ = require('gulp-load-plugins')();
 
 var gitRevision = shell.exec('git rev-parse --short HEAD', { silent:true }).output;
 
@@ -359,7 +357,6 @@ gulp.task('server', function() {
             });
     });
 });
-
 
 // use first environment as default build alias, should be dev
 gulp.task('deploy', ['deploy:' + environments[0]]);
