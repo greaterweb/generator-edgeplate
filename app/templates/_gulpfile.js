@@ -361,6 +361,9 @@ gulp.task('server', function() {
                     openApp('http://' + config.hostname + ':' + config.port + config.baseUrl);
                 }, 1000);
             })
+            .once('exit', function () {
+                deferred.resolve();
+            })
             .on('stdout', function (msg) {
                 $.util.log('Server:', $.util.colors.magenta(msg));
             });
