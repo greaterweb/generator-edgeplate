@@ -303,7 +303,10 @@ environments.forEach(function (environment) {
     });
 });
 
+// serve alias for server
+gulp.task('serve', ['server']);
 gulp.task('server', function() {
+    var deferred = Q.defer();
     startServer().then(function () {
         var server = $.livereload();
         $.util.log('Starting local server...');
@@ -362,6 +365,7 @@ gulp.task('server', function() {
                 $.util.log('Server:', $.util.colors.magenta(msg));
             });
     });
+    return deferred.promise;
 });
 
 gulp.task('config.sh', function () {
