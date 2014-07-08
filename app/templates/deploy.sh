@@ -24,7 +24,7 @@ DST_PATH="/www/$DIR/$1"
 ssh $HOST "mkdir -pv $DST_PATH; /usr/local/bin/node-ctrl.sh $DST_PATH/app.js $PORT stop; exit" ;
 
 #rsync
-rsync -avz --delete-excluded --exclude-from=.excludes dist/ package.json -e ssh $HOST:$DST_PATH ;
+rsync -avz --delete-excluded --exclude-from=.excludes dist/$1/ package.json -e ssh $HOST:$DST_PATH ;
 
 #start the node service
 ssh $HOST "cd $DST_PATH && npm install --production; /usr/local/bin/node-ctrl.sh $DST_PATH/app.js $PORT start; exit" ;
