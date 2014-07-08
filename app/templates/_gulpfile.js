@@ -41,6 +41,8 @@ if (!config.revision) {
     $.util.log($.util.colors.yellow('Git repository missing.'), 'Consider running', $.util.colors.cyan('git init'));
 }
 
+// task names with underscore (_) prefix will be treated as private
+// they will not be exposed as gulp tasks a user can directly run
 var tasks = {
     clean: function (isBuild) {
         var glob = [config.temp];
@@ -127,7 +129,7 @@ var tasks = {
             .pipe($.imagemin())
             .pipe(gulp.dest(dest));
     },
-    usemin: function (isBuild) {
+    _usemin: function (isBuild) {
         $.util.log('Processing usemin js blocks in HTML files...');
         var glob = path.join(config.dist, config.buildEnvironment, config.pub, '*.html');
         var dest = (isBuild)?path.join(config.dist, config.buildEnvironment, config.pub):config.temp;
@@ -139,7 +141,7 @@ var tasks = {
             }))
             .pipe(gulp.dest(dest));
     },
-    copyAssets: function (isBuild) {
+    _copyAssets: function (isBuild) {
         $.util.log('Copying front end assets into build destination...');
         // copy all assets relative to config.app
         var glob = [
@@ -153,7 +155,7 @@ var tasks = {
         return gulp.src(glob, { base: config.app })
             .pipe(gulp.dest(dest));
     },
-    copyServer: function (isBuild) {
+    _copyServer: function (isBuild) {
         $.util.log('Copying node assets into build destination...');
         // copy all assets relative to config.src
         var glob = [
@@ -168,7 +170,7 @@ var tasks = {
         return gulp.src(glob, { base: config.src })
             .pipe(gulp.dest(dest));
     },
-    copyPackage: function (isBuild) {
+    _copyPackage: function (isBuild) {
         $.util.log('Copying package.json into build destination...');
         // copy all assets relative to root
         var glob = 'package.json';
@@ -176,7 +178,7 @@ var tasks = {
         return gulp.src(glob)
             .pipe(gulp.dest(dest));
     },
-    addBanner: function (isBuild) {
+    _addBanner: function (isBuild) {
         $.util.log('Add debug header to files...');
         var glob = [
             path.join(config.dist, config.buildEnvironment, config.pub, '**/*.css'),
@@ -209,6 +211,9 @@ var tasks = {
 var taskList = Object.keys(tasks);
 
 taskList.forEach(function (taskName) {
+    if (taskName.indexOf('_') === 0) {
+        return;
+    }
     gulp.task(taskName, function() {
         return tasks[taskName]();
     });
@@ -230,11 +235,11 @@ function buildProject () {
         'sass',
         'jade',
         'image',
-        'usemin',
-        'copyAssets',
-        'copyServer',
-        'copyPackage',
-        'addBanner'
+        '_usemin',
+        '_copyAssets',
+        '_copyServer',
+        '_copyPackage',
+        '_addBanner'
     ];
     var queue = new Q();
     taskList.forEach(function (task) {
