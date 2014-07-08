@@ -384,7 +384,7 @@ gulp.task('config.sh', function () {
         util.format('WWW_PORT="%d";', config.pkg.edgeplate.ports.www),
         util.format('DIR="%s";', config.pkg.name)
     ].join('\n');
-    fs.writeFile('config.sh', configFile, function (err) {
+    fs.writeFile('.config.sh', configFile, function (err) {
         if(err) {
             $.util.beep();
             $.util.log($.util.colors.yellow('Config file creation failed.', err));
