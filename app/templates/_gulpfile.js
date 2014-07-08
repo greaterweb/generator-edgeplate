@@ -361,7 +361,7 @@ gulp.task('server', function() {
                     openApp('http://' + config.hostname + ':' + config.port + config.baseUrl);
                 }, 1000);
             })
-            .once('exit', function () {
+            .on('exit', function () {
                 deferred.resolve();
             })
             .on('stdout', function (msg) {
