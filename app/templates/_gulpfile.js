@@ -25,7 +25,7 @@ var config = {
     models: path.resolve('app', 'models'),
     dist: path.resolve('dist'),
     cordova: path.resolve('cordova/www/'),
-    buildTarget: 'dev', // ['dev', 'www', 'pub']
+    buildEnvironment: environments[0],
     temp: path.resolve('.tmp'),
     test: path.resolve('test'),
     server: path.resolve('app', 'app.js'),
@@ -45,7 +45,7 @@ var tasks = {
     clean: function (taskTarget) {
         var glob = [config.temp];
         if (taskTarget === 'dist') {
-            glob.push(path.join(config.dist, config.buildTarget));
+            glob.push(path.join(config.dist, config.buildEnvironment));
         }
         $.util.log('Cleaning ', $.util.colors.magenta(glob));
         return gulp.src(glob, { read: false })
@@ -81,13 +81,13 @@ var tasks = {
     sass: function (taskTarget) {
         $.util.log('Compiling SASS files...');
         var glob = path.join(config.app, 'styles/app.scss');
-        var dest = (taskTarget === 'dist')?path.join(config.dist, config.buildTarget, config.pub, 'styles'):path.join(config.temp, 'styles');
+        var dest = (taskTarget === 'dist')?path.join(config.dist, config.buildEnvironment, config.pub, 'styles'):path.join(config.temp, 'styles');
         return gulp.src(glob)
             // as the css is not 1-to-1, this doesn't work as expected
             // .pipe($.changed(dest, { extension: '.css' }))
             .pipe($.rubySass({
                 sourcemap: true,
-                style: (taskTarget === 'dist' && config.buildTarget !== 'dev')?'compressed':'expanded',
+                style: (taskTarget === 'dist' && config.buildEnvironment !== 'dev')?'compressed':'expanded',
                 precision: 10,
                 lineNumbers: (taskTarget === 'dist')?false:true,
                 debugInfo: (taskTarget === 'dist')?false:true
@@ -97,11 +97,11 @@ var tasks = {
     jade: function (taskTarget) {
         $.util.log('Compiling Jade files...');
         var glob = [path.join(config.app, '**/*.jade'), path.join('!', config.app, '**/_*.jade')];
-        var dest = (taskTarget === 'dist')?path.join(config.dist, config.buildTarget, config.pub):config.temp;
+        var dest = (taskTarget === 'dist')?path.join(config.dist, config.buildEnvironment, config.pub):config.temp;
         var LOCALS = {
             DEBUG: (taskTarget === 'dist')?false:true,
             LOCAL: (taskTarget === 'dist')?false:true,
-            ENV: (taskTarget === 'server')?'local':config.buildTarget,
+            ENV: (taskTarget === 'server')?'local':config.buildEnvironment,
             GIT_REVISION: config.revision,
             VERSION: 'v' + config.pkg.version,
             DATE_STAMP: strftime('%B %d, %Y %H:%M:%S', new Date(config.today)),
@@ -112,7 +112,7 @@ var tasks = {
             // .pipe($.changed(dest, { extension: '.html' }))
             .pipe($.jade({
                 locals: LOCALS,
-                pretty: (taskTarget === 'dist' && config.buildTarget !== 'dev')?false:true
+                pretty: (taskTarget === 'dist' && config.buildEnvironment !== 'dev')?false:true
             }))
             .pipe(gulp.dest(dest));
     },
@@ -122,15 +122,15 @@ var tasks = {
             path.join(config.app, 'images/**/*.{png,jpg,jpeg}'),
             path.join(config.app, 'styles/images/**/*.{png,jpg,jpeg}'),
         ];
-        var dest = (taskTarget === 'dist')?path.join(config.dist, config.buildTarget, config.pub):config.temp;
+        var dest = (taskTarget === 'dist')?path.join(config.dist, config.buildEnvironment, config.pub):config.temp;
         return gulp.src(glob, { base: config.app })
             .pipe($.imagemin())
             .pipe(gulp.dest(dest));
     },
     usemin: function (taskTarget) {
         $.util.log('Processing usemin js blocks in HTML files...');
-        var glob = path.join(config.dist, config.buildTarget, config.pub, '*.html');
-        var dest = (taskTarget === 'dist')?path.join(config.dist, config.buildTarget, config.pub):config.temp;
+        var glob = path.join(config.dist, config.buildEnvironment, config.pub, '*.html');
+        var dest = (taskTarget === 'dist')?path.join(config.dist, config.buildEnvironment, config.pub):config.temp;
         return gulp.src(glob)
             .pipe($.usemin({
                 css: ['concat', $.rev()],
@@ -149,7 +149,7 @@ var tasks = {
             path.join(config.app, 'styles/fonts/**/*'),
             path.join(config.app, 'favicon.ico')
         ];
-        var dest = (taskTarget === 'dist')?path.join(config.dist, config.buildTarget, config.pub):config.temp;
+        var dest = (taskTarget === 'dist')?path.join(config.dist, config.buildEnvironment, config.pub):config.temp;
         return gulp.src(glob, { base: config.app })
             .pipe(gulp.dest(dest));
     },
@@ -164,7 +164,7 @@ var tasks = {
             path.join(config.src, 'models.json'),
             path.join(config.src, 'views/**/*')
         ];
-        var dest = (taskTarget === 'dist')?path.join(config.dist, config.buildTarget):config.temp;
+        var dest = (taskTarget === 'dist')?path.join(config.dist, config.buildEnvironment):config.temp;
         return gulp.src(glob, { base: config.src })
             .pipe(gulp.dest(dest));
     },
@@ -172,17 +172,17 @@ var tasks = {
         $.util.log('Copying package.json into build destination...');
         // copy all assets relative to root
         var glob = 'package.json';
-        var dest = (taskTarget === 'dist')?path.join(config.dist, config.buildTarget):config.temp;
+        var dest = (taskTarget === 'dist')?path.join(config.dist, config.buildEnvironment):config.temp;
         return gulp.src(glob)
             .pipe(gulp.dest(dest));
     },
     addBanner: function (taskTarget) {
         $.util.log('Add debug header to files...');
         var glob = [
-            path.join(config.dist, config.buildTarget, config.pub, '**/*.css'),
-            path.join(config.dist, config.buildTarget, config.pub, '**/*.js')
+            path.join(config.dist, config.buildEnvironment, config.pub, '**/*.css'),
+            path.join(config.dist, config.buildEnvironment, config.pub, '**/*.js')
         ];
-        var dest = (taskTarget === 'dist')?path.join(config.dist, config.buildTarget, config.pub):config.temp;
+        var dest = (taskTarget === 'dist')?path.join(config.dist, config.buildEnvironment, config.pub):config.temp;
         var banner = [
             '/**',
             ' * <%= pkg.title %> - <%= pkg.description %>',
@@ -214,7 +214,7 @@ taskList.forEach(function (taskName) {
     });
     environments.forEach(function (environment) {
         gulp.task(taskName + ':' + environment, function() {
-            config.buildTarget = environment;
+            config.buildEnvironment = environment;
             return tasks[taskName]('dist');
         });
     });
@@ -293,7 +293,7 @@ function startServer () {
 gulp.task('build', ['build:' + environments[0]]);
 environments.forEach(function (environment) {
     gulp.task('build:' + environment, function() {
-        config.buildTarget = environment;
+        config.buildEnvironment = environment;
         return buildProject(environment);
     });
 });
