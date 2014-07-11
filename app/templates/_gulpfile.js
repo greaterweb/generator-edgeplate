@@ -113,6 +113,7 @@ var tasks = {
             // as the jade files are not 1-to-1 this doesn't work as expected
             // .pipe($.changed(dest, { extension: '.html' }))
             .pipe($.jade({
+                doctype: 'html',
                 locals: LOCALS,
                 pretty: (isBuild === 'dist' && config.buildEnvironment !== 'dev')?false:true
             }))
