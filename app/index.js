@@ -61,6 +61,11 @@ EdgeplateGenerator.prototype.askFor = function askFor() {
         message: 'What is the display title of your app?',
         default: 'Edge Project'
     },{
+        type: 'confirm',
+        name: 'useCordova',
+        message: 'Would you like to enable Cordova support?',
+        default: true
+    },{
         name: 'hostDomain',
         message: 'Where is your project hosted (server name)?',
         default: 'host.example.com'
@@ -84,6 +89,7 @@ EdgeplateGenerator.prototype.askFor = function askFor() {
 
     this.prompt(prompts, function (props) {
         this.appTitle = props.appTitle;
+        this.useCordova = props.useCordova;
         this.hostDomain = props.hostDomain;
         this.baseDomain = props.baseDomain;
         this.devPort = props.devPort;
