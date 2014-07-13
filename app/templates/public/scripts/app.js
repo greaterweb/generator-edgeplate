@@ -27,8 +27,8 @@ angular.module('edge.app', ['ui.router', 'ngSanitize', 'ngAnimate', 'edge.app.co
             });
         $urlRouterProvider.otherwise('/');
     })<% if (useCordova) { %>
-    .run(function ($scope, $window) {
-        $scope.$on('cordova.deviceready', function () {
+    .run(function ($rootScope, $window) {
+        $rootScope.$on('cordova.deviceready', function () {
             if ($window.StatusBar) {
                 $window.StatusBar.overlaysWebView(false);
             }
