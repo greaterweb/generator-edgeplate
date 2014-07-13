@@ -210,7 +210,7 @@ EdgeplateGenerator.prototype.projectfiles = function projectfiles() {
 
 EdgeplateGenerator.prototype.cordova = function cordovaFiles() {
     if (this.useCordova) {
-        this.copy('cordova/hooks/README.md', 'cordova/hooks/README.md');
+        this.template('cordova/hooks/README.md', 'cordova/hooks/README.md');
         this.mkdir('cordova/merges');
         this.mkdir('cordova/platforms');
         this.mkdir('cordova/plugins');

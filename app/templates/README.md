@@ -11,8 +11,9 @@
 ## Development Cycle
 
 #### Web - Working Locally
-
-There are three environments to work within. Local, development, and production. 
+<% if (useCordova) { %>
+There are four environments to work within. Local, development, production and cordova.<% } else { %>
+There are three environments to work within. Local, development, and production.<% } %>
 
     brew install node
     brew install imagemagick
@@ -21,7 +22,7 @@ There are three environments to work within. Local, development, and production.
 
 Setup local development high level programs: 
 
-	npm install -g grunt
+	npm install -g gulp
 	npm install -g yo
 	npm install -g protractor
 	npm install -g bower
@@ -37,19 +38,24 @@ Replace the `app/public/images/favicon/favicon-master.png` with a high resolutio
 
 Local development environment [localhost:3000](http://localhost:3000)
 
-    grunt server
+    gulp server
 
 #### Web - Deployment
 
 Remote development environment [dev.<%= baseDomain %>](http://dev.<%= baseDomain %>/)
 
-	grunt build:dev
+	gulp build:dev
     ./deploy.sh dev 
 
 Production environment [<%= baseDomain %>](http://<%= baseDomain %>/)
 
-	grunt build:www
-    ./deploy.sh www
+	gulp build:www
+    ./deploy.sh www<% if (useCordova) { %>
+
+Cordova environment
+
+    gulp build:cordova
+    gulp deploy:cordova<% } %>
 
 #### Debugging 
 The build time and git revision are available in `index.html` as `<meta>` tags:
@@ -102,7 +108,7 @@ When using `top` to debug node processes some helpful hints:
       
 ## File Structure
 
-- `dist/` distributed version of project, built by `grunt build`
+- `dist/` distributed version of project, built by `gulp build`
 - `app/`
     - `public/` front end assets
     	- `locales/` text translations
@@ -115,7 +121,8 @@ When using `top` to debug node processes some helpful hints:
         - `layout/` Jade templates used for the main page layout
         - `scripts/` project javascript files
             - `filters/` angularjs filter assets
-            - `services/` angularjs service assets
+            - `services/` angularjs service assets<% if (useCordova) { %>
+            - `edge.cordova.js` cordova angularjs project declarations<% } %>
             - `app.js` main angularjs project declarations
             - `helper.js` global helper functions and feature poloyfils
         - `styles/` project stylesheets, both SASS and CSS
@@ -134,7 +141,7 @@ When using `top` to debug node processes some helpful hints:
 - `bower.json` Bower dependencies - see `app/public/bower_lib`
 - `.bowerrc` Bower configuration - see `app/public/bower_lib`
 - `.jshintrc` JS Hint configuration
-- `Gruntfile.js` Automates tasks for working locally and deploying. 
+- `gulpfile.js` Automates tasks for working locally and deploying. 
 - `deploy.sh` Script to upload project to the remote host and restart the service. See **Deployment** section. 
 - `.excludes` *deploy.sh* will ignore these files when rsync'ing to the remote host.
 - `node-ctrl.sh` *deploy.sh* calles this script that runs on a Linux remote host which starts and stops node servers.
