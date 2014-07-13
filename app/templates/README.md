@@ -25,7 +25,8 @@ Setup local development high level programs:
 	npm install -g gulp
 	npm install -g yo
 	npm install -g protractor
-	npm install -g bower
+	npm install -g bower<% if (useCordova) { %>
+    npm install -g cordova<% } %>
 
 Then install the application dependencies.
 
