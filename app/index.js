@@ -28,6 +28,24 @@ var EdgeplateGenerator = module.exports = function EdgeplateGenerator(args, opti
                         }
                     });
                 }
+                if (this.useCordova) {
+                    this.log
+                        .write()
+                        .write()
+                        .info(chalk.yellow('Action required to complete Cordova support'))
+                        .write()
+                        .info('Enter the cordova directory')
+                        .info(chalk.grey('$'), chalk.cyan('cd cordova'))
+                        .write()
+                        .info('Add platforms to support')
+                        .info(chalk.grey('$'), chalk.cyan('cordova platform add ios'))
+                        .write()
+                        .info('Add required plugins')
+                        .info(chalk.grey('$'), chalk.cyan('cordova plugin add org.apache.cordova.console'))
+                        .info(chalk.grey('$'), chalk.cyan('cordova plugin add org.apache.cordova.device'))
+                        .info(chalk.grey('$'), chalk.cyan('cordova plugin add org.apache.cordova.statusbar'))
+                        .write();
+                }
             }.bind(this),
             skipInstall: options['skip-install']
         });
@@ -188,4 +206,15 @@ EdgeplateGenerator.prototype.projectfiles = function projectfiles() {
     this.copy('editorconfig', '.editorconfig');
     this.copy('jshintrc', '.jshintrc');
     this.copy('gitignore', '.gitignore');
+};
+
+EdgeplateGenerator.prototype.cordova = function cordovaFiles() {
+    if (this.useCordova) {
+        this.copy('cordova/hooks/README.md', 'cordova/hooks/README.md');
+        this.mkdir('cordova/merges');
+        this.mkdir('cordova/platforms');
+        this.mkdir('cordova/plugins');
+        this.mkdir('cordova/www');
+        this.copy('cordova/config.xml', 'cordova/config.xml');
+    }
 };
