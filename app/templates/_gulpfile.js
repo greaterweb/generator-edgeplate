@@ -15,7 +15,7 @@ var $ = require('gulp-load-plugins')();
 
 var gitRevision = shell.exec('git rev-parse --short HEAD', { silent:true }).output;
 
-var environments = ['dev', 'www'];
+var environments = ['dev', 'www'<% if (useCordova) { %>, 'cordova'<% } %>];
 
 var config = {
     pub: 'public',
@@ -23,8 +23,8 @@ var config = {
     src: path.resolve('app'),
     app: path.resolve('app', 'public'),
     models: path.resolve('app', 'models'),
-    dist: path.resolve('dist'),
-    cordova: path.resolve('cordova/www/'),
+    dist: path.resolve('dist'),<% if (useCordova) { %>
+    cordova: path.resolve('cordova/www/'),<% } %>
     buildEnvironment: environments[0],
     temp: path.resolve('.tmp'),
     test: path.resolve('test'),
@@ -52,7 +52,13 @@ var tasks = {
         $.util.log('Cleaning ', $.util.colors.magenta(glob));
         return gulp.src(glob, { read: false })
             .pipe($.rimraf({ force: true }));
-    },
+    },<% if (useCordova) { %>
+    _cleanCordova: function () {
+        var glob = path.join(config.cordova, '*');
+        $.util.log('Cleaning ', $.util.colors.magenta(glob));
+        return gulp.src(glob, { read: false })
+            .pipe($.rimraf({ force: true }));
+    },<% } %>
     jshint: function () {
         $.util.log('Linting javascript files...');
         var glob = [
@@ -103,7 +109,8 @@ var tasks = {
         var LOCALS = {
             DEBUG: (isBuild)?false:true,
             LOCAL: (isBuild)?false:true,
-            ENV: (isBuild)?config.buildEnvironment:'local',
+            ENV: (isBuild)?config.buildEnvironment:'local',<% if (useCordova) { %>
+            CORDOVA: (config.buildEnvironment === 'cordova')?true:false,<% } %>
             GIT_REVISION: config.revision,
             VERSION: 'v' + config.pkg.version,
             DATE_STAMP: strftime('%B %d, %Y %H:%M:%S', new Date(config.today)),
@@ -113,7 +120,6 @@ var tasks = {
             // as the jade files are not 1-to-1 this doesn't work as expected
             // .pipe($.changed(dest, { extension: '.html' }))
             .pipe($.jade({
-                doctype: 'html',
                 locals: LOCALS,
                 pretty: (isBuild === 'dist' && config.buildEnvironment !== 'dev')?false:true
             }))
@@ -178,7 +184,15 @@ var tasks = {
         var dest = (isBuild)?path.join(config.dist, config.buildEnvironment):config.temp;
         return gulp.src(glob)
             .pipe(gulp.dest(dest));
-    },
+    },<% if (useCordova) { %>
+    _copyCordova: function () {
+        $.util.log('Copying Cordova build to destination...');
+        // copy all assets relative to root
+        var glob = path.join(config.dist, config.buildEnvironment, config.pub, '**/*');
+        var dest = config.cordova;
+        return gulp.src(glob)
+            .pipe(gulp.dest(dest));
+    },<% } %>
     _addBanner: function (isBuild) {
         $.util.log('Add debug header to files...');
         var glob = [
@@ -188,12 +202,12 @@ var tasks = {
         var dest = (isBuild)?path.join(config.dist, config.buildEnvironment, config.pub):config.temp;
         var banner = [
             '/**',
-            ' * <%= pkg.title %> - <%= pkg.description %>',
-            ' * @version v<%= pkg.version %>',
-            ' * @link <%= pkg.homepage %>',
-            ' * @license <%= pkg.license %>',
-            ' * @revision <%= revision %>',
-            ' * @build <%= build %>',
+            ' * <%%= pkg.title %> - <%%= pkg.description %>',
+            ' * @version v<%%= pkg.version %>',
+            ' * @link <%%= pkg.homepage %>',
+            ' * @license <%%= pkg.license %>',
+            ' * @revision <%%= revision %>',
+            ' * @build <%%= build %>',
             ' */',
             ''
         ].join('\n');
@@ -226,8 +240,29 @@ taskList.forEach(function (taskName) {
     });
 });
 
-function buildProject () {
+function queItUp (taskList, isBuild) {
     var deferred = Q.defer();
+    var queue = new Q();
+    taskList.forEach(function (task) {
+        queue = queue.then(function () {
+            // cheap conversion of task stream to promise
+            var taskDeferred = Q.defer();
+            // call the task name with the task type dist|server
+            tasks[task](isBuild)
+                // not sure if I'm using buffer correctly but it does the trick
+                .pipe($.util.buffer(function () {
+                    taskDeferred.resolve();
+                }));
+            return taskDeferred.promise;
+        });
+    });
+    queue = queue.then(function explode() {
+        deferred.resolve();
+    });
+    return deferred.promise;
+}
+
+function buildProject () {
     // List of build task function names
     var taskList = [
         'clean',
@@ -242,29 +277,19 @@ function buildProject () {
         '_copyPackage',
         '_addBanner'
     ];
-    var queue = new Q();
-    taskList.forEach(function (task) {
-        queue = queue.then(function () {
-            // cheap conversion of task stream to promise
-            var taskDeferred = Q.defer();
-            // call the task name with the task type dist|server
-            tasks[task](true)
-                // not sure if I'm using buffer correctly but it does the trick
-                .pipe($.util.buffer(function () {
-                    taskDeferred.resolve();
-                }));
-            return taskDeferred.promise;
-        });
-    });
-    queue = queue.then(function explode() {
-        deferred.resolve();
-    });
-    return deferred.promise;
-}
+    return queItUp(taskList, true);
+}<% if (useCordova) { %>
 
+function deployCordova () {
+    // List of build task function names
+    var taskList = [
+        '_cleanCordova',
+        '_copyCordova'
+    ];
+    return queItUp(taskList);
+}<% } %>
 
 function startServer () {
-    var deferred = Q.defer();
     // List of build task function names
     var taskList = [
         'clean',
@@ -273,24 +298,7 @@ function startServer () {
         'sass',
         'jade'
     ];
-    var queue = new Q();
-    taskList.forEach(function (task) {
-        queue = queue.then(function () {
-            // cheap conversion of task stream to promise
-            var taskDeferred = Q.defer();
-            // call the task name with the task type dist|server
-            tasks[task]()
-                // not sure if I'm using buffer correctly but it does the trick
-                .pipe($.util.buffer(function () {
-                    taskDeferred.resolve();
-                }));
-            return taskDeferred.promise;
-        });
-    });
-    queue = queue.then(function explode() {
-        deferred.resolve();
-    });
-    return deferred.promise;
+    return queItUp(taskList);
 }
 
 // Gulp Tasks
@@ -388,11 +396,30 @@ gulp.task('config.sh', function () {
     fs.writeFile('.config.sh', configFile, function (err) {
         if(err) {
             $.util.beep();
-            $.util.log($.util.colors.yellow('Config file creation failed.', err));
+            $.util.log($.util.colors.yellow('Config file creation failed:'), err);
         } else {
             $.util.log($.util.colors.cyan('Config file created successfully.'));
         }
         deferred.resolve();
     });
     return deferred.promise;
-});
+});<% if (useCordova) { %>
+
+gulp.task('deploy:cordova', ['build:cordova'], function () {
+    var deferred = Q.defer();
+    config.buildEnvironment = 'cordova';
+    $.util.log('Deploying Cordova build...');
+    deployCordova(config.buildEnvironment).then(function () {
+        process.chdir('cordova');
+        var cordovaPrepare = shell.exec('cordova prepare', { silent:true }).output;
+        if (cordovaPrepare.length) {
+            // successfuly cordova prepare has no output, if we have output there was a problem
+            $.util.beep();
+            $.util.log($.util.colors.yellow('Cordova prepare failed:'), cordovaPrepare);
+        }
+        $.util.log($.util.colors.cyan('Cordova deployed successfully.'));
+        process.chdir('../');
+        deferred.resolve();
+    });
+    return deferred.promise;
+});<% } %>
