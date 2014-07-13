@@ -12,15 +12,28 @@ angular.module('edge.app.services', ['ngResource', 'lbServices']);
 angular.module('edge.app.directives', []);
 
 // Declare app level module which depends on filters, and services
-angular.module('edge.app', ['ui.router', 'ngSanitize', 'ngAnimate', 'edge.app.controllers', 'edge.app.filters', 'edge.app.services', 'edge.app.directives'])
-    .config(function ($locationProvider) {
-        $locationProvider.html5Mode(false);
-
-        if(angular.element('html').hasClass('hashchange') && angular.element('html').hasClass('history') && window.ENV !== 'cordova') {
+angular.module('edge.app', ['ui.router', 'ngSanitize', 'ngAnimate', 'edge.app.controllers', 'edge.app.filters', 'edge.app.services', 'edge.app.directives'<% if (useCordova) { %>, 'edge.cordova'<% } %>])
+    .config(function ($locationProvider, $stateProvider, $urlRouterProvider, $injector) {
+        if(angular.element('html').hasClass('hashchange') && angular.element('html').hasClass('history')<% if (useCordova) { %> && window.ENV !== 'cordova'<% } %>) {
             $locationProvider.html5Mode(true);
         }
-    })
 
+        $stateProvider
+            .state('index', {
+                url: '/',
+                templateUrl: 'controllers/pages/Index/IndexView.html',
+                controller: 'IndexController as index',
+                resolve: $injector.get('IndexResolver')
+            });
+        $urlRouterProvider.otherwise('/');
+    })<% if (useCordova) { %>
+    .run(function ($scope, $window) {
+        $scope.$on('cordova.deviceready', function () {
+            if ($window.StatusBar) {
+                $window.StatusBar.overlaysWebView(false);
+            }
+        });
+    })<% } %>;
     // .run(function (edgeResolver) {
     //     // example adding app resolvers (runs once start of first state chane)
     //     edgeResolver.addAppResolvers({
@@ -42,15 +55,5 @@ angular.module('edge.app', ['ui.router', 'ngSanitize', 'ngAnimate', 'edge.app.co
     //             return defer.promise;
     //         }]
     //     });
-    // })
+    // });
 
-    .config(function ($stateProvider, $urlRouterProvider, $injector) {
-        $stateProvider
-            .state('index', {
-                url: '/',
-                templateUrl: 'controllers/pages/Index/IndexView.html',
-                controller: 'IndexController as index',
-                resolve: $injector.get('IndexResolver')
-            });
-        $urlRouterProvider.otherwise('/');
-    });

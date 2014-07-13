@@ -178,7 +178,7 @@ EdgeplateGenerator.prototype.services = function serviceFiles() {
 };
 
 EdgeplateGenerator.prototype.scripts = function scriptFiles() {
-    this.copy('public/scripts/app.js', 'app/public/scripts/app.js');
+    this.template('public/scripts/app.js', 'app/public/scripts/app.js');
     this.copy('public/scripts/helper.js', 'app/public/scripts/helper.js');
     this.copy('public/scripts/foot-init.js', 'app/public/scripts/foot-init.js');
     this.copy('public/scripts/head-init.js', 'app/public/scripts/head-init.js');
