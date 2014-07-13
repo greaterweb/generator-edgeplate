@@ -120,7 +120,7 @@ EdgeplateGenerator.prototype.askFor = function askFor() {
 
 EdgeplateGenerator.prototype.app = function app() {
 
-    this.copy('public/index.jade', 'app/public/index.jade');
+    this.template('public/index.jade', 'app/public/index.jade');
 
     this.mkdir('app/models');
 
@@ -216,5 +216,6 @@ EdgeplateGenerator.prototype.cordova = function cordovaFiles() {
         this.mkdir('cordova/plugins');
         this.mkdir('cordova/www');
         this.copy('cordova/config.xml', 'cordova/config.xml');
+        this.copy('public/scripts/edge.cordova.js', 'app/public/scripts/edge.cordova.js');
     }
 };

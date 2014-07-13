@@ -21,7 +21,11 @@ append head
 
 append footer-scripts
   //- socket.io
-  //- script(src="/socket.io/socket.io.js")
+  //- script(src="/socket.io/socket.io.js")<% if (useCordova) { %>
+
+  //- Apache Cordova library
+  if CORDOVA
+    script(src="cordova.js")<% } %>
 
   // build:js(app/public/) scripts/lib.js
   //- underscore js
@@ -54,7 +58,10 @@ append footer-scripts
   // build:angularJs(app/public/) scripts/app.js
   //- everything beyond this point is assumed to be angular related
       and will run through the ngmin task putting it in the temp
-      directory during the build process
+      directory during the build process<% if (useCordova) { %>
+
+  //- edge cordova app, exposes cordova events in angular
+  script(src="scripts/edge.cordova.js")<% } %>
 
   //- main app
   script(src="scripts/app.js")
