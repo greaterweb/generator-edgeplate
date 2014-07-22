@@ -27,6 +27,7 @@ angular.module('edge.app.controllers').controller('AppController', function (edg
 
     var loaderTimeout;
     $scope.$on('$stateChangeStart', function () {
+        app.collapseNavbar = true;
         if(loaderTimeout) {
             $timeout.cancel(loaderTimeout);
         }
