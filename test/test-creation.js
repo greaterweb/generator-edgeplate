@@ -21,6 +21,15 @@ describe('edgeplate generator', function () {
     it('creates expected files', function (done) {
         var expected = [
             // add files you expect to exist here.
+            // server
+            'server/boot/authentication.js',
+            'server/boot/explorer.js',
+            'server/boot/rest-api.js',
+            'server/boot/root.js',
+            'server/config.json',
+            'server/datasources.json',
+            'server/model-config.json',
+            'server/server.js',
             // views
             // TODO: list view paths
             // layout

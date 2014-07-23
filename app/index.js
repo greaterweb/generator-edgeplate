@@ -219,3 +219,17 @@ EdgeplateGenerator.prototype.cordova = function cordovaFiles() {
         this.copy('public/scripts/edge.cordova.js', 'app/public/scripts/edge.cordova.js');
     }
 };
+
+EdgeplateGenerator.prototype.loopback = function loopbackFiles() {
+    this.copy('server/boot/authentication.js', 'server/boot/authentication.js');
+    this.copy('server/boot/explorer.js', 'server/boot/explorer.js');
+    this.copy('server/boot/rest-api.js', 'server/boot/rest-api.js');
+    this.copy('server/boot/root.js', 'server/boot/root.js');
+
+    this.copy('server/config.json', 'server/config.json');
+    this.copy('server/datasources.json', 'server/datasources.json');
+    this.copy('server/model-config.json', 'server/model-config.json');
+
+    this.copy('server/server.js', 'server/server.js');
+
+};
