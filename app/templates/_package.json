@@ -7,12 +7,19 @@
     "socket.io": "~0.9.16",
     "nopt": "~2.1.2",
     "nodemailer": "0.6.2",
-    "loopback": "~1.9.1",
     "ua-parser": "0.3.3",
-    "underscore": "~1.6.0"
+    "underscore": "~1.6.0",
+    "compression": "^1.0.3",
+    "errorhandler": "^1.1.1",
+    "loopback": "^2.0.0",
+    "loopback-boot": "^2.0.0",
+    "loopback-datasource-juggler": "^2.0.0",
+    "serve-favicon": "^2.0.1"
+  },
+  "optionalDependencies": {
+    "loopback-explorer": "^1.1.0"
   },
   "devDependencies": {
-    "loopback-explorer": "~1.1.1",
     "gulp": "~3.8.5",
     "gulp-util": "~2.2.19",
     "gulp-rimraf": "~0.1.0",

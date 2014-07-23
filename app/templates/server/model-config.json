@@ -23,9 +23,5 @@
   "Role": {
     "dataSource": "db",
     "public": false
-  },
-  "bar": {
-    "dataSource": "db",
-    "public": true
   }
 }
