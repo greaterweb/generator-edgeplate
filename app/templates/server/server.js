@@ -30,7 +30,7 @@ app.use(loopback.compress());
 app.set('isLocal', options.local || false);
 var isLocal = app.get('isLocal');
 
-app.set('env', options.env || 'dev');
+app.set('env', options.env || 'development');
 
 app.set('baseUrl', options.baseurl || '/');
 var baseUrl = app.get('baseUrl');
