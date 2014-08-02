@@ -15,20 +15,22 @@ var $ = require('gulp-load-plugins')();
 
 var gitRevision = shell.exec('git rev-parse --short HEAD', { silent:true }).output;
 
-var environments = ['dev', 'www'<% if (useCordova) { %>, 'cordova'<% } %>];
+var environments = ['dev', 'www', 'cordova'];
 
 var config = {
-    pub: 'public',
     pkg: require('./package.json'),
-    src: path.resolve('app'),
-    app: path.resolve('app', 'public'),
-    models: path.resolve('app', 'models'),
-    dist: path.resolve('dist'),<% if (useCordova) { %>
-    cordova: path.resolve('cordova/www/'),<% } %>
+    clientDir: 'app',
+    app: path.resolve('app'),
+    serverDir: 'server',
+    server: path.resolve('server'),
+    serverJs: path.resolve('server', 'server.js'),
+    commonDir: 'common',
+    common: path.resolve('common'),
+    dist: path.resolve('dist'),
+    cordova: path.resolve('cordova/www/'),
     buildEnvironment: environments[0],
     temp: path.resolve('.tmp'),
     test: path.resolve('test'),
-    server: path.resolve('app', 'app.js'),
     hostname: 'localhost',
     port: 3000,
     baseUrl: '/',
@@ -52,20 +54,19 @@ var tasks = {
         $.util.log('Cleaning ', $.util.colors.magenta(glob));
         return gulp.src(glob, { read: false })
             .pipe($.rimraf({ force: true }));
-    },<% if (useCordova) { %>
+    },
     _cleanCordova: function () {
         var glob = path.join(config.cordova, '*');
         $.util.log('Cleaning ', $.util.colors.magenta(glob));
         return gulp.src(glob, { read: false })
             .pipe($.rimraf({ force: true }));
-    },<% } %>
+    },
     jshint: function () {
         $.util.log('Linting javascript files...');
         var glob = [
             'gulpfile.js',
-            path.join(config.src, 'app.js'),
-            path.join(config.src, 'routes.js'),
-            path.join(config.models, '**/*.js'),
+            path.join(config.server, '**/*.js'),
+            path.join(config.common, '**/*.js'),
             path.join(config.app, 'components/**/*.js'),
             path.join(config.app, 'controllers/**/*.js'),
             path.join(config.app, 'directives/**/*.js'),
@@ -89,7 +90,7 @@ var tasks = {
     sass: function (isBuild) {
         $.util.log('Compiling SASS files...');
         var glob = path.join(config.app, 'styles/app.scss');
-        var dest = (isBuild)?path.join(config.dist, config.buildEnvironment, config.pub, 'styles'):path.join(config.temp, 'styles');
+        var dest = (isBuild)?path.join(config.dist, config.buildEnvironment, config.clientDir, 'styles'):path.join(config.temp, 'styles');
         return gulp.src(glob)
             // as the css is not 1-to-1, this doesn't work as expected
             // .pipe($.changed(dest, { extension: '.css' }))
@@ -105,12 +106,12 @@ var tasks = {
     jade: function (isBuild) {
         $.util.log('Compiling Jade files...');
         var glob = [path.join(config.app, '**/*.jade'), path.join('!', config.app, '**/_*.jade')];
-        var dest = (isBuild)?path.join(config.dist, config.buildEnvironment, config.pub):config.temp;
+        var dest = (isBuild)?path.join(config.dist, config.buildEnvironment, config.clientDir):config.temp;
         var LOCALS = {
             DEBUG: (isBuild)?false:true,
             LOCAL: (isBuild)?false:true,
-            ENV: (isBuild)?config.buildEnvironment:'local',<% if (useCordova) { %>
-            CORDOVA: (config.buildEnvironment === 'cordova')?true:false,<% } %>
+            ENV: (isBuild)?config.buildEnvironment:'local',
+            CORDOVA: (config.buildEnvironment === 'cordova')?true:false,
             GIT_REVISION: config.revision,
             VERSION: 'v' + config.pkg.version,
             DATE_STAMP: strftime('%B %d, %Y %H:%M:%S', new Date(config.today)),
@@ -131,15 +132,15 @@ var tasks = {
             path.join(config.app, 'images/**/*.{png,jpg,jpeg}'),
             path.join(config.app, 'styles/images/**/*.{png,jpg,jpeg}'),
         ];
-        var dest = (isBuild)?path.join(config.dist, config.buildEnvironment, config.pub):config.temp;
+        var dest = (isBuild)?path.join(config.dist, config.buildEnvironment, config.clientDir):config.temp;
         return gulp.src(glob, { base: config.app })
             .pipe($.imagemin())
             .pipe(gulp.dest(dest));
     },
     _usemin: function (isBuild) {
         $.util.log('Processing usemin js blocks in HTML files...');
-        var glob = path.join(config.dist, config.buildEnvironment, config.pub, '*.html');
-        var dest = (isBuild)?path.join(config.dist, config.buildEnvironment, config.pub):config.temp;
+        var glob = path.join(config.dist, config.buildEnvironment, config.clientDir, '*.html');
+        var dest = (isBuild)?path.join(config.dist, config.buildEnvironment, config.clientDir):config.temp;
         return gulp.src(glob)
             .pipe($.usemin({
                 css: ['concat', $.rev()],
@@ -158,23 +159,28 @@ var tasks = {
             path.join(config.app, 'styles/fonts/**/*'),
             path.join(config.app, 'favicon.ico')
         ];
-        var dest = (isBuild)?path.join(config.dist, config.buildEnvironment, config.pub):config.temp;
+        var dest = (isBuild)?path.join(config.dist, config.buildEnvironment, config.clientDir):config.temp;
         return gulp.src(glob, { base: config.app })
             .pipe(gulp.dest(dest));
     },
     _copyServer: function (isBuild) {
-        $.util.log('Copying node assets into build destination...');
-        // copy all assets relative to config.src
+        $.util.log('Copying node server assets into build destination...');
+        // copy all assets relative to config.server
         var glob = [
-            path.join(config.models, '**/*'),
-            path.join(config.src, 'app.js'),
-            path.join(config.src, 'app.json'),
-            path.join(config.src, 'datasources.json'),
-            path.join(config.src, 'models.json'),
-            path.join(config.src, 'views/**/*')
+            path.join(config.server, '**/*')
         ];
-        var dest = (isBuild)?path.join(config.dist, config.buildEnvironment):config.temp;
-        return gulp.src(glob, { base: config.src })
+        var dest = (isBuild)?path.join(config.dist, config.buildEnvironment, config.serverDir):config.temp;
+        return gulp.src(glob)
+            .pipe(gulp.dest(dest));
+    },
+    _copyCommon: function (isBuild) {
+        $.util.log('Copying common assets into build destination...');
+        // copy all assets relative to config.common
+        var glob = [
+            path.join(config.common, '**/*')
+        ];
+        var dest = (isBuild)?path.join(config.dist, config.buildEnvironment, config.commonDir):config.temp;
+        return gulp.src(glob)
             .pipe(gulp.dest(dest));
     },
     _copyPackage: function (isBuild) {
@@ -184,30 +190,30 @@ var tasks = {
         var dest = (isBuild)?path.join(config.dist, config.buildEnvironment):config.temp;
         return gulp.src(glob)
             .pipe(gulp.dest(dest));
-    },<% if (useCordova) { %>
+    },
     _copyCordova: function () {
         $.util.log('Copying Cordova build to destination...');
         // copy all assets relative to root
-        var glob = path.join(config.dist, config.buildEnvironment, config.pub, '**/*');
+        var glob = path.join(config.dist, config.buildEnvironment, config.clientDir, '**/*');
         var dest = config.cordova;
         return gulp.src(glob)
             .pipe(gulp.dest(dest));
-    },<% } %>
+    },
     _addBanner: function (isBuild) {
         $.util.log('Add debug header to files...');
         var glob = [
-            path.join(config.dist, config.buildEnvironment, config.pub, '**/*.css'),
-            path.join(config.dist, config.buildEnvironment, config.pub, '**/*.js')
+            path.join(config.dist, config.buildEnvironment, config.clientDir, '**/*.css'),
+            path.join(config.dist, config.buildEnvironment, config.clientDir, '**/*.js')
         ];
-        var dest = (isBuild)?path.join(config.dist, config.buildEnvironment, config.pub):config.temp;
+        var dest = (isBuild)?path.join(config.dist, config.buildEnvironment, config.clientDir):config.temp;
         var banner = [
             '/**',
-            ' * <%%= pkg.title %> - <%%= pkg.description %>',
-            ' * @version v<%%= pkg.version %>',
-            ' * @link <%%= pkg.homepage %>',
-            ' * @license <%%= pkg.license %>',
-            ' * @revision <%%= revision %>',
-            ' * @build <%%= build %>',
+            ' * <%= pkg.title %> - <%= pkg.description %>',
+            ' * @version v<%= pkg.version %>',
+            ' * @link <%= pkg.homepage %>',
+            ' * @license <%= pkg.license %>',
+            ' * @revision <%= revision %>',
+            ' * @build <%= build %>',
             ' */',
             ''
         ].join('\n');
@@ -274,11 +280,12 @@ function buildProject () {
         '_usemin',
         '_copyAssets',
         '_copyServer',
+        '_copyCommon',
         '_copyPackage',
         '_addBanner'
     ];
     return queItUp(taskList, true);
-}<% if (useCordova) { %>
+}
 
 function deployCordova () {
     // List of build task function names
@@ -287,7 +294,7 @@ function deployCordova () {
         '_copyCordova'
     ];
     return queItUp(taskList);
-}<% } %>
+}
 
 function startServer () {
     // List of build task function names
@@ -351,17 +358,17 @@ gulp.task('server', function() {
         });
 
         nodemon({
-            script: config.server,
+            script: config.serverJs,
             args: [
-                '--port=' + config.port,
-                '--hostname=' + config.hostname,
-                '--baseurl=' + config.baseUrl,
-                '--local'
+                '-port=' + config.port,
+                '-host=' + config.hostname,
+                '-baseurl=' + config.baseUrl,
+                '-local'
             ],
             stdout: false,
             watch: [
                 config.server,
-                config.models
+                config.common
             ]
         })
             .once('start', function () {
@@ -403,7 +410,7 @@ gulp.task('config.sh', function () {
         deferred.resolve();
     });
     return deferred.promise;
-});<% if (useCordova) { %>
+});
 
 gulp.task('deploy:cordova', ['build:cordova'], function () {
     var deferred = Q.defer();
@@ -422,4 +429,4 @@ gulp.task('deploy:cordova', ['build:cordova'], function () {
         deferred.resolve();
     });
     return deferred.promise;
-});<% } %>
+});
