@@ -32,8 +32,13 @@ describe('edgeplate generator', function () {
             'server/datasources.json',
             'server/model-config.json',
             'server/server.js',
-            // views
-            // TODO: list view paths
+            // common
+            'common/views/_errGlobal.jade',
+            'common/views/error404.jade',
+            'common/views/error500.jade',
+            'common/views/error404.jade',
+            'common/views/robots-allow.txt',
+            'common/views/robots-disallow.txt',
             // layout
             'app/public/layout/_global.jade',
             'app/public/layout/_touchIcons.jade',

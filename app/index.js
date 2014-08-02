@@ -222,5 +222,9 @@ EdgeplateGenerator.prototype.cordova = function cordovaFiles() {
 
 EdgeplateGenerator.prototype.loopback = function loopbackFiles() {
     this.directory('server/', 'server/');
+};
 
+EdgeplateGenerator.prototype.common = function commonFiles() {
+    this.mkdir('common/models');
+    this.directory('common/', 'common/');
 };
