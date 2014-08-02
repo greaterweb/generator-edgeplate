@@ -126,8 +126,6 @@ EdgeplateGenerator.prototype.app = function app() {
 
     this.directory('views/', 'app/views/');
 
-    this.copy('app.js', 'app/app.js');
-
     this.template('_gulpfile.js', 'gulpfile.js');
 
     this.copy('README.md', 'README.md');
