@@ -208,12 +208,12 @@ var tasks = {
         var dest = (isBuild)?path.join(config.dist, config.buildEnvironment, config.clientDir):config.temp;
         var banner = [
             '/**',
-            ' * <%= pkg.title %> - <%= pkg.description %>',
-            ' * @version v<%= pkg.version %>',
-            ' * @link <%= pkg.homepage %>',
-            ' * @license <%= pkg.license %>',
-            ' * @revision <%= revision %>',
-            ' * @build <%= build %>',
+            ' * <%%= pkg.title %> - <%%= pkg.description %>',
+            ' * @version v<%%= pkg.version %>',
+            ' * @link <%%= pkg.homepage %>',
+            ' * @license <%%= pkg.license %>',
+            ' * @revision <%%= revision %>',
+            ' * @build <%%= build %>',
             ' */',
             ''
         ].join('\n');
