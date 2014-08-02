@@ -45,11 +45,11 @@ ControllerGenerator.prototype.askFor = function askFor() {
 
 ControllerGenerator.prototype.files = function files() {
     if (this.hasSCSS) {
-        this.copy('_styles.scss', 'app/public/controllers/' + this.controllerName + '/_' + this.controllerName + '.scss');
+        this.copy('_styles.scss', 'app/controllers/' + this.controllerName + '/_' + this.controllerName + '.scss');
         // add stylesheet reference to app.scss
         angularUtils.rewriteFile({
             path: process.cwd(),
-            file: '/app/public/styles/app.scss',
+            file: '/app/styles/app.scss',
             needle: '// Angular Controller Styles',
             spliceAfter: true,
             splicable: [
@@ -59,14 +59,14 @@ ControllerGenerator.prototype.files = function files() {
     }
 
     if (this.hasView) {
-        this.copy('_view.jade', 'app/public/controllers/' + this.controllerName + '/' + this.controllerName + 'View.jade');
+        this.copy('_view.jade', 'app/controllers/' + this.controllerName + '/' + this.controllerName + 'View.jade');
     }
 
-    this.copy('script.js', 'app/public/controllers/' + this.controllerName + '/' + this.controllerName + 'Controller.js');
+    this.copy('script.js', 'app/controllers/' + this.controllerName + '/' + this.controllerName + 'Controller.js');
     // add script tag to index.jade
     angularUtils.rewriteFile({
         path: process.cwd(),
-        file: '/app/public/index.jade',
+        file: '/app/index.jade',
         needle: '//- angular controllers',
         spliceAfter: true,
         splicable: [

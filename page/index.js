@@ -33,15 +33,15 @@ PageGenerator.prototype.askFor = function askFor() {
 };
 
 PageGenerator.prototype.files = function files() {
-    this.copy('_styles.scss', 'app/public/controllers/pages/' + this.controllerName + '/_' + this.controllerName + '.scss');
-    this.copy('_view.jade', 'app/public/controllers/pages/' + this.controllerName + '/' + this.controllerName + 'View.jade');
-    this.copy('script.js', 'app/public/controllers/pages/' + this.controllerName + '/' + this.controllerName + 'Controller.js');
-    this.copy('resolver.js', 'app/public/controllers/pages/' + this.controllerName + '/' + this.controllerName + 'Resolver.js');
+    this.copy('_styles.scss', 'app/controllers/pages/' + this.controllerName + '/_' + this.controllerName + '.scss');
+    this.copy('_view.jade', 'app/controllers/pages/' + this.controllerName + '/' + this.controllerName + 'View.jade');
+    this.copy('script.js', 'app/controllers/pages/' + this.controllerName + '/' + this.controllerName + 'Controller.js');
+    this.copy('resolver.js', 'app/controllers/pages/' + this.controllerName + '/' + this.controllerName + 'Resolver.js');
 
     // add route to app.js
     angularUtils.rewriteFile({
         path: process.cwd(),
-        file: '/app/public/scripts/app.js',
+        file: '/app/scripts/app.js',
         needle: '$stateProvider',
         spliceAfter: true,
         splicable: [
@@ -57,7 +57,7 @@ PageGenerator.prototype.files = function files() {
     // add controller script tag to index.jade
     angularUtils.rewriteFile({
         path: process.cwd(),
-        file: '/app/public/index.jade',
+        file: '/app/index.jade',
         needle: '//- page controllers',
         spliceAfter: true,
         splicable: [
@@ -68,7 +68,7 @@ PageGenerator.prototype.files = function files() {
     // add resolver script tag to index.jade
     angularUtils.rewriteFile({
         path: process.cwd(),
-        file: '/app/public/index.jade',
+        file: '/app/index.jade',
         needle: '//- page resolvers',
         spliceAfter: true,
         splicable: [
@@ -79,7 +79,7 @@ PageGenerator.prototype.files = function files() {
     // add stylesheet reference to app.scss
     angularUtils.rewriteFile({
         path: process.cwd(),
-        file: '/app/public/styles/app.scss',
+        file: '/app/styles/app.scss',
         needle: '// Angular Controller Styles',
         spliceAfter: true,
         splicable: [
@@ -91,7 +91,7 @@ PageGenerator.prototype.files = function files() {
         // add navigation item to navbar.jade
         angularUtils.rewriteFile({
             path: process.cwd(),
-            file: '/app/public/components/navbar/navbar.jade',
+            file: '/app/components/navbar/navbar.jade',
             needle: '//- angular pages',
             spliceAfter: true,
             splicable: [

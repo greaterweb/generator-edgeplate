@@ -50,15 +50,15 @@ ServiceGenerator.prototype.getEndpoint = function askFor() {
 
 ServiceGenerator.prototype.files = function files() {
     if (this.isResourceService) {
-        this.copy('resource-service.js', 'app/public/scripts/services/' + this.name + '.js');
+        this.copy('resource-service.js', 'app/scripts/services/' + this.name + '.js');
     } else {
-        this.copy('service.js', 'app/public/scripts/services/' + this.name + '.js');
+        this.copy('service.js', 'app/scripts/services/' + this.name + '.js');
     }
 
     // add script tag to index.jade
     angularUtils.rewriteFile({
         path: process.cwd(),
-        file: '/app/public/index.jade',
+        file: '/app/index.jade',
         needle: '//- angular services',
         spliceAfter: true,
         splicable: [

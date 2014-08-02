@@ -43,13 +43,13 @@ ComponentGenerator.prototype.askFor = function askFor() {
 };
 
 ComponentGenerator.prototype.files = function files() {
-    this.copy('_view.jade', 'app/public/components/' + this.componentName + '/' + this.componentName + '.jade');
+    this.copy('_view.jade', 'app/components/' + this.componentName + '/' + this.componentName + '.jade');
     if (this.hasSCSS) {
-        this.copy('_styles.scss', 'app/public/components/' + this.componentName + '/_' + this.componentName + '.scss');
+        this.copy('_styles.scss', 'app/components/' + this.componentName + '/_' + this.componentName + '.scss');
         // add stylesheet reference to app.scss
         angularUtils.rewriteFile({
             path: process.cwd(),
-            file: '/app/public/styles/app.scss',
+            file: '/app/styles/app.scss',
             needle: '// Application Component Styles',
             spliceAfter: true,
             splicable: [
@@ -58,11 +58,11 @@ ComponentGenerator.prototype.files = function files() {
         });
     }
     if (this.hasJS) {
-        this.copy('script.js', 'app/public/components/' + this.componentName + '/' + this.componentName + '.js');
+        this.copy('script.js', 'app/components/' + this.componentName + '/' + this.componentName + '.js');
         // add script tag to index.jade
         angularUtils.rewriteFile({
             path: process.cwd(),
-            file: '/app/public/index.jade',
+            file: '/app/index.jade',
             needle: '//- application components',
             spliceAfter: true,
             splicable: [

@@ -15,12 +15,12 @@ var FilterGenerator = module.exports = function FilterGenerator(args, options, c
 util.inherits(FilterGenerator, yeoman.generators.NamedBase);
 
 FilterGenerator.prototype.files = function files() {
-    this.copy('filter.js', 'app/public/scripts/filters/' + this.name + '.js');
+    this.copy('filter.js', 'app/scripts/filters/' + this.name + '.js');
 
     // add script tag to index.jade
     angularUtils.rewriteFile({
         path: process.cwd(),
-        file: '/app/public/index.jade',
+        file: '/app/index.jade',
         needle: '//- angular filters',
         spliceAfter: true,
         splicable: [

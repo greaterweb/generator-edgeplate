@@ -33,7 +33,7 @@ Then install the application dependencies.
     npm install
     bower install
 
-Replace the `app/public/images/favicon/favicon-master.png` with a high resolution **square** version of what will become your favicons.  The `favicon.sh` script will create the .ico and .png files at multiple resolutions and place them in the `app/public` and `app/public/images/favicon/` directories respectively. To run the script:
+Replace the `app/images/favicon/favicon-master.png` with a high resolution **square** version of what will become your favicons.  The `favicon.sh` script will create the .ico and .png files at multiple resolutions and place them in the `app` and `app/images/favicon/` directories respectively. To run the script:
 
     ./favicon.sh
 
@@ -139,8 +139,8 @@ When using `top` to debug node processes some helpful hints:
     - `routes.js` Node file containing project specific routes
 - `.tmp/` directory dedicated to temporary storage of development assets, contents not included in repository
 - `package.json` Node dependencies
-- `bower.json` Bower dependencies - see `app/public/bower_lib`
-- `.bowerrc` Bower configuration - see `app/public/bower_lib`
+- `bower.json` Bower dependencies - see `app/bower_lib`
+- `.bowerrc` Bower configuration - see `app/bower_lib`
 - `.jshintrc` JS Hint configuration
 - `gulpfile.js` Automates tasks for working locally and deploying. 
 - `deploy.sh` Script to upload project to the remote host and restart the service. See **Deployment** section. 

@@ -35,17 +35,17 @@ DirectiveGenerator.prototype.askFor = function askFor() {
 DirectiveGenerator.prototype.files = function files() {
 
     if (this.useTemplateURL) {
-        this.copy('directive-templateurl.js', 'app/public/directives/' + this.camelName + '/' + this.camelName + 'Directive.js');
-        this.copy('_view.jade', 'app/public/directives/' + this.camelName + '/' + this.camelName + 'View.jade');
+        this.copy('directive-templateurl.js', 'app/directives/' + this.camelName + '/' + this.camelName + 'Directive.js');
+        this.copy('_view.jade', 'app/directives/' + this.camelName + '/' + this.camelName + 'View.jade');
     } else {
-        this.copy('directive.js', 'app/public/directives/' + this.camelName + '/' + this.camelName + 'Directive.js');
+        this.copy('directive.js', 'app/directives/' + this.camelName + '/' + this.camelName + 'Directive.js');
     }
 
-    this.copy('_styles.scss', 'app/public/directives/' + this.camelName + '/_' + this.camelName + '.scss');
+    this.copy('_styles.scss', 'app/directives/' + this.camelName + '/_' + this.camelName + '.scss');
 
     angularUtils.rewriteFile({
         path: process.cwd(),
-        file: '/app/public/styles/app.scss',
+        file: '/app/styles/app.scss',
         needle: '// Angular Directive Styles',
         spliceAfter: true,
         splicable: [
@@ -56,7 +56,7 @@ DirectiveGenerator.prototype.files = function files() {
     // add script tag to index.jade
     angularUtils.rewriteFile({
         path: process.cwd(),
-        file: '/app/public/index.jade',
+        file: '/app/index.jade',
         needle: '//- angular directives',
         spliceAfter: true,
         splicable: [

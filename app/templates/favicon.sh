@@ -8,8 +8,8 @@
 #   brew install imagemagick
 #   brew install pngcrush
 #   brew install png2ico
-#   (a file named app/public/images/favicon-master.png)
-FAVPATH="app/public/images/favicon"
+#   (a file named app/images/favicon-master.png)
+FAVPATH="app/images/favicon"
 
 # create these sizes from a large source image favicon-master.png
 for DIM in 16 32 48 57 64 72 96 114 120 128 144 152 195 228
@@ -27,7 +27,7 @@ for DIM in 16 32 57 72 96 114 120 128 144 152 195 228
 do
     mv favicon-${DIM}.png $FAVPATH
 done
-mv favicon.ico app/public/
+mv favicon.ico app/
 
 # don’t need 64 and 48 sizes outright, only part of the ico file, so remove them
 for DIM in 48 64
