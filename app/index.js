@@ -18,8 +18,8 @@ var EdgeplateGenerator = module.exports = function EdgeplateGenerator(args, opti
             callback: function () {
                 if (!options['skip-install']) {
                     var sourceRoot = process.cwd(),
-                        fontSrc = path.join(sourceRoot, '/app/public/bower_lib/bootstrap-sass/vendor/assets/fonts/bootstrap'),
-                        fontDest = path.join(sourceRoot, 'app/public/styles/fonts');
+                        fontSrc = path.join(sourceRoot, '/app/bower_lib/bootstrap-sass/vendor/assets/fonts/bootstrap'),
+                        fontDest = path.join(sourceRoot, 'app/styles/fonts');
 
                     // copy the bootstrap glyphicon fonts into the styles directory
                     fs.copyRecursive(fontSrc, fontDest, function (err) {
@@ -120,8 +120,7 @@ EdgeplateGenerator.prototype.askFor = function askFor() {
 
 EdgeplateGenerator.prototype.app = function app() {
 
-    this.template('public/index.jade', 'app/public/index.jade');
-
+    this.template('public/index.jade', 'app/index.jade');
 
     this.template('_gulpfile.js', 'gulpfile.js');
 
@@ -139,59 +138,59 @@ EdgeplateGenerator.prototype.app = function app() {
 };
 
 EdgeplateGenerator.prototype.layout = function layoutFiles() {
-    this.copy('public/layout/_global.jade', 'app/public/layout/_global.jade');
-    this.copy('public/layout/_touchIcons.jade', 'app/public/layout/_touchIcons.jade');
-    this.copy('public/layout/_browserWarnings.jade', 'app/public/layout/_browserWarnings.jade');
+    this.copy('public/layout/_global.jade', 'app/layout/_global.jade');
+    this.copy('public/layout/_touchIcons.jade', 'app/layout/_touchIcons.jade');
+    this.copy('public/layout/_browserWarnings.jade', 'app/layout/_browserWarnings.jade');
 };
 
 EdgeplateGenerator.prototype.components = function componentFiles() {
-    this.copy('public/components/navbar/_navbar.scss', 'app/public/components/navbar/_navbar.scss');
-    this.copy('public/components/navbar/navbar.jade', 'app/public/components/navbar/navbar.jade');
+    this.copy('public/components/navbar/_navbar.scss', 'app/components/navbar/_navbar.scss');
+    this.copy('public/components/navbar/navbar.jade', 'app/components/navbar/navbar.jade');
 };
 
 EdgeplateGenerator.prototype.directives = function directiveFiles() {
-    this.mkdir('app/public/directives');
+    this.mkdir('app/directives');
 };
 
 EdgeplateGenerator.prototype.images = function imageFiles() {
-    this.directory('public/images/favicon/', 'app/public/images/favicon/');
-    this.copy('public/favicon.ico', 'app/public/favicon.ico');
+    this.directory('public/images/favicon/', 'app/images/favicon/');
+    this.copy('public/favicon.ico', 'app/favicon.ico');
 };
 
 EdgeplateGenerator.prototype.filters = function filterFiles() {
-    this.mkdir('app/public/scripts/filters');
+    this.mkdir('app/scripts/filters');
 };
 
 EdgeplateGenerator.prototype.services = function serviceFiles() {
-    this.copy('public/scripts/services/lbServices.js', 'app/public/scripts/services/lbServices.js');
-    this.copy('public/scripts/services/edgePage.js', 'app/public/scripts/services/edgePage.js');
-    this.copy('public/scripts/services/edgeResolver.js', 'app/public/scripts/services/edgeResolver.js');
-    this.copy('public/scripts/services/NProgress.js', 'app/public/scripts/services/NProgress.js');
+    this.copy('public/scripts/services/lbServices.js', 'app/scripts/services/lbServices.js');
+    this.copy('public/scripts/services/edgePage.js', 'app/scripts/services/edgePage.js');
+    this.copy('public/scripts/services/edgeResolver.js', 'app/scripts/services/edgeResolver.js');
+    this.copy('public/scripts/services/NProgress.js', 'app/scripts/services/NProgress.js');
 };
 
 EdgeplateGenerator.prototype.scripts = function scriptFiles() {
-    this.template('public/scripts/app.js', 'app/public/scripts/app.js');
-    this.copy('public/scripts/helper.js', 'app/public/scripts/helper.js');
-    this.copy('public/scripts/foot-init.js', 'app/public/scripts/foot-init.js');
-    this.copy('public/scripts/head-init.js', 'app/public/scripts/head-init.js');
+    this.template('public/scripts/app.js', 'app/scripts/app.js');
+    this.copy('public/scripts/helper.js', 'app/scripts/helper.js');
+    this.copy('public/scripts/foot-init.js', 'app/scripts/foot-init.js');
+    this.copy('public/scripts/head-init.js', 'app/scripts/head-init.js');
 };
 
 EdgeplateGenerator.prototype.styles = function styleFiles() {
-    this.mkdir('app/public/styles');
-    this.copy('public/styles/_animate.scss', 'app/public/styles/_animate.scss');
-    this.copy('public/styles/_mixins.scss', 'app/public/styles/_mixins.scss');
-    this.copy('public/styles/_styles.scss', 'app/public/styles/_styles.scss');
-    this.copy('public/styles/_variables.scss', 'app/public/styles/_variables.scss');
-    this.copy('public/styles/app.scss', 'app/public/styles/app.scss');
+    this.mkdir('app/styles');
+    this.copy('public/styles/_animate.scss', 'app/styles/_animate.scss');
+    this.copy('public/styles/_mixins.scss', 'app/styles/_mixins.scss');
+    this.copy('public/styles/_styles.scss', 'app/styles/_styles.scss');
+    this.copy('public/styles/_variables.scss', 'app/styles/_variables.scss');
+    this.copy('public/styles/app.scss', 'app/styles/app.scss');
 };
 
 EdgeplateGenerator.prototype.controllers = function controllerFiles() {
-    this.copy('public/controllers/App/AppController.js', 'app/public/controllers/App/AppController.js');
+    this.copy('public/controllers/App/AppController.js', 'app/controllers/App/AppController.js');
 
-    this.copy('public/controllers/pages/Index/_Index.scss', 'app/public/controllers/pages/Index/_Index.scss');
-    this.copy('public/controllers/pages/Index/IndexController.js', 'app/public/controllers/pages/Index/IndexController.js');
-    this.copy('public/controllers/pages/Index/IndexResolver.js', 'app/public/controllers/pages/Index/IndexResolver.js');
-    this.copy('public/controllers/pages/Index/IndexView.jade', 'app/public/controllers/pages/Index/IndexView.jade');
+    this.copy('public/controllers/pages/Index/_Index.scss', 'app/controllers/pages/Index/_Index.scss');
+    this.copy('public/controllers/pages/Index/IndexController.js', 'app/controllers/pages/Index/IndexController.js');
+    this.copy('public/controllers/pages/Index/IndexResolver.js', 'app/controllers/pages/Index/IndexResolver.js');
+    this.copy('public/controllers/pages/Index/IndexView.jade', 'app/controllers/pages/Index/IndexView.jade');
 };
 
 EdgeplateGenerator.prototype.projectfiles = function projectfiles() {
@@ -208,7 +207,7 @@ EdgeplateGenerator.prototype.cordova = function cordovaFiles() {
         this.mkdir('cordova/plugins');
         this.mkdir('cordova/www');
         this.copy('cordova/config.xml', 'cordova/config.xml');
-        this.copy('public/scripts/edge.cordova.js', 'app/public/scripts/edge.cordova.js');
+        this.copy('public/scripts/edge.cordova.js', 'app/scripts/edge.cordova.js');
     }
 };
 

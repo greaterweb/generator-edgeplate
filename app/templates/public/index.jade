@@ -27,7 +27,7 @@ append footer-scripts
   if CORDOVA
     script(src="cordova.js")<% } %>
 
-  // build:js(app/public/) scripts/lib.js
+  // build:js(app/) scripts/lib.js
   //- underscore js
   script(src="bower_lib/underscore/underscore.js")
 
@@ -55,7 +55,7 @@ append footer-scripts
 
   // endbuild
 
-  // build:angularJs(app/public/) scripts/app.js
+  // build:angularJs(app/) scripts/app.js
   //- everything beyond this point is assumed to be angular related
       and will run through the ngmin task putting it in the temp
       directory during the build process<% if (useCordova) { %>

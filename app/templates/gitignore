@@ -2,7 +2,7 @@ node_modules
 dist
 .tmp
 .sass-cache
-app/public/bower_lib
+app/bower_lib
 .DS_Store
 .VolumeIcon.icns
 .fseventsd

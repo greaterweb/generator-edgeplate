@@ -40,38 +40,36 @@ describe('edgeplate generator', function () {
             'common/views/robots-allow.txt',
             'common/views/robots-disallow.txt',
             // layout
-            'app/public/layout/_global.jade',
-            'app/public/layout/_touchIcons.jade',
+            'app/layout/_global.jade',
+            'app/layout/_touchIcons.jade',
             // components
-            'app/public/components/navbar/_navbar.scss',
-            'app/public/components/navbar/navbar.jade',
+            'app/components/navbar/_navbar.scss',
+            'app/components/navbar/navbar.jade',
             // controllers
-            'app/public/controllers/App/AppController.js',
-            'app/public/controllers/pages/Index/_Index.scss',
-            'app/public/controllers/pages/Index/IndexController.js',
-            'app/public/controllers/pages/Index/IndexResolver.js',
-            'app/public/controllers/pages/Index/IndexView.jade',
+            'app/controllers/App/AppController.js',
+            'app/controllers/pages/Index/_Index.scss',
+            'app/controllers/pages/Index/IndexController.js',
+            'app/controllers/pages/Index/IndexResolver.js',
+            'app/controllers/pages/Index/IndexView.jade',
             // services
-            'app/public/scripts/services/lbServices.js',
-            'app/public/scripts/services/edgePage.js',
-            'app/public/scripts/services/edgeResolver.js',
-            'app/public/scripts/services/NProgress.js',
+            'app/scripts/services/lbServices.js',
+            'app/scripts/services/edgePage.js',
+            'app/scripts/services/edgeResolver.js',
+            'app/scripts/services/NProgress.js',
             // scripts
-            'app/public/scripts/app.js',
-            'app/public/scripts/helper.js',
-            'app/public/scripts/foot-init.js',
-            'app/public/scripts/head-init.js',
+            'app/scripts/app.js',
+            'app/scripts/helper.js',
+            'app/scripts/foot-init.js',
+            'app/scripts/head-init.js',
             // styles
-            'app/public/styles/_mixins.scss',
-            'app/public/styles/_styles.scss',
-            'app/public/styles/_variables.scss',
-            'app/public/styles/app.scss',
+            'app/styles/_mixins.scss',
+            'app/styles/_styles.scss',
+            'app/styles/_variables.scss',
+            'app/styles/app.scss',
             // images
             // TODO: list image paths
-            'app/public/images/favicon/favicon-master.png',
+            'app/images/favicon/favicon-master.png',
             // index
-            'app/public/index.jade',
-            // express config
             'app/index.jade',
             // misc app files
             '.bowerrc',
