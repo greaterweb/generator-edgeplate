@@ -122,9 +122,6 @@ EdgeplateGenerator.prototype.app = function app() {
 
     this.template('public/index.jade', 'app/public/index.jade');
 
-    this.mkdir('app/models');
-
-    this.directory('views/', 'app/views/');
 
     this.template('_gulpfile.js', 'gulpfile.js');
 
