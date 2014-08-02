@@ -72,13 +72,11 @@ describe('edgeplate generator', function () {
             // index
             'app/public/index.jade',
             // express config
-            'app/app.js',
+            'app/index.jade',
             // misc app files
             '.bowerrc',
             'bower.json',
             'package.json',
-            'datasources.json',
-            'models.json',
             '.jshintrc',
             '.editorconfig',
             '.gitignore',
