@@ -23,10 +23,12 @@ describe('edgeplate generator', function () {
             // add files you expect to exist here.
             // server
             'server/boot/authentication.js',
+            'server/boot/config.js',
             'server/boot/explorer.js',
             'server/boot/rest-api.js',
             'server/boot/root.js',
-            'server/config.json',
+            'server/lib/handler.js',
+            'server/lib/mail.js',
             'server/datasources.json',
             'server/model-config.json',
             'server/server.js',
