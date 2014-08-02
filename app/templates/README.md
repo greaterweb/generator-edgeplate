@@ -110,33 +110,44 @@ When using `top` to debug node processes some helpful hints:
 ## File Structure
 
 - `dist/` distributed version of project, built by `gulp build`
-- `app/`
-    - `public/` front end assets
-    	- `locales/` text translations
-        - `bower_lib/` front end dependencies managed through Bower
-        - `components/` front end component assets grouped by directory which includes all js, scss and images
-        - `controllers/` angularjs controller assets grouped by directory which includes all js, scss and images
-            - `pages/` front end page controller assets grouped by directory which includes all jade, js, scss and images
-        - `directives/` angularjs directive assets grouped by directory which includes all js, scss and images
-        - `images/` shared front end image assets
-        - `layout/` Jade templates used for the main page layout
-        - `scripts/` project javascript files
-            - `filters/` angularjs filter assets
-            - `services/` angularjs service assets<% if (useCordova) { %>
-            - `edge.cordova.js` cordova angularjs project declarations<% } %>
-            - `app.js` main angularjs project declarations
-            - `helper.js` global helper functions and feature poloyfils
-        - `styles/` project stylesheets, both SASS and CSS
-            - `fonts/` custom fonts used with stylesheets
-            - `_mixins.scss` project SASS mixins
-            - `_styles.scss` global/shared project styles
-            - `_variables.scss` project SASS variables
-            - `app.scss` SASS file used to include all project stylesheets
-        - `index.jade` project index file
-    - `services/` Node.js scripts and services used by the front end
-    - `views/` views for robots.txt and server side jade
-    - `app.js` Node file containing project specific express configuration
-    - `routes.js` Node file containing project specific routes
+- `app/` front end assets
+	- `locales/` text translations
+    - `bower_lib/` front end dependencies managed through Bower
+    - `components/` front end component assets grouped by directory which includes all js, scss and images
+    - `controllers/` angularjs controller assets grouped by directory which includes all js, scss and images
+        - `pages/` front end page controller assets grouped by directory which includes all jade, js, scss and images
+    - `directives/` angularjs directive assets grouped by directory which includes all js, scss and images
+    - `images/` shared front end image assets
+    - `layout/` Jade templates used for the main page layout
+    - `scripts/` project javascript files
+        - `filters/` angularjs filter assets
+        - `services/` angularjs service assets<% if (useCordova) { %>
+        - `edge.cordova.js` cordova angularjs project declarations<% } %>
+        - `app.js` main angularjs project declarations
+        - `helper.js` global helper functions and feature poloyfils
+    - `styles/` project stylesheets, both SASS and CSS
+        - `fonts/` custom fonts used with stylesheets
+        - `_mixins.scss` project SASS mixins
+        - `_styles.scss` global/shared project styles
+        - `_variables.scss` project SASS variables
+        - `app.scss` SASS file used to include all project stylesheets
+    - `index.jade` project index file
+- `common/` common server assets, maintains this structure to be compatibile with `yo loopback`
+    - `models/` - custom loopback data models
+    - `views/` - server side jade views and misc static files
+- `server/` node server assets
+    - `boot/` loopback scripts to be executed by `boot()`
+        - `authentication.js` enables loopback authentication
+        - `config.js` express configuraiton to be run before routes are defined
+        - `explorer.js` loopback explorer
+        - `rest-api.js` loopback rest api generator
+        - `root.js` server redirect logic for angular routes and loopback router
+    - `lib/` separation of some server logic into custom modules
+        - `handler.js` custom error handler middleware
+        - `mail.js` basic module wrapper for nodemailer integration
+    - `datasources.json` - loopback datasources config
+    - `model-config.json` - loopback data model config
+    - `server.js` - node server with loopback integration
 - `.tmp/` directory dedicated to temporary storage of development assets, contents not included in repository
 - `package.json` Node dependencies
 - `bower.json` Bower dependencies - see `app/bower_lib`
