@@ -9,15 +9,15 @@ CONFIG=./.config.sh
 
 if ! [ -e $CONFIG ]
 then
-echo "$(tput setaf 1)>>>$(tput sgr0) Missing $(tput setaf 3)" $CONFIG "$(tput sgr0) file. Let's generate one using $(tput setaf 2)gulp config.sh$(tput sgr0)"
-gulp config.sh
-if ! [ -e $CONFIG ]
-then
-    echo "$(tput setaf 1)Something went wrong :-($(tput sgr0)"
-    exit 1
-else
-    echo "Attempting to deploy project"
-fi
+    echo "$(tput setaf 1)>>>$(tput sgr0) Missing $(tput setaf 3)" $CONFIG "$(tput sgr0) file. Let's generate one using $(tput setaf 2)gulp config.sh$(tput sgr0)"
+    gulp config.sh
+    if ! [ -e $CONFIG ]
+        then
+        echo "$(tput setaf 1)Something went wrong :-($(tput sgr0)"
+        exit 1
+    else
+        echo "Attempting to deploy project"
+    fi
 fi
 
 source $CONFIG
