@@ -134,7 +134,14 @@ When using `top` to debug node processes some helpful hints:
     - `index.jade` project index file
 - `common/` common server assets, maintains this structure to be compatibile with `yo loopback`
     - `models/` - custom loopback data models
-    - `views/` - server side jade views and misc static files
+    - `views/` - server side jade views and misc static files<% if (useCordova) { %>
+- `cordova/` - cordova assets, standard structure. all `cordova` commands should be run from this directory
+    - `hooks/`
+    - `merges/`
+    - `platforms/`
+    - `plugins/`
+    - `www/`
+    - `config.xml` - cordova configuration<% } %>
 - `server/` node server assets
     - `boot/` loopback scripts to be executed by `boot()`
         - `authentication.js` enables loopback authentication
