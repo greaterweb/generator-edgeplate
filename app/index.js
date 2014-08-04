@@ -161,6 +161,21 @@ var EdgeplateGenerator = yeoman.generators.Base.extend({
             this.edgeplate.sshPort = props.sshPort;
             done();
         }.bind(this));
+    },
+    buildDeployFiles: function () {
+        if (this.edgeplate.features.indexOf('buildDeploy') === -1) {
+            return;
+        }
+        this.src.copy('excludes', '.excludes');
+        this.src.copy('deploy.sh', 'deploy.sh');
+        this.src.copy('remote.sh', 'remote.sh');
+        this.src.copy('tail-log.sh', 'tail-log.sh');
+    },
+    faviconFiles: function () {
+        if (this.edgeplate.features.indexOf('favicon') === -1) {
+            return;
+        }
+        this.src.copy('favicon.sh', 'favicon.sh');
     }
 });
 
