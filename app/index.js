@@ -5,7 +5,7 @@ var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
 
 var EdgeplateGenerator = yeoman.generators.Base.extend({
-    init: function () {
+    init: function init() {
         this.pkg = require('../package.json');
         this.edgeplate = this.config.getAll();
 
@@ -17,8 +17,7 @@ var EdgeplateGenerator = yeoman.generators.Base.extend({
             }
         });
     },
-
-    isProject: function () {
+    isProject: function isProject() {
         // TODO: Move to a library item so it is accessible for sub generators
         if (this.edgeplate.version) {
             this.isEdgeplate = true;
@@ -59,8 +58,7 @@ var EdgeplateGenerator = yeoman.generators.Base.extend({
             }.bind(this));
         }
     },
-
-    welcome: function () {
+    welcome: function welcome() {
         var done = this.async();
 
         var welcome = [
@@ -90,8 +88,7 @@ var EdgeplateGenerator = yeoman.generators.Base.extend({
             done();
         }.bind(this));
     },
-
-    projectSlug: function () {
+    projectSlug: function projectSlug() {
         var done = this.async();
         var prompts = [{
             name: 'slug',
@@ -110,8 +107,7 @@ var EdgeplateGenerator = yeoman.generators.Base.extend({
             done();
         }.bind(this));
     },
-
-    features: function () {
+    features: function features() {
         var done = this.async();
         var prompts = [{
             type: 'checkbox',
@@ -147,8 +143,7 @@ var EdgeplateGenerator = yeoman.generators.Base.extend({
             done();
         }.bind(this));
     },
-
-    buildAndDeploy: function () {
+    buildAndDeploy: function buildAndDeploy() {
         if (!this.edgeplate.features.buildDeploy) {
             return;
         }
@@ -192,7 +187,7 @@ var EdgeplateGenerator = yeoman.generators.Base.extend({
             done();
         }.bind(this));
     },
-    buildDeployFiles: function () {
+    buildDeployFiles: function buildDeployFiles() {
         if (!this.edgeplate.features.buildDeploy) {
             return;
         }
@@ -201,13 +196,13 @@ var EdgeplateGenerator = yeoman.generators.Base.extend({
         this.src.copy('remote.sh', 'remote.sh');
         this.src.copy('tail-log.sh', 'tail-log.sh');
     },
-    faviconFiles: function () {
+    faviconFiles: function faviconFiles() {
         if (this.edgeplate.features.favicon) {
             return;
         }
         this.src.copy('favicon.sh', 'favicon.sh');
     },
-    rootFiles: function () {
+    rootFiles: function rootFiles() {
         this.template('_gulpfile.js', 'gulpfile.js');
         this.template('README.md', 'README.md');
         this.template('_bower.json', 'bower.json');
