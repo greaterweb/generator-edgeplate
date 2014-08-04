@@ -1,221 +1,163 @@
 'use strict';
-var util = require('util'),
-    path = require('path'),
-    fs = require('fs.extra'),
-    yeoman = require('yeoman-generator'),
-    chalk = require('chalk');
+var util = require('util');
+var path = require('path');
+var yeoman = require('yeoman-generator');
+var chalk = require('chalk');
 
-var EdgeplateGenerator = module.exports = function EdgeplateGenerator(args, options, config) {
-    yeoman.generators.Base.apply(this, arguments);
+var EdgeplateGenerator = yeoman.generators.Base.extend({
+    init: function () {
+        this.pkg = require('../package.json');
+        this.edgeplate = this.config.getAll();
 
-    this.argument('slug', { type: String, required: false });
-    this.appSlug = this.slug || path.basename(process.cwd());
-    this.currentYear = new Date().getFullYear();
-    this.version = require('../package.json').version;
-
-    this.on('end', function () {
-        this.installDependencies({
-            callback: function () {
-                if (!options['skip-install']) {
-                    var sourceRoot = process.cwd(),
-                        fontSrc = path.join(sourceRoot, '/app/bower_lib/bootstrap-sass/vendor/assets/fonts/bootstrap'),
-                        fontDest = path.join(sourceRoot, 'app/styles/fonts');
-
-                    // copy the bootstrap glyphicon fonts into the styles directory
-                    fs.copyRecursive(fontSrc, fontDest, function (err) {
-                        if (err) {
-                            throw err;
-                        }
-                    });
-                }
-                if (this.useCordova) {
-                    this.log
-                        .write()
-                        .write()
-                        .info(chalk.yellow('Action required to complete Cordova support'))
-                        .write()
-                        .info('Enter the cordova directory')
-                        .info(chalk.grey('$'), chalk.cyan('cd cordova'))
-                        .write()
-                        .info('Add platforms to support')
-                        .info(chalk.grey('$'), chalk.cyan('cordova platform add ios'))
-                        .write()
-                        .info('Add required plugins')
-                        .info(chalk.grey('$'), chalk.cyan('cordova plugin add org.apache.cordova.console'))
-                        .info(chalk.grey('$'), chalk.cyan('cordova plugin add org.apache.cordova.device'))
-                        .info(chalk.grey('$'), chalk.cyan('cordova plugin add org.apache.cordova.statusbar'))
-                        .write();
-                }
-            }.bind(this),
-            skipInstall: options['skip-install']
+        this.on('end', function () {
+            this.edgeplate.version = this.pkg.version;
+            this.config.defaults(this.edgeplate);
+            if (!this.options['skip-install']) {
+                // this.installDependencies();
+            }
         });
-    });
+    },
 
-    this.pkg = JSON.parse(this.readFileAsString(path.join(__dirname, '../package.json')));
-};
+    isProject: function () {
+        // TODO: Move to a library item so it is accessible for sub generators
+        if (this.edgeplate.version) {
+            this.isEdgeplate = true;
+            var thisVersion = this.pkg.version.split('.');
+            var thatVersion = this.edgeplate.version.split('.');
+            if (thisVersion[0] !== thatVersion[0] || thisVersion[1] !== thatVersion[1]) {
+                // only look at major and minor version
+                this.hasConflict = true;
+            } else {
+                this.hasConflict = false;
+            }
+        } else {
+            this.isEdgeplate = false;
+        }
 
-util.inherits(EdgeplateGenerator, yeoman.generators.Base);
+        if (this.hasConflict) {
+            this.log([
+                '',
+                chalk.red('>>> WARNING <<<'),
+                ('You are currently using Edgeplate ' + chalk.yellow('v' + this.pkg.version) + '.'),
+                ('The original Edgeplate generator used for this project was ' + chalk.yellow('v' + this.edgeplate.version) + '.')
+            ].join('\n'));
 
-EdgeplateGenerator.prototype.askFor = function askFor() {
-    var cb = this.async();
+            var done = this.async();
 
-    // welcome message
-    var welcome =[
-        chalk.gray('   _____ ____   ____ _____ ____  _        _  _____ _____   '),
-        chalk.gray('  | ____|  _ \\ / ___| ____|  _ \\| |      / \\|_   _| ____|  '),
-        chalk.gray('  |  _| | | | | |  _|  _| | |_) | |     / _ \\ | | |  _|    '),
-        chalk.gray('  | |___| |_| | |_| | |___|  __/| |___ / ___ \\| | | |___   '),
-        chalk.gray('  |_____|____/ \\____|_____|_|   |_____/_/   \\_\\_| |_____|  '),
-        chalk.gray('                                                           '),
-        chalk.gray('  ====>>>>    ') + chalk.green('Angular Application Boilerplate') + chalk.gray('    <<<<===='),
-        chalk.gray('  ====>>>>            ') + chalk.green('by Ron Edgecomb') + chalk.gray('            <<<<===='),
-        chalk.gray('                                                           ')
-    ].join('\n');
+            var prompts = [{
+                type: 'confirm',
+                name: 'continue',
+                message: 'Do you wish to continue?',
+                default: false
+            }];
 
-    console.log(welcome);
+            this.prompt(prompts, function (props) {
+                if (!props.continue) {
+                    process.exit(1);
+                }
+                done();
+            }.bind(this));
+        }
+    },
 
-    var prompts = [{
-        name: 'appTitle',
-        message: 'What is the display title of your app?',
-        default: 'Edge Project'
-    },{
-        type: 'confirm',
-        name: 'useCordova',
-        message: 'Would you like to enable Cordova support?',
-        default: true
-    },{
-        name: 'hostDomain',
-        message: 'Where is your project hosted (server name)?',
-        default: 'host.example.com'
-    },{
-        name: 'baseDomain',
-        message: 'What is your base domain for this project?',
-        default: 'project.example.com'
-    },{
-        name: 'wwwPort',
-        message: 'What port will your express production service run on?',
-        default: '80'
-    },{
-        name: 'devPort',
-        message: 'What port will your express development service run on?',
-        default: '8000'
-    },{
-        name: 'sshPort',
-        message: 'What port will you use for ssh?',
-        default: '22'
-    }];
+    welcome: function () {
+        var done = this.async();
 
-    this.prompt(prompts, function (props) {
-        this.appTitle = props.appTitle;
-        this.useCordova = props.useCordova;
-        this.hostDomain = props.hostDomain;
-        this.baseDomain = props.baseDomain;
-        this.devPort = props.devPort;
-        this.wwwPort = props.wwwPort;
-        this.sshPort = props.sshPort;
+        var welcome = [
+            chalk.gray('   _____ ____   ____ _____ ____  _        _  _____ _____   '),
+            chalk.gray('  | ____|  _ \\ / ___| ____|  _ \\| |      / \\|_   _| ____|  '),
+            chalk.gray('  |  _| | | | | |  _|  _| | |_) | |     / _ \\ | | |  _|    '),
+            chalk.gray('  | |___| |_| | |_| | |___|  __/| |___ / ___ \\| | | |___   '),
+            chalk.gray('  |_____|____/ \\____|_____|_|   |_____/_/   \\_\\_| |_____|  '),
+            chalk.gray('                                                           '),
+            '                     ' + chalk.green('Edgeplate v' + this.pkg.version) + '                    ',
+            '                      ' + chalk.green('by Ron Edgecomb') + '                    ',
+            '',
+            '      Edgeplate is an opinionated way of building web',
+            '       applications with Angular, Loopback and Node.',
+            ''
+        ].join('\n');
+        this.log(welcome);
 
-        cb();
-    }.bind(this));
-};
+        var prompts = [{
+            name: 'title',
+            message: 'What is the display title of your app?',
+            default: 'Edge Project'
+        },
+        {
+            type: 'checkbox',
+            name: 'features',
+            message: 'What features would you like supported?',
+            choices: [{
+                name: 'Cordova',
+                value: 'cordova'
+            },
+            {
+                name: 'Loopback',
+                value: 'loopback'
+            },
+            {
+                name: 'Socket.io',
+                value: 'socketio'
+            },
+            {
+                name: 'Build and Deploy',
+                value: 'buildDeploy'
+            }],
+            default: ['cordova', 'loopback', 'socketio', 'buildDeploy']
+        }];
 
-EdgeplateGenerator.prototype.app = function app() {
+        this.prompt(prompts, function (props) {
+            this.edgeplate.title = props.title;
+            this.edgeplate.features = props.features;
+            done();
+        }.bind(this));
+    },
 
-    this.template('public/index.jade', 'app/index.jade');
+    buildAndDeploy: function () {
+        if (this.edgeplate.features.indexOf('buildDeploy') === -1) {
+            return;
+        }
 
-    this.template('_gulpfile.js', 'gulpfile.js');
+        this.log('\n', chalk.green('Please complete Edgeplate options for build and deploy scripts.'), '\n');
 
-    this.copy('README.md', 'README.md');
+        var done = this.async();
 
-    this.copy('_package.json', 'package.json');
-    this.copy('bowerrc', '.bowerrc');
-    this.copy('_bower.json', 'bower.json');
-    this.copy('excludes', '.excludes');
+        var prompts = [{
+            name: 'hostDomain',
+            message: 'Where is your project hosted (server name)?',
+            default: 'host.edgeplate.com'
+        },
+        {
+            name: 'baseDomain',
+            message: 'What is your base domain for this project?',
+            default: 'project.edgeplate.com'
+        },
+        {
+            name: 'wwwPort',
+            message: 'What port will your express production service run on?',
+            default: '80'
+        },
+        {
+            name: 'devPort',
+            message: 'What port will your express development service run on?',
+            default: '8000'
+        },
+        {
+            name: 'sshPort',
+            message: 'What port will you use for ssh?',
+            default: '22'
+        }];
 
-    this.copy('deploy.sh', 'deploy.sh');
-    this.copy('favicon.sh', 'favicon.sh');
-    this.copy('remote.sh', 'remote.sh');
-    this.copy('tail-log.sh', 'tail-log.sh');
-};
-
-EdgeplateGenerator.prototype.layout = function layoutFiles() {
-    this.copy('public/layout/_global.jade', 'app/layout/_global.jade');
-    this.copy('public/layout/_touchIcons.jade', 'app/layout/_touchIcons.jade');
-    this.copy('public/layout/_browserWarnings.jade', 'app/layout/_browserWarnings.jade');
-};
-
-EdgeplateGenerator.prototype.components = function componentFiles() {
-    this.copy('public/components/navbar/_navbar.scss', 'app/components/navbar/_navbar.scss');
-    this.copy('public/components/navbar/navbar.jade', 'app/components/navbar/navbar.jade');
-};
-
-EdgeplateGenerator.prototype.directives = function directiveFiles() {
-    this.mkdir('app/directives');
-};
-
-EdgeplateGenerator.prototype.images = function imageFiles() {
-    this.directory('public/images/favicon/', 'app/images/favicon/');
-    this.copy('public/favicon.ico', 'app/favicon.ico');
-};
-
-EdgeplateGenerator.prototype.filters = function filterFiles() {
-    this.mkdir('app/scripts/filters');
-};
-
-EdgeplateGenerator.prototype.services = function serviceFiles() {
-    this.copy('public/scripts/services/lbServices.js', 'app/scripts/services/lbServices.js');
-    this.copy('public/scripts/services/edgePage.js', 'app/scripts/services/edgePage.js');
-    this.copy('public/scripts/services/edgeResolver.js', 'app/scripts/services/edgeResolver.js');
-    this.copy('public/scripts/services/NProgress.js', 'app/scripts/services/NProgress.js');
-};
-
-EdgeplateGenerator.prototype.scripts = function scriptFiles() {
-    this.template('public/scripts/app.js', 'app/scripts/app.js');
-    this.copy('public/scripts/helper.js', 'app/scripts/helper.js');
-    this.copy('public/scripts/foot-init.js', 'app/scripts/foot-init.js');
-    this.copy('public/scripts/head-init.js', 'app/scripts/head-init.js');
-};
-
-EdgeplateGenerator.prototype.styles = function styleFiles() {
-    this.mkdir('app/styles');
-    this.copy('public/styles/_animate.scss', 'app/styles/_animate.scss');
-    this.copy('public/styles/_mixins.scss', 'app/styles/_mixins.scss');
-    this.copy('public/styles/_styles.scss', 'app/styles/_styles.scss');
-    this.copy('public/styles/_variables.scss', 'app/styles/_variables.scss');
-    this.copy('public/styles/app.scss', 'app/styles/app.scss');
-};
-
-EdgeplateGenerator.prototype.controllers = function controllerFiles() {
-    this.copy('public/controllers/App/AppController.js', 'app/controllers/App/AppController.js');
-
-    this.copy('public/controllers/pages/Index/_Index.scss', 'app/controllers/pages/Index/_Index.scss');
-    this.copy('public/controllers/pages/Index/IndexController.js', 'app/controllers/pages/Index/IndexController.js');
-    this.copy('public/controllers/pages/Index/IndexResolver.js', 'app/controllers/pages/Index/IndexResolver.js');
-    this.copy('public/controllers/pages/Index/IndexView.jade', 'app/controllers/pages/Index/IndexView.jade');
-};
-
-EdgeplateGenerator.prototype.projectfiles = function projectfiles() {
-    this.copy('editorconfig', '.editorconfig');
-    this.copy('jshintrc', '.jshintrc');
-    this.copy('gitignore', '.gitignore');
-};
-
-EdgeplateGenerator.prototype.cordova = function cordovaFiles() {
-    if (this.useCordova) {
-        this.template('cordova/hooks/README.md', 'cordova/hooks/README.md');
-        this.mkdir('cordova/merges');
-        this.mkdir('cordova/platforms');
-        this.mkdir('cordova/plugins');
-        this.mkdir('cordova/www');
-        this.copy('cordova/config.xml', 'cordova/config.xml');
-        this.copy('public/scripts/edge.cordova.js', 'app/scripts/edge.cordova.js');
+        this.prompt(prompts, function (props) {
+            this.edgeplate.hostDomain = props.hostDomain;
+            this.edgeplate.baseDomain = props.baseDomain;
+            this.edgeplate.devPort = props.devPort;
+            this.edgeplate.wwwPort = props.wwwPort;
+            this.edgeplate.sshPort = props.sshPort;
+            done();
+        }.bind(this));
     }
-};
+});
 
-EdgeplateGenerator.prototype.loopback = function loopbackFiles() {
-    this.directory('server/', 'server/');
-};
-
-EdgeplateGenerator.prototype.common = function commonFiles() {
-    this.mkdir('common/models');
-    this.directory('common/', 'common/');
-};
+module.exports = EdgeplateGenerator;
