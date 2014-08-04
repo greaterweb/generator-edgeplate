@@ -103,8 +103,12 @@ var EdgeplateGenerator = yeoman.generators.Base.extend({
             {
                 name: 'Build and Deploy',
                 value: 'buildDeploy'
+            },
+            {
+                name: 'Favicon Builder',
+                value: 'favicon'
             }],
-            default: ['cordova', 'loopback', 'socketio', 'buildDeploy']
+            default: ['cordova', 'loopback', 'socketio', 'buildDeploy', 'favicon']
         }];
 
         this.prompt(prompts, function (props) {
