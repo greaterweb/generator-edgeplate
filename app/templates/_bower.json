@@ -1,6 +1,6 @@
 {
-  "title": "<%= appTitle %>",
-  "name": "<%= _.slugify(appTitle) %>",
+  "title": "<%= edgeplate.title %>",
+  "name": "<%= edgeplate.slug %>",
   "version": "0.1.0",
   "dependencies": {
     "bootstrap-sass": "twbs/bootstrap-sass#~3.1.1",
