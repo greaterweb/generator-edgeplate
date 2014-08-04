@@ -217,6 +217,71 @@ var EdgeplateGenerator = yeoman.generators.Base.extend({
         this.src.copy('editorconfig', '.editorconfig');
         this.src.copy('jshintrc', '.jshintrc');
         this.src.copy('gitignore', '.gitignore');
+    },
+    layoutFiles: function layoutFiles() {
+        this.template('app/index.jade', 'app/index.jade');
+        this.template('app/layout/_global.jade', 'app/layout/_global.jade');
+        this.src.copy('app/layout/_touchIcons.jade', 'app/layout/_touchIcons.jade');
+        this.src.copy('app/layout/_browserWarnings.jade', 'app/layout/_browserWarnings.jade');
+    },
+    componentFiles: function componentFiles() {
+        this.src.copy('app/components/navbar/_navbar.scss', 'app/components/navbar/_navbar.scss');
+        this.template('app/components/navbar/navbar.jade', 'app/components/navbar/navbar.jade');
+    },
+    directiveFiles: function directiveFiles() {
+        this.dest.mkdir('app/directives');
+    },
+    imageFiles: function imageFiles() {
+        this.directory('app/images/favicon/', 'app/images/favicon/');
+        this.src.copy('app/favicon.ico', 'app/favicon.ico');
+    },
+    filterFiles: function filterFiles() {
+        this.dest.mkdir('app/scripts/filters');
+    },
+    serviceFiles: function serviceFiles() {
+        this.src.copy('app/scripts/services/lbServices.js', 'app/scripts/services/lbServices.js');
+        this.src.copy('app/scripts/services/edgePage.js', 'app/scripts/services/edgePage.js');
+        this.src.copy('app/scripts/services/edgeResolver.js', 'app/scripts/services/edgeResolver.js');
+        this.src.copy('app/scripts/services/NProgress.js', 'app/scripts/services/NProgress.js');
+    },
+    scriptFiles: function scriptFiles() {
+        this.template('app/scripts/app.js', 'app/scripts/app.js');
+        this.src.copy('app/scripts/helper.js', 'app/scripts/helper.js');
+        this.src.copy('app/scripts/foot-init.js', 'app/scripts/foot-init.js');
+        this.src.copy('app/scripts/head-init.js', 'app/scripts/head-init.js');
+    },
+    styleFiles: function styleFiles() {
+        this.dest.mkdir('app/styles');
+        this.src.copy('app/styles/_animate.scss', 'app/styles/_animate.scss');
+        this.src.copy('app/styles/_mixins.scss', 'app/styles/_mixins.scss');
+        this.src.copy('app/styles/_styles.scss', 'app/styles/_styles.scss');
+        this.src.copy('app/styles/_variables.scss', 'app/styles/_variables.scss');
+        this.src.copy('app/styles/app.scss', 'app/styles/app.scss');
+    },
+    controllerFiles: function controllerFiles() {
+        this.src.copy('app/controllers/App/AppController.js', 'app/controllers/App/AppController.js');
+        this.src.copy('app/controllers/pages/Index/_Index.scss', 'app/controllers/pages/Index/_Index.scss');
+        this.src.copy('app/controllers/pages/Index/IndexController.js', 'app/controllers/pages/Index/IndexController.js');
+        this.src.copy('app/controllers/pages/Index/IndexResolver.js', 'app/controllers/pages/Index/IndexResolver.js');
+        this.template('app/controllers/pages/Index/IndexView.jade', 'app/controllers/pages/Index/IndexView.jade');
+    },
+    cordovaFiles: function cordovaFiles() {
+        if (this.edgeplate.features.cordova) {
+            this.template('cordova/hooks/README.md', 'cordova/hooks/README.md');
+            this.dest.mkdir('cordova/merges');
+            this.dest.mkdir('cordova/platforms');
+            this.dest.mkdir('cordova/plugins');
+            this.dest.mkdir('cordova/www');
+            this.template('cordova/config.xml', 'cordova/config.xml');
+            this.src.copy('app/scripts/edge.cordova.js', 'app/scripts/edge.cordova.js');
+        }
+    },
+    loopbackFiles: function loopbackFiles() {
+        this.directory('server/', 'server/');
+    },
+    commonFiles: function commonFiles() {
+        this.dest.mkdir('common/models');
+        this.directory('common/', 'common/');
     }
 });
 
