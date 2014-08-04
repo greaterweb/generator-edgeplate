@@ -15,7 +15,7 @@ var $ = require('gulp-load-plugins')();
 
 var gitRevision = shell.exec('git rev-parse --short HEAD', { silent:true }).output;
 
-var environments = ['dev', 'www', 'cordova'];
+var environments = ['dev', 'www'<% if (edgeplate.features.cordova) { %>, 'cordova'<% } %>];
 
 var config = {
     pkg: require('./package.json'),
@@ -26,8 +26,8 @@ var config = {
     serverJs: path.resolve('server', 'server.js'),
     commonDir: 'common',
     common: path.resolve('common'),
-    dist: path.resolve('dist'),
-    cordova: path.resolve('cordova/www/'),
+    dist: path.resolve('dist'),<% if (edgeplate.features.cordova) { %>
+    cordova: path.resolve('cordova/www/'),<% } %>
     buildEnvironment: environments[0],
     temp: path.resolve('.tmp'),
     test: path.resolve('test'),
@@ -54,13 +54,13 @@ var tasks = {
         $.util.log('Cleaning ', $.util.colors.magenta(glob));
         return gulp.src(glob, { read: false })
             .pipe($.rimraf({ force: true }));
-    },
+    },<% if (edgeplate.features.cordova) { %>
     _cleanCordova: function () {
         var glob = path.join(config.cordova, '*');
         $.util.log('Cleaning ', $.util.colors.magenta(glob));
         return gulp.src(glob, { read: false })
             .pipe($.rimraf({ force: true }));
-    },
+    },<% } %>
     jshint: function () {
         $.util.log('Linting javascript files...');
         var glob = [
@@ -110,8 +110,8 @@ var tasks = {
         var LOCALS = {
             DEBUG: (isBuild)?false:true,
             LOCAL: (isBuild)?false:true,
-            ENV: (isBuild)?config.buildEnvironment:'local',
-            CORDOVA: (config.buildEnvironment === 'cordova')?true:false,
+            ENV: (isBuild)?config.buildEnvironment:'local',<% if (edgeplate.features.cordova) { %>
+            CORDOVA: (config.buildEnvironment === 'cordova')?true:false,<% } %>
             GIT_REVISION: config.revision,
             VERSION: 'v' + config.pkg.version,
             DATE_STAMP: strftime('%B %d, %Y %H:%M:%S', new Date(config.today)),
@@ -190,7 +190,7 @@ var tasks = {
         var dest = (isBuild)?path.join(config.dist, config.buildEnvironment):config.temp;
         return gulp.src(glob)
             .pipe(gulp.dest(dest));
-    },
+    },<% if (edgeplate.features.cordova) { %>
     _copyCordova: function () {
         $.util.log('Copying Cordova build to destination...');
         // copy all assets relative to root
@@ -198,7 +198,7 @@ var tasks = {
         var dest = config.cordova;
         return gulp.src(glob)
             .pipe(gulp.dest(dest));
-    },
+    },<% } %>
     _addBanner: function (isBuild) {
         $.util.log('Add debug header to files...');
         var glob = [
@@ -285,7 +285,7 @@ function buildProject () {
         '_addBanner'
     ];
     return queItUp(taskList, true);
-}
+}<% if (edgeplate.features.cordova) { %>
 
 function deployCordova () {
     // List of build task function names
@@ -294,7 +294,7 @@ function deployCordova () {
         '_copyCordova'
     ];
     return queItUp(taskList);
-}
+}<% } %>
 
 function startServer () {
     // List of build task function names
@@ -410,7 +410,7 @@ gulp.task('config.sh', function () {
         deferred.resolve();
     });
     return deferred.promise;
-});
+});<% if (edgeplate.features.cordova) { %>
 
 gulp.task('deploy:cordova', ['build:cordova'], function () {
     var deferred = Q.defer();
@@ -429,4 +429,4 @@ gulp.task('deploy:cordova', ['build:cordova'], function () {
         deferred.resolve();
     });
     return deferred.promise;
-});
+});<% } %>
