@@ -8,9 +8,15 @@ var EdgeplateGenerator = yeoman.generators.Base.extend({
     init: function init() {
         this.pkg = require('../package.json');
         this.edgeplate = this.config.getAll();
+        this.currentYear = new Date().getFullYear();
 
         this.on('end', function () {
-            this.edgeplate.version = this.pkg.version;
+            if (this.edgeplate.created) {
+                this.edgeplate.modified = Date.now();
+            } else {
+                this.edgeplate.version = this.pkg.version;
+                this.edgeplate.created = Date.now();
+            }
             this.config.defaults(this.edgeplate);
             if (!this.options['skip-install']) {
                 // this.installDependencies();
