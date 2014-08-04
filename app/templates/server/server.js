@@ -38,8 +38,6 @@ var baseUrl = app.get('baseUrl');
 app.set('appPath', path.resolve(__dirname + '/../app'));
 var appPath = app.get('appPath');
 
-console.log(path.resolve(__dirname + '/../common/models'));
-
 var bootConfig = {
     appRootDir: __dirname,
     env: app.get('env'),
