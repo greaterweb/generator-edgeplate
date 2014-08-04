@@ -113,13 +113,16 @@ var EdgeplateGenerator = yeoman.generators.Base.extend({
 
         this.prompt(prompts, function (props) {
             this.edgeplate.title = props.title;
-            this.edgeplate.features = props.features;
+            this.edgeplate.features = {};
+            props.features.forEach(function (feature) {
+                this.edgeplate.features[feature] = true;
+            }.bind(this));
             done();
         }.bind(this));
     },
 
     buildAndDeploy: function () {
-        if (this.edgeplate.features.indexOf('buildDeploy') === -1) {
+        if (!this.edgeplate.features.buildDeploy) {
             return;
         }
 
@@ -163,7 +166,7 @@ var EdgeplateGenerator = yeoman.generators.Base.extend({
         }.bind(this));
     },
     buildDeployFiles: function () {
-        if (this.edgeplate.features.indexOf('buildDeploy') === -1) {
+        if (!this.edgeplate.features.buildDeploy) {
             return;
         }
         this.src.copy('excludes', '.excludes');
@@ -172,7 +175,7 @@ var EdgeplateGenerator = yeoman.generators.Base.extend({
         this.src.copy('tail-log.sh', 'tail-log.sh');
     },
     faviconFiles: function () {
-        if (this.edgeplate.features.indexOf('favicon') === -1) {
+        if (this.edgeplate.features.favicon) {
             return;
         }
         this.src.copy('favicon.sh', 'favicon.sh');
