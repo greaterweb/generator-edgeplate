@@ -12,9 +12,9 @@ angular.module('edge.app.services', ['ngResource', 'lbServices']);
 angular.module('edge.app.directives', []);
 
 // Declare app level module which depends on filters, and services
-angular.module('edge.app', ['ui.router', 'ngSanitize', 'ngAnimate', 'edge.app.controllers', 'edge.app.filters', 'edge.app.services', 'edge.app.directives'<% if (useCordova) { %>, 'edge.cordova'<% } %>])
+angular.module('edge.app', ['ui.router', 'ngSanitize', 'ngAnimate', 'edge.app.controllers', 'edge.app.filters', 'edge.app.services', 'edge.app.directives'<% if (edgeplate.features.cordova) { %>, 'edge.cordova'<% } %>])
     .config(function ($locationProvider, $stateProvider, $urlRouterProvider, $injector) {
-        if(angular.element('html').hasClass('hashchange') && angular.element('html').hasClass('history')<% if (useCordova) { %> && window.ENV !== 'cordova'<% } %>) {
+        if(angular.element('html').hasClass('hashchange') && angular.element('html').hasClass('history')<% if (edgeplate.features.cordova) { %> && window.ENV !== 'cordova'<% } %>) {
             $locationProvider.html5Mode(true);
         }
 
@@ -26,7 +26,7 @@ angular.module('edge.app', ['ui.router', 'ngSanitize', 'ngAnimate', 'edge.app.co
                 resolve: $injector.get('IndexResolver')
             });
         $urlRouterProvider.otherwise('/');
-    })<% if (useCordova) { %>
+    })<% if (edgeplate.features.cordova) { %>
     .run(function ($rootScope, $window) {
         $rootScope.$on('cordova.deviceready', function () {
             if ($window.StatusBar) {
