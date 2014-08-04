@@ -1,6 +1,6 @@
 {
-  "title": "<%= appTitle %>",
-  "name": "<%= _.slugify(appTitle) %>",
+  "title": "<%= edgeplate.title %>",
+  "name": "<%= edgeplate.slug %>",
   "version": "0.1.0",
   "dependencies": {
     "jade": "~1.1.5",
