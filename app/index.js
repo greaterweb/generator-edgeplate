@@ -83,8 +83,37 @@ var EdgeplateGenerator = yeoman.generators.Base.extend({
             name: 'title',
             message: 'What is the display title of your app?',
             default: 'Edge Project'
-        },
-        {
+        }];
+
+        this.prompt(prompts, function (props) {
+            this.edgeplate.title = props.title;
+            done();
+        }.bind(this));
+    },
+
+    projectSlug: function () {
+        var done = this.async();
+        var prompts = [{
+            name: 'slug',
+            message: 'Enter slug to use with project',
+            default: this._.slugify(this.edgeplate.title),
+            validate: function (slug) {
+                if (!/^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$/.test(slug)) {
+                    return 'Please use a valid slug format';
+                } else {
+                    return true;
+                }
+            }
+        }];
+        this.prompt(prompts, function (props) {
+            this.edgeplate.slug = props.slug;
+            done();
+        }.bind(this));
+    },
+
+    features: function () {
+        var done = this.async();
+        var prompts = [{
             type: 'checkbox',
             name: 'features',
             message: 'What features would you like supported?',
@@ -110,9 +139,7 @@ var EdgeplateGenerator = yeoman.generators.Base.extend({
             }],
             default: ['cordova', 'loopback', 'socketio', 'buildDeploy', 'favicon']
         }];
-
         this.prompt(prompts, function (props) {
-            this.edgeplate.title = props.title;
             this.edgeplate.features = {};
             props.features.forEach(function (feature) {
                 this.edgeplate.features[feature] = true;
