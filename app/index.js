@@ -19,7 +19,36 @@ var EdgeplateGenerator = yeoman.generators.Base.extend({
         this.on('end', function () {
             this.config.defaults(this.edgeplate);
             if (!this.options['skip-install']) {
-                // this.installDependencies();
+                this.installDependencies({
+                    callback: function () {
+                        var sourceRoot = process.cwd();
+                        var fontSrc = path.join(sourceRoot, '/app/bower_lib/bootstrap-sass/vendor/assets/fonts/bootstrap');
+                        var fontDest = path.join(sourceRoot, 'app/styles/fonts');
+                        var file = require('yeoman-generator').file;
+
+                        file.recurse(fontSrc, function callback(abspath, rootdir, subdir, filename) {
+                            file.copy(fontSrc + '/' + filename, fontDest + '/' + filename);
+                        });
+                        if (this.edgeplate.features.cordova) {
+                            this.log
+                                .write()
+                                .write()
+                                .info(chalk.yellow('Action required to complete Cordova support'))
+                                .write()
+                                .info('Enter the cordova directory')
+                                .info(chalk.grey('$'), chalk.cyan('cd cordova'))
+                                .write()
+                                .info('Add platforms to support')
+                                .info(chalk.grey('$'), chalk.cyan('cordova platform add ios'))
+                                .write()
+                                .info('Add required plugins')
+                                .info(chalk.grey('$'), chalk.cyan('cordova plugin add org.apache.cordova.console'))
+                                .info(chalk.grey('$'), chalk.cyan('cordova plugin add org.apache.cordova.device'))
+                                .info(chalk.grey('$'), chalk.cyan('cordova plugin add org.apache.cordova.statusbar'))
+                                .write();
+                        }
+                    }.bind(this)
+                });
             }
         });
     },
