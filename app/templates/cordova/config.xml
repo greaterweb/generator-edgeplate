@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="<%= baseDomain.split('.').reverse().join('.') %>" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name><%= appTitle %></name>
+<widget id="<%= edgeplate.baseDomain.split('.').reverse().join('.') %>" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name><%= edgeplate.title %></name>
     <description>
-        <%= appTitle %>
+        <%= edgeplate.title %>
     </description>
-    <author email="dev@<%= baseDomain %>" href="http://<%= baseDomain %>">
+    <author email="dev@<%= edgeplate.baseDomain %>" href="http://<%= edgeplate.baseDomain %>">
         Edgeplate Team
     </author>
     <content src="index.html" />
