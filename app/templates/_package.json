@@ -45,15 +45,5 @@
   },
   "engines": {
     "node": ">=0.8.0"
-  },
-  "edgeplate": {
-    "generator": "v<%= version %>",
-    "host": "<%= hostDomain %>",
-    "domain": "<%= baseDomain %>",
-    "ports": {
-      "dev": "<%= devPort %>",
-      "www": "<%= wwwPort %>",
-      "ssh": "<%= sshPort %>"
-    }
   }
 }
