@@ -206,6 +206,16 @@ var EdgeplateGenerator = yeoman.generators.Base.extend({
             return;
         }
         this.src.copy('favicon.sh', 'favicon.sh');
+    },
+    rootFiles: function () {
+        this.template('_gulpfile.js', 'gulpfile.js');
+        this.template('README.md', 'README.md');
+        this.template('_bower.json', 'bower.json');
+        this.template('_package.json', 'package.json');
+        this.src.copy('bowerrc', '.bowerrc');
+        this.src.copy('editorconfig', '.editorconfig');
+        this.src.copy('jshintrc', '.jshintrc');
+        this.src.copy('gitignore', '.gitignore');
     }
 });
 
