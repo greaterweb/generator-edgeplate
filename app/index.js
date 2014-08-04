@@ -9,14 +9,14 @@ var EdgeplateGenerator = yeoman.generators.Base.extend({
         this.pkg = require('../package.json');
         this.edgeplate = this.config.getAll();
         this.currentYear = new Date().getFullYear();
+        if (this.edgeplate.created) {
+            this.edgeplate.modified = Date.now();
+        } else {
+            this.edgeplate.version = this.pkg.version;
+            this.edgeplate.created = Date.now();
+        }
 
         this.on('end', function () {
-            if (this.edgeplate.created) {
-                this.edgeplate.modified = Date.now();
-            } else {
-                this.edgeplate.version = this.pkg.version;
-                this.edgeplate.created = Date.now();
-            }
             this.config.defaults(this.edgeplate);
             if (!this.options['skip-install']) {
                 // this.installDependencies();
