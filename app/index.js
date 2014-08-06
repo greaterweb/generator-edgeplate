@@ -227,19 +227,17 @@ var EdgeplateGenerator = yeoman.generators.Base.extend({
         }.bind(this));
     },
     buildDeployFiles: function buildDeployFiles() {
-        if (!this.edgeplate.features.buildDeploy) {
-            return;
+        if (this.edgeplate.features.buildDeploy) {
+            this.src.copy('excludes', '.excludes');
+            this.src.copy('deploy.sh', 'deploy.sh');
+            this.src.copy('remote.sh', 'remote.sh');
+            this.src.copy('tail-log.sh', 'tail-log.sh');
         }
-        this.src.copy('excludes', '.excludes');
-        this.src.copy('deploy.sh', 'deploy.sh');
-        this.src.copy('remote.sh', 'remote.sh');
-        this.src.copy('tail-log.sh', 'tail-log.sh');
     },
     faviconFiles: function faviconFiles() {
         if (this.edgeplate.features.favicon) {
-            return;
+            this.src.copy('favicon.sh', 'favicon.sh');
         }
-        this.src.copy('favicon.sh', 'favicon.sh');
     },
     rootFiles: function rootFiles() {
         this.template('_gulpfile.js', 'gulpfile.js');
