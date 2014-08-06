@@ -1,5 +1,5 @@
 // services generated with
-// $ lb-ng server/server.js app/scripts/services/lbServices.js
+// $ lb-ng server/server.js app/scripts/loopback.js
 (function(window, angular, undefined) {'use strict';
 
 var urlBase = "/api";

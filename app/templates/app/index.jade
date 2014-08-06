@@ -61,7 +61,10 @@ append footer-scripts
       directory during the build process<% if (edgeplate.features.cordova) { %>
 
   //- edge cordova app, exposes cordova events in angular
-  script(src="scripts/edge.cordova.js")<% } %>
+  script(src="scripts/edge.cordova.js")<% } if (edgeplate.features.loopback) { %>
+
+  //- loopback services
+  script(src="scripts/loopback.js")<% } %>
 
   //- main app
   script(src="scripts/app.js")
@@ -69,7 +72,6 @@ append footer-scripts
   //- application components
 
   //- angular services
-  script(src="scripts/services/lbServices.js")
   script(src="scripts/services/edgeResolver.js")
   script(src="scripts/services/edgePage.js")
   script(src="scripts/services/NProgress.js")
