@@ -104,7 +104,7 @@ var EdgeplateGenerator = yeoman.generators.Base.extend({
             chalk.gray('  |_____|____/ \\____|_____|_|   |_____/_/   \\_\\_| |_____|  '),
             chalk.gray('                                                           '),
             '                     ' + chalk.green('Edgeplate v' + this.pkg.version) + '                    ',
-            '                      ' + chalk.green('by Ron Edgecomb') + '                    ',
+            '               ' + chalk.green('by Ron Edgecomb and Joe Kovach') + '            ',
             '',
             '      Edgeplate is an opinionated way of building web',
             '       applications with Angular, Loopback and Node.',
