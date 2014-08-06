@@ -268,7 +268,6 @@ var EdgeplateGenerator = yeoman.generators.Base.extend({
         this.dest.mkdir('app/scripts/filters');
     },
     serviceFiles: function serviceFiles() {
-        this.src.copy('app/scripts/services/lbServices.js', 'app/scripts/services/lbServices.js');
         this.src.copy('app/scripts/services/edgePage.js', 'app/scripts/services/edgePage.js');
         this.src.copy('app/scripts/services/edgeResolver.js', 'app/scripts/services/edgeResolver.js');
         this.src.copy('app/scripts/services/NProgress.js', 'app/scripts/services/NProgress.js');
@@ -306,7 +305,10 @@ var EdgeplateGenerator = yeoman.generators.Base.extend({
         }
     },
     loopbackFiles: function loopbackFiles() {
-        this.directory('server/', 'server/');
+        if (this.edgeplate.features.loopback) {
+            this.src.copy('app/scripts/loopback.js', 'app/scripts/loopback.js');
+            this.directory('server/', 'server/');
+        }
     },
     commonFiles: function commonFiles() {
         this.dest.mkdir('common/models');
