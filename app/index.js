@@ -69,12 +69,12 @@ var EdgeplateGenerator = yeoman.generators.Base.extend({
         }
 
         if (this.hasConflict) {
-            this.log([
-                '',
-                chalk.red('>>> WARNING <<<'),
-                ('You are currently using Edgeplate ' + chalk.yellow('v' + this.pkg.version) + '.'),
-                ('The original Edgeplate generator used for this project was ' + chalk.yellow('v' + this.edgeplate.version) + '.')
-            ].join('\n'));
+            this.log
+                .write()
+                .info(chalk.yellow('WARNING - Generator Mismatch'))
+                .info('You are currently using Edgeplate ' + chalk.yellow('v' + this.pkg.version) + '.')
+                .info('The original Edgeplate generator used for this project was ' + chalk.yellow('v' + this.edgeplate.version) + '.')
+                .write();
 
             var done = this.async();
 
@@ -183,7 +183,11 @@ var EdgeplateGenerator = yeoman.generators.Base.extend({
             return;
         }
 
-        this.log('\n', chalk.green('Please complete Edgeplate options for build and deploy scripts.'), '\n');
+        this.log
+            .write()
+            .write()
+            .info(chalk.green('Please complete Edgeplate options for build and deploy scripts.'))
+            .write();
 
         var done = this.async();
 
