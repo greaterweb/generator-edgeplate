@@ -3,21 +3,22 @@
   "name": "<%= edgeplate.slug %>",
   "version": "0.1.0",
   "dependencies": {
-    "jade": "~1.1.5",
-    "socket.io": "~0.9.16",
-    "nopt": "~2.1.2",
-    "nodemailer": "0.6.2",
-    "ua-parser": "0.3.3",
     "compression": "^1.0.3",
-    "errorhandler": "^1.1.1",
+    "errorhandler": "^1.1.1",<% if (!edgeplate.features.loopback) { %>
+    "express": "^4.8.2",<% } %>
+    "jade": "~1.1.5",<% if (edgeplate.features.loopback) { %>
     "loopback": "^2.0.0",
     "loopback-boot": "^2.0.0",
-    "loopback-datasource-juggler": "^2.0.0",
-    "serve-favicon": "^2.0.1"
-  },
+    "loopback-datasource-juggler": "^2.0.0",<% } %>
+    "nodemailer": "0.6.2",
+    "nopt": "~2.1.2",
+    "serve-favicon": "^2.0.1",<% if (edgeplate.features.socketio) { %>
+    "socket.io": "~0.9.16",<% } %>
+    "ua-parser": "0.3.3"
+  },<% if (edgeplate.features.loopback) { %>
   "optionalDependencies": {
     "loopback-explorer": "^1.1.0"
-  },
+  },<% } %>
   "devDependencies": {
     "gulp": "~3.8.5",
     "gulp-util": "~2.2.19",
@@ -40,10 +41,9 @@
     "open": "0.0.5",
     "nodemon": "~1.2.1",
     "shelljs": "~0.3.0",
-    "strftime": "~0.8.1",
-    "nopt": "~2.1.2"
+    "strftime": "~0.8.1"
   },
   "engines": {
-    "node": ">=0.8.0"
+    "node": ">=0.10.0"
   }
 }
