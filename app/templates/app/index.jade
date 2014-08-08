@@ -25,7 +25,10 @@ append footer-scripts
 
   //- Apache Cordova library
   if CORDOVA
-    script(src="cordova.js")<% } %>
+    script(src="cordova.js")<% } if (edgeplate.features.socketio) { %>
+
+  //- socket.io client served by node server
+  script(src="/socket.io/socket.io.js")<% } %>
 
   // build:js(app/) scripts/lib.js
   //- underscore js
@@ -74,7 +77,8 @@ append footer-scripts
   //- angular services
   script(src="scripts/services/edgeResolver.js")
   script(src="scripts/services/edgePage.js")
-  script(src="scripts/services/NProgress.js")
+  script(src="scripts/services/NProgress.js")<% if (edgeplate.features.socketio) { %>
+  script(src="scripts/services/socketio.js")<% } %>
 
   //- angular directives
 

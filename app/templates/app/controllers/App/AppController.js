@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('edge.app.controllers').controller('AppController', function (edgePage, $scope, $timeout, NProgress) {
+angular.module('edge.app.controllers').controller('AppController', function (edgePage,<% if (edgeplate.features.socketio) { %> socketio,<% } %> $scope, $timeout, NProgress) {
     var app = this;
     app.edgePage = edgePage;
 

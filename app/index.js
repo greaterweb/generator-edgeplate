@@ -289,7 +289,7 @@ var EdgeplateGenerator = yeoman.generators.Base.extend({
         this.src.copy('app/styles/app.scss', 'app/styles/app.scss');
     },
     controllerFiles: function controllerFiles() {
-        this.src.copy('app/controllers/App/AppController.js', 'app/controllers/App/AppController.js');
+        this.template('app/controllers/App/AppController.js', 'app/controllers/App/AppController.js');
         this.src.copy('app/controllers/pages/Index/_Index.scss', 'app/controllers/pages/Index/_Index.scss');
         this.src.copy('app/controllers/pages/Index/IndexController.js', 'app/controllers/pages/Index/IndexController.js');
         this.src.copy('app/controllers/pages/Index/IndexResolver.js', 'app/controllers/pages/Index/IndexResolver.js');
@@ -310,6 +310,7 @@ var EdgeplateGenerator = yeoman.generators.Base.extend({
         if (this.edgeplate.features.loopback) {
             this.src.copy('app/scripts/loopback.js', 'app/scripts/loopback.js');
             this.directory('server/', 'server/');
+            this.template('server/server.js', 'server/server.js');
         }
     },
     commonFiles: function commonFiles() {

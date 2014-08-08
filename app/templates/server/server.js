@@ -115,10 +115,16 @@ if (isLocal) {
 
 app.start = function() {
     // start the web server
-    return app.listen(function() {
+    var server = app.listen(function() {
         app.emit('started');
         console.log('Web server listening at: %s', app.get('url'));
-    });
+    });<% if (edgeplate.features.socketio) { %>
+    // basic socket io implementation
+    var io = require('socket.io')(server);
+    io.on('connection', function (socket) {
+        socket.emit('msg', { connected: true });
+    });<% } %>
+    return server;
 };
 
 // start the server if `$ node server.js`

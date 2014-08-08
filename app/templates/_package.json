@@ -13,7 +13,7 @@
     "nodemailer": "0.6.2",
     "nopt": "~2.1.2",
     "serve-favicon": "^2.0.1",<% if (edgeplate.features.socketio) { %>
-    "socket.io": "~0.9.16",<% } %>
+    "socket.io": "^1.0.6",<% } %>
     "ua-parser": "0.3.3"
   },<% if (edgeplate.features.loopback) { %>
   "optionalDependencies": {
