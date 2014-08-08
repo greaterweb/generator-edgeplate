@@ -316,6 +316,9 @@ var EdgeplateGenerator = yeoman.generators.Base.extend({
     commonFiles: function commonFiles() {
         this.dest.mkdir('common/models');
         this.directory('common/', 'common/');
+    },
+    socketioFiles: function commonFiles() {
+        this.src.copy('app/scripts/services/socketio.js', 'app/scripts/services/socketio.js');
     }
 });
 
