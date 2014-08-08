@@ -14,6 +14,11 @@ var EdgeplateGenerator = yeoman.generators.Base.extend({
         } else {
             this.edgeplate.version = this.pkg.version;
             this.edgeplate.created = Date.now();
+            this.edgeplate.pages = {
+                Index: {
+                    state: this._.slugify('Index')
+                }
+            };
         }
 
         this.on('end', function () {
