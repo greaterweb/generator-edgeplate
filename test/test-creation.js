@@ -9,7 +9,7 @@ describe('edgeplate generator', function () {
     var mockPrompts = {
         title: 'Edgeplate Project',
         slug: 'edgeplate-project',
-        features: ['cordova','loopback','buildDeploy','favicon'],
+        features: ['cordova','loopback','socketio','buildDeploy','favicon'],
         hostDomain: 'host.edgeplate.com',
         baseDomain: 'project.edgeplate.com',
         wwwPort: 80,
