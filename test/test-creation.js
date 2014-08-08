@@ -1,7 +1,6 @@
 /*global describe, beforeEach, it */
 'use strict';
 var path = require('path');
-var fs = require('fs');
 var helpers = require('yeoman-generator').test;
 var assert = require('yeoman-generator').assert;
 
@@ -22,7 +21,6 @@ describe('edgeplate generator', function () {
     };
 
     beforeEach(function (done) {
-        fs.unlinkSync(path.join(__dirname, 'temp', '.yo-rc.json'));
         helpers.testDirectory(path.join(__dirname, 'temp'), function (err) {
             if (err) {
                 return done(err);
