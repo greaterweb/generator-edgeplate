@@ -315,7 +315,6 @@ var EdgeplateGenerator = yeoman.generators.Base.extend({
         if (this.edgeplate.features.loopback) {
             this.src.copy('app/scripts/loopback.js', 'app/scripts/loopback.js');
             this.directory('server/', 'server/');
-            this.template('server/server.js', 'server/server.js');
         }
     },
     commonFiles: function commonFiles() {
@@ -323,7 +322,9 @@ var EdgeplateGenerator = yeoman.generators.Base.extend({
         this.directory('common/', 'common/');
     },
     socketioFiles: function commonFiles() {
-        this.src.copy('app/scripts/services/socketio.js', 'app/scripts/services/socketio.js');
+        if (this.edgeplate.features.socketio) {
+            this.src.copy('app/scripts/services/socketio.js', 'app/scripts/services/socketio.js');
+        }
     }
 });
 
