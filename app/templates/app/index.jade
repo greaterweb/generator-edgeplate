@@ -15,9 +15,7 @@ append head
     script.
       document.write('<script src="//' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js"></' + 'script>');
     script.
-      var LOCAL = true,
-          SERVER = '#{SERVER}',
-          PROJECT = '#{PROJECT}';
+      var LOCAL = true;
 
 append footer-scripts
   //- socket.io
