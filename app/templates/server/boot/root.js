@@ -40,10 +40,10 @@ module.exports = function(server) {
                 res.redirect(302, util.format('%s://%s/#/%s', req.protocol, req.get('Host'), res.locals._urlParts[1]));
             } else if(isLocal) {
                 //if local, this serves from .tmp
-                res.sendfile(path.resolve(__dirname + '../.tmp/index.html'));
+                res.sendfile(path.resolve(__dirname + '../../../.tmp/index.html'));
             } else {
                 //if hosted on dev or production, this is a static file
-                res.sendfile(path.resolve(__dirname + '/public/index.html'));
+                res.sendfile(path.resolve(__dirname + '../../../app/index.html'));
             }
         }
         else {
