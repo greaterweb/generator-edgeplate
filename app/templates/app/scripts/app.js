@@ -36,24 +36,24 @@ angular.module('edge.app', ['ui.router', 'ngSanitize', 'ngAnimate', 'edge.app.co
     })<% } %>;
     // .run(function (edgeResolver) {
     //     // example adding app resolvers (runs once start of first state chane)
-    //     edgeResolver.addAppResolvers({
-    //         delay: ['$q', '$timeout', function ($q, $timeout) {
+    //     edgeResolver.addAppResolvers(/* @ngInject */ {
+    //         delay: function ($q, $timeout) {
     //             var defer = $q.defer();
     //             $timeout(function() {
     //                 defer.resolve();
     //             }, 500);
     //             return defer.promise;
-    //         }]
+    //         }
     //     });
     //     // example adding common resolvers (runs every state change)
-    //     edgeResolver.addCommonResolvers({
-    //         delay: ['$q', '$timeout', function ($q, $timeout) {
+    //     edgeResolver.addCommonResolvers(/* @ngInject */ {
+    //         delay: function ($q, $timeout) {
     //             var defer = $q.defer();
     //             $timeout(function() {
     //                 defer.resolve();
     //             }, 500);
     //             return defer.promise;
-    //         }]
+    //         }
     //     });
     // });
 
