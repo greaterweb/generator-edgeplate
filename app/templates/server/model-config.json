@@ -9,8 +9,7 @@
     "dataSource": "db"
   },
   "AccessToken": {
-    "dataSource": "db",
-    "public": false
+    "dataSource": "db"
   },
   "ACL": {
     "dataSource": "db",
