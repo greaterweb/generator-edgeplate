@@ -34,6 +34,11 @@ var EdgeplateGenerator = yeoman.generators.Base.extend({
                         file.recurse(fontSrc, function callback(abspath, rootdir, subdir, filename) {
                             file.copy(fontSrc + '/' + filename, fontDest + '/' + filename);
                         });
+
+                        var motionSrc = path.join(sourceRoot, '/app/bower_lib/angular-motion/dist/angular-motion.css');
+
+                        file.copy(motionSrc, path.join(sourceRoot, 'app/styles/_angular-motion.scss'));
+
                         if (this.edgeplate.features.cordova) {
                             this.log
                                 .write()
