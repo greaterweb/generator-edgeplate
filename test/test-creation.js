@@ -118,6 +118,7 @@ describe('edgeplate generator', function () {
                 assert.file([
                     'app/styles/_animate.scss',
                     'app/styles/_mixins.scss',
+                    'app/styles/_nprogress.scss',
                     'app/styles/_styles.scss',
                     'app/styles/_variables.scss',
                     'app/styles/app.scss'
@@ -156,6 +157,7 @@ describe('edgeplate generator', function () {
                 ]);
                 // creates common files
                 assert.file([
+                    'common/models/account.json',
                     'common/views/_errGlobal.jade',
                     'common/views/error404.jade',
                     'common/views/error500.jade',

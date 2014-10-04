@@ -27,7 +27,7 @@ var EdgeplateGenerator = yeoman.generators.Base.extend({
                 this.installDependencies({
                     callback: function () {
                         var sourceRoot = process.cwd();
-                        var fontSrc = path.join(sourceRoot, '/app/bower_lib/bootstrap-sass/vendor/assets/fonts/bootstrap');
+                        var fontSrc = path.join(sourceRoot, '/app/bower_lib/bootstrap-sass/assets/fonts/bootstrap');
                         var fontDest = path.join(sourceRoot, 'app/styles/fonts');
                         var file = require('yeoman-generator').file;
 
@@ -289,6 +289,7 @@ var EdgeplateGenerator = yeoman.generators.Base.extend({
         this.dest.mkdir('app/styles');
         this.src.copy('app/styles/_animate.scss', 'app/styles/_animate.scss');
         this.src.copy('app/styles/_mixins.scss', 'app/styles/_mixins.scss');
+        this.src.copy('app/styles/_nprogress.scss', 'app/styles/_nprogress.scss');
         this.src.copy('app/styles/_styles.scss', 'app/styles/_styles.scss');
         this.src.copy('app/styles/_variables.scss', 'app/styles/_variables.scss');
         this.src.copy('app/styles/app.scss', 'app/styles/app.scss');
