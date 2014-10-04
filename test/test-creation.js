@@ -157,6 +157,7 @@ describe('edgeplate generator', function () {
                 ]);
                 // creates common files
                 assert.file([
+                    'common/models/account.js',
                     'common/models/account.json',
                     'common/views/_errGlobal.jade',
                     'common/views/error404.jade',
