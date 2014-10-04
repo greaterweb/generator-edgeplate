@@ -95,13 +95,14 @@ var tasks = {
         return gulp.src(glob)
             // as the css is not 1-to-1, this doesn't work as expected
             // .pipe($.changed(dest, { extension: '.css' }))
-            .pipe($.rubySass({
-                sourcemap: true,
+            .pipe($.sourcemaps.init())
+            .pipe($.sass({
                 style: (isBuild && config.buildEnvironment !== 'dev')?'compressed':'expanded',
                 precision: 10,
                 lineNumbers: (isBuild)?false:true,
                 debugInfo: (isBuild)?false:true
             }))
+            .pipe($.sourcemaps.write())
             .pipe(gulp.dest(dest));
     },
     jade: function (isBuild) {
