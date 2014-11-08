@@ -1,3 +1,3 @@
-.edgePage-<%= _.ltrim(_.dasherize(controllerName), '-') %> {
+.page-<%= _.ltrim(_.dasherize(controllerName), '-') %> {
 
 }
