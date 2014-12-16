@@ -8,3 +8,6 @@ app/bower_lib
 .fseventsd
 *.swp
 .config.sh
+Icon
+selenium-server-standalone-*.jar
+npm-debug.log
