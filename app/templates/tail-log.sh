@@ -23,7 +23,7 @@ esac
 
 case "$2" in
 express)
-    LOG="/var/tmp/app.js-$PORT.out"
+    LOG="/var/tmp/server.js-$PORT.out"
 ;;
 apache)
     LOG="/var/log/httpd/$PREFIX.$BASEDOMAIN"
