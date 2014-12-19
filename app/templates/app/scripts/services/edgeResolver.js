@@ -17,7 +17,9 @@ angular.module('edge.app.services').service('edgeResolver', function ($rootScope
         if (appResolversAdded) {
             appResolversAdded = false;
             angular.forEach(appResolvers, function (resolver, key) {
-                delete route.resolve[key];
+                if (route.resolve && route.resolve[key]) {
+                   delete route.resolve[key];
+                }
             });
         }
     }
@@ -50,11 +52,13 @@ angular.module('edge.app.services').service('edgeResolver', function ($rootScope
         if (!fromState.name) {
             // add resolvers
             appResolversAdded = true;
+            toState.resolve = toState.resolve || {};
             angular.forEach(appResolvers, function (resolver, key) {
                 toState.resolve[key] = resolver;
             });
         }
         if (!commonResolversAdded) {
+            toState.resolve = toState.resolve || {};
             angular.forEach(commonResolvers, function (resolver, key) {
                 toState.resolve[key] = resolver;
             });
