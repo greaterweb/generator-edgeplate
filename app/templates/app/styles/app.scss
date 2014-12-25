@@ -2,70 +2,70 @@
 // ------------------
 @import
 // Core variables and mixins
-"../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/variables",
-"variables", // local override
-"../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/mixins",
-"mixins", // local override
+'../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/variables',
+'variables', // local override
+'../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/mixins',
+'mixins', // local override
 
 // Reset
-"../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/normalize",
-"../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/print",
+'../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/normalize',
+'../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/print',
 
 // Core CSS
-"../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/scaffolding",
-"../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/type",
-"../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/code",
-"../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/grid",
-"../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/tables",
-"../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/forms",
-"../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/buttons",
+'../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/scaffolding',
+'../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/type',
+'../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/code',
+'../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/grid',
+'../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/tables',
+'../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/forms',
+'../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/buttons',
 
 // Components
-"../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/component-animations",
-"../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/glyphicons",
-"../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/dropdowns",
-"../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/button-groups",
-"../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/input-groups",
-"../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/navs",
-"../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/navbar",
-"../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/breadcrumbs",
-"../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/pagination",
-"../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/pager",
-"../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/labels",
-"../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/badges",
-"../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/jumbotron",
-"../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/thumbnails",
-"../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/alerts",
-"../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/progress-bars",
-"../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/media",
-"../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/list-group",
-"../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/panels",
-"../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/wells",
-"../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/close",
+'../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/component-animations',
+'../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/glyphicons',
+'../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/dropdowns',
+'../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/button-groups',
+'../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/input-groups',
+'../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/navs',
+'../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/navbar',
+'../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/breadcrumbs',
+'../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/pagination',
+'../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/pager',
+'../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/labels',
+'../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/badges',
+'../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/jumbotron',
+'../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/thumbnails',
+'../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/alerts',
+'../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/progress-bars',
+'../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/media',
+'../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/list-group',
+'../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/panels',
+'../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/wells',
+'../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/close',
 
 // Components w/ JavaScript
-"../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/modals",
-"../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/tooltip",
-"../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/popovers",
-"../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/carousel",
+'../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/modals',
+'../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/tooltip',
+'../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/popovers',
+'../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/carousel',
 
 // Utility classes
-"../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/utilities",
-"../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/responsive-utilities";
+'../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/utilities',
+'../bower_lib/bootstrap-sass/assets/stylesheets/bootstrap/responsive-utilities';
 
 
 // Application styles
 // ------------------
-@import "angular-motion";
-@import "animate";
-@import "nprogress";
-@import "styles";
+@import 'angular-motion';
+@import 'animate';
+@import 'nprogress';
+@import 'styles';
 
 // Application Component Styles
-@import "../components/navbar/_navbar";
+@import '../components/navbar/navbar';
 
 // Angular Controller Styles
-@import "../controllers/pages/Index/_Index";
+@import '../controllers/pages/Index/Index';
 
 // Page Controller Styles
 

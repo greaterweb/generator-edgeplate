@@ -4,15 +4,17 @@
     -o-animation: $arguments;
     animation: $arguments;
 }
+
 @mixin animate ($arguments...) { @include animation($arguments);}
 @mixin anime ($arguments...) { @include animation($arguments);}
 
-@mixin manual-hide {
-    display:none !important;
-    visibility:hidden !important;
+
+%shown {
+    display: block !important;
+    visibility: visible !important;
 }
 
-@mixin manual-show {
-    display:block !important;
-    visibility:visible !important;
+%hidden {
+    display: none !important;
+    visibility: hidden !important;
 }

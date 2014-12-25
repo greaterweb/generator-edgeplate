@@ -2,46 +2,58 @@
 // --------------------------------------------------
 html {
     &.windows {
-        .mac { @include manual-hide(); }
-        .linux { @include manual-hide(); }
+        .mac { @extend %hidden; }
+        .linux { @extend %hidden; }
     }
 
     &.mac {
-        .windows { @include manual-hide(); }
-        .linux { @include manual-hide(); }
+        .windows { @extend %hidden; }
+        .linux { @extend %hidden; }
     }
+
     &.linux {
-        .windows { @include manual-hide(); }
-        .mac { @include manual-hide(); }
+        .windows { @extend %hidden; }
+        .mac { @extend %hidden; }
     }
+
     &.ie9 {
         //display:table-cell doesn’t go 100% wide on IE9, this fixes that.
         .input-group .form-control { display: block; }
     }
 
     //by default, hide Firefox less than 4 messages
-    .firefoxlt4 { @include manual-hide(); }
+    .firefoxlt4 { @extend %hidden; }
 
     //if Firefox less than 4, show such messages
     &.firefoxlt4 {
-        .firefoxlt4 { @include manual-show(); }
+        .firefoxlt4 { @extend %shown; }
     }
 
     //hard fail when either IE 8 and lower, javascript disabled, or Firefox less than version 4
-    &.no-js, &.ie.lt9, &.firefoxlt4 {
-        .edge-app-view, nav, footer { @include manual-hide(); }
+    &.no-js,
+    &.ie.lt9,
+    &.firefoxlt4 {
+        .edge-app-view,
+        nav,
+        footer { @extend %hidden; }
     }
 }
 
 .edge-app-view.ng-enter {
-    @extend .animate-enter;
+    @extend %animate-enter;
 }
 
 .edge-app-view.ng-leave {
-    @extend .hidden;
+    @extend %hidden;
 }
 
 .has-app-header body {
-    padding-top: 60px;
     padding-bottom: 40px;
+    padding-top: 60px;
+}
+
+//without an href, <a> usually doesn’t get a pointer
+[ng-click],
+[ui-sref] {
+    cursor: pointer;
 }
