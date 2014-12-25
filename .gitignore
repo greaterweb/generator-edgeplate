@@ -4,3 +4,5 @@ temp/
 .VolumeIcon.icns
 .fseventsd
 *.swp
+Icon
+npm-debug.log
