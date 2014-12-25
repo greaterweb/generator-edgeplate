@@ -1,0 +1,8 @@
+linters:
+    Indentation:
+        width: 4
+    LeadingZero:
+        enabled: true
+        style: include_zero
+    NestingDepth:
+        max_depth: 6
