@@ -1,0 +1,14 @@
+exclude:
+    - 'node_modules/**'
+    - 'app/templates/app/styles/_angular-motion.scss'
+
+linters:
+    Indentation:
+        width: 4
+    LeadingZero:
+        enabled: true
+        style: include_zero
+    NestingDepth:
+        max_depth: 6
+    SelectorDepth:
+        max_depth: 6
