@@ -8,10 +8,12 @@
     }
 }
 
+// scss-lint:disable VendorPrefixes
 @-webkit-keyframes animate-enter { @include animate-enter; }
 @-moz-keyframes animate-enter { @include animate-enter; }
 @-o-keyframes animate-enter { @include animate-enter; }
 @keyframes animate-enter { @include animate-enter; }
+// scss-lint:enable VendorPrefixes
 
 %animate-enter {
     @include animation(animate-enter 0.25s ease-in-out);
@@ -28,10 +30,12 @@
     }
 }
 
+// scss-lint:disable VendorPrefixes
 @-webkit-keyframes animate-leave { @include animate-leave; }
 @-moz-keyframes animate-leave { @include animate-leave; }
 @-o-keyframes animate-leave { @include animate-leave; }
 @keyframes animate-leave { @include animate-leave; }
+// scss-lint:enable VendorPrefixes
 
 %animate-leave {
     @include animation(animate-leave 0.25s ease-in-out);

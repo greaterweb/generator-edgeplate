@@ -1,9 +1,11 @@
+// scss-lint:disable VendorPrefixes
 @mixin animation ($arguments...) {
     -webkit-animation: $arguments;
     -moz-animation: $arguments;
     -o-animation: $arguments;
     animation: $arguments;
 }
+// scss-lint:enable VendorPrefixes
 
 @mixin animate ($arguments...) { @include animation($arguments);}
 @mixin anime ($arguments...) { @include animation($arguments);}
