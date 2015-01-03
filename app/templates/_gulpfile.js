@@ -249,7 +249,7 @@ taskList.forEach(function (taskName) {
     });
 });
 
-function queItUp (taskList, isBuild) {
+function queueItUp (taskList, isBuild) {
     var deferred = Q.defer();
     var queue = new Q();
     taskList.forEach(function (task) {
@@ -287,7 +287,7 @@ function buildProject () {
         '_copyPackage',
         '_addBanner'
     ];
-    return queItUp(taskList, true);
+    return queueItUp(taskList, true);
 }<% if (edgeplate.features.cordova) { %>
 
 function deployCordova () {
@@ -296,7 +296,7 @@ function deployCordova () {
         '_cleanCordova',
         '_copyCordova'
     ];
-    return queItUp(taskList);
+    return queueItUp(taskList);
 }<% } %>
 
 function startServer () {
@@ -308,7 +308,7 @@ function startServer () {
         'sass',
         'jade'
     ];
-    return queItUp(taskList);
+    return queueItUp(taskList);
 }
 
 // Gulp Tasks
