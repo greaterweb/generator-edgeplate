@@ -1,3 +1,4 @@
 'use strict';
-
-MBP.hideUrlBarOnLoad();
+(function (window) {
+    window.MBP.hideUrlBarOnLoad();
+}(window));
