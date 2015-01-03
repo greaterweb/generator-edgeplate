@@ -1,5 +1,4 @@
 'use strict';
-var util = require('util');
 var path = require('path');
 var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
@@ -106,7 +105,7 @@ var EdgeplateGenerator = yeoman.generators.Base.extend({
     welcome: function welcome() {
         var done = this.async();
 
-        var welcome = [
+        var message = [
             chalk.gray('   _____ ____   ____ _____ ____  _        _  _____ _____   '),
             chalk.gray('  | ____|  _ \\ / ___| ____|  _ \\| |      / \\|_   _| ____|  '),
             chalk.gray('  |  _| | | | | |  _|  _| | |_) | |     / _ \\ | | |  _|    '),
@@ -120,7 +119,7 @@ var EdgeplateGenerator = yeoman.generators.Base.extend({
             '       applications with Angular, Loopback and Node.',
             ''
         ].join('\n');
-        this.log(welcome);
+        this.log(message);
 
         var prompts = [{
             name: 'title',
