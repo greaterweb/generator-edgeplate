@@ -1,0 +1,4 @@
+node_modules
+app/scripts/loopback.js
+app/bower_lib
+dist

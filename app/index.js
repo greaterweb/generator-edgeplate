@@ -257,6 +257,7 @@ var EdgeplateGenerator = yeoman.generators.Base.extend({
         this.src.copy('editorconfig', '.editorconfig');
         this.src.copy('jshintrc', '.jshintrc');
         this.src.copy('gitignore', '.gitignore');
+        this.src.copy('jshintignore', '.jshintignore');
         this.src.copy('scss-lint.yml', '.scss-lint.yml');
     },
     layoutFiles: function layoutFiles() {
