@@ -90,6 +90,7 @@ var tasks = {
     },
     sass: function (isBuild) {
         $.util.log('Compiling SASS files...');
+        tasks.scsslint();
         var glob = path.join(config.app, 'styles/app.scss');
         var dest = (isBuild)?path.join(config.dist, config.buildEnvironment, config.clientDir, 'styles'):path.join(config.temp, 'styles');
         return gulp.src(glob)
@@ -160,7 +161,8 @@ var tasks = {
             path.join(config.app, 'images/**/*.gif'),
             path.join(config.app, 'styles/**/*.gif'),
             path.join(config.app, 'styles/fonts/**/*'),
-            path.join(config.app, 'favicon.ico')
+            path.join(config.app, 'favicon.ico'),
+            path.join('.yo-rc.json') // we need this to determine which environment we’re on within express
         ];
         var dest = (isBuild)?path.join(config.dist, config.buildEnvironment, config.clientDir):config.temp;
         return gulp.src(glob, { base: config.app })
@@ -305,6 +307,7 @@ function startServer () {
         'clean',
         'jshint',
         'jsonlint',
+        'scsslint',
         'sass',
         'jade'
     ];
@@ -363,16 +366,17 @@ gulp.task('server', function() {
         nodemon({
             script: config.serverJs,
             args: [
-                '-port=' + config.port,
-                '-host=' + config.hostname,
-                '-baseurl=' + config.baseUrl,
-                '-local'
+                '-env=local'
             ],
-            stdout: false,
+            stdout: true,
             watch: [
                 config.server,
                 config.common
-            ]
+            ],
+            env: {
+                // expecting a string but if -debug is sent value will be true
+                'DEBUG': (options.debug === 'true')?'*':options.debug
+            }
         })
             .once('start', function () {
                 // delay a second, express is not always immediately ready
