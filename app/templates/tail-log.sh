@@ -9,12 +9,14 @@ source ./.config.sh
 
 case "$1" in
 www)
-    PORT=$WWW_PORT;
+    ENV="production"
     PREFIX="www"
+    PORT=$WWW_PORT;
 ;;
 dev)
-    PORT=$DEV_PORT;
+    ENV="development"
     PREFIX="dev"
+    PORT=$DEV_PORT;
 ;;
 *)
     echo "Usage: $0 {dev|www} {apache|express}";
@@ -23,7 +25,7 @@ esac
 
 case "$2" in
 express)
-    LOG="/var/tmp/server.js-$PORT.out"
+    LOG="/var/tmp/server.js-$ENV-$PORT.out"
 ;;
 apache)
     LOG="/var/log/httpd/$PREFIX.$BASEDOMAIN"
