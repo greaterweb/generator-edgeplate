@@ -1,3 +1,3 @@
-module.exports = function(Account) {
+module.exports = function() { //function (Account)
 
 };
