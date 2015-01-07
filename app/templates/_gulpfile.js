@@ -6,12 +6,17 @@ var path = require('path');
 var util = require('util');
 
 var Q = require('q');
+var nopt = require('nopt');
 var openApp = require('open');
 var shell = require('shelljs');
 var nodemon = require('nodemon');
 var strftime = require('strftime');
 
 var $ = require('gulp-load-plugins')();
+
+var options = nopt({
+    debug: String
+}, { }, process.argv, 2);
 
 var gitRevision = shell.exec('git rev-parse --short HEAD', { silent:true }).output;
 

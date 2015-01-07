@@ -7,13 +7,10 @@ var nopt = require('nopt');
 var edgeHandler = require('./lib/handler');
 
 var options = nopt({
-    host: String,
-    port: Number,
-    baseurl: String,
-    restapiroot: String,
-    local: Boolean,
     env: String
 }, { }, process.argv, 2);
+
+process.env.NODE_ENV = process.env.NODE_ENV || options.env || 'development';
 
 var app = module.exports = loopback();
 
@@ -26,37 +23,15 @@ app.use(loopback.favicon());
 // request pre-processing middleware
 app.use(loopback.compress());
 
-// -- Add your pre-processing middleware here --
-app.set('isLocal', options.local || false);
-var isLocal = app.get('isLocal');
 
-app.set('env', options.env || 'development');
-
-app.set('baseUrl', options.baseurl || '/');
-var baseUrl = app.get('baseUrl');
+// boot scripts mount components like REST API
+boot(app, __dirname);
 
 app.set('appPath', path.resolve(__dirname + '/../app'));
 var appPath = app.get('appPath');
 
-var bootConfig = {
-    appRootDir: __dirname,
-    env: app.get('env'),
-    config: {
-        restApiRoot: options.restapiroot || '/api',
-        host: options.host || '0.0.0.0',
-        port: process.env.PORT || options.port || 3000,
-        init: function () {
-            // required to dynamically generate the url value
-            this.url = 'http://' + this.host + ':' + this.port + '/';
-            delete this.init;
-        }
-    }
-};
-// run config init
-bootConfig.config.init();
-
-// boot scripts mount components like REST API
-boot(app, bootConfig);
+// value comes from config.json
+var baseUrl = app.get('baseUrl');
 
 // -- Mount static files here--
 // All static middleware should be registered at the end, as all requests
@@ -75,7 +50,7 @@ app.get(baseUrl + 'robots.txt', function(req, res) {
     res.sendfile(path.resolve(__dirname + '/../common/views/', robotsView));
 });
 
-if (isLocal) {
+if (app.get('env') === 'local') {
     // Look in .tmp before appPath
     app.use(baseUrl, loopback.static(path.resolve(__dirname + '/../.tmp')));
     app.use(baseUrl, loopback.static(appPath));
