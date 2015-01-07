@@ -67,6 +67,13 @@ var tasks = {
         return gulp.src(glob, { read: false })
             .pipe($.rimraf({ force: true }));
     },<% } %>
+    scsslint: function () {
+        $.util.log('Linting SASS files...');
+        var glob = path.join(config.app, '**/*.scss');
+        return gulp.src([glob])
+          .pipe($.scsslint())
+          .pipe($.scsslint.reporter());
+    },
     jshint: function () {
         $.util.log('Linting javascript files...');
         var glob = [
