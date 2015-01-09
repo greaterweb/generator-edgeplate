@@ -39,19 +39,19 @@ Replace the `app/images/favicon/favicon-master.png` with a high resolution **squ
 
 Local development environment [localhost:3000](http://localhost:3000)
 
-    gulp server
+    gulp server [-debug]
 
 #### Web - Deployment
 
 Remote development environment [dev.<%= edgeplate.baseDomain %>](http://dev.<%= edgeplate.baseDomain %>/)
 
 	gulp build:dev
-    ./deploy.sh dev 
+    ./deploy.sh dev [--debug]
 
 Production environment [<%= edgeplate.baseDomain %>](http://<%= edgeplate.baseDomain %>/)
 
 	gulp build:www
-    ./deploy.sh www<% if (edgeplate.features.cordova) { %>
+    ./deploy.sh www [--debug]<% if (edgeplate.features.cordova) { %>
 
 Cordova environment
 
@@ -79,24 +79,25 @@ Jshint won’t check for this `[1,2,3,]` but older versions of IE will die on th
 
 Environments live within `/www/<%= edgeplate.slug %>/{dev|www}`. The following command is built into `deploy.sh` and `remote.sh` but can be called manually on the remote host. 
 
-    /usr/local/bin/node-ctrl.sh /www/<%= edgeplate.slug %>/{dev|www}/app.js {port} {start|stop|restart}
-
-If you start a service with `node-ctrl.sh app.js 8000 start` the Express dev log will be in `/var/tmp/app.js-8000.out`. The log file is continually appended. 
+If you start a service with port 8000 the Express dev log will be in `/var/tmp/server.js-8000.out`. The log file is continually appended. 
 
 Remotely hosted Express servers are proxied through Apache, so Apache handles their official *combined* format (a.k.a *extended*) logs.
-
 
 ##### Starting and Stopping Express Manually
 To start and stop a node service (express) manually use `remote.sh`:
 
-    ./remote.sh {dev|www} {start|stop}
+    ./remote.sh {dev|www} {start|stop} [--debug]
 
 ##### Tail
 Either type of log file can be `tail`'d remotely. 
 
     ./tail-log.sh {dev|www} {apache|express}
 
-The `node-ctrl.sh` script has a bash loop that continues to run the node script in case it crashes. If `node-ctrl.sh` is running but the target express server is unavailable, check the log file for the node error that is preventing the service from running. 
+Check the `/var/tmp/` directory on the remote host for express logs per [node-ctrl](https://github.com/dailyraisin/node-ctrl).
+
+##### Node DEBUG mode Remotely
+
+Deploy with `--debug` and run `tail-log.sh`.
 
 ##### Top
 When using `top` to debug node processes some helpful hints:
