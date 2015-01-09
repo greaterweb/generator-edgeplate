@@ -1,4 +1,4 @@
 {
-  port: <%= edgeplate.devPort %>,
-  url: "dev.<%= edgeplate.baseDomain %>/"
+  "port": <%= edgeplate.devPort %>,
+  "url": "dev.<%= edgeplate.baseDomain %>/"
 }
