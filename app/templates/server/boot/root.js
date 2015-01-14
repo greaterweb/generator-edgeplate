@@ -37,7 +37,7 @@ module.exports = function(server) {
             if(res.locals._ie9) {
                 //if IE 9, redirect to the # version of this URL
                 res.redirect(302, util.format('%s://%s/#/%s', req.protocol, req.get('Host'), res.locals._urlParts[1]));
-            } else if('local' === server.get('evn')) {
+            } else if('local' === server.get('env')) {
                 //if local, this serves from .tmp
                 res.sendfile(path.resolve(__dirname + '../../../.tmp/index.html'));
             } else {
