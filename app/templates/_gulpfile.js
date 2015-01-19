@@ -52,6 +52,11 @@ if (!config.revision) {
 // task names with underscore (_) prefix will be treated as private
 // they will not be exposed as gulp tasks a user can directly run
 var tasks = {
+    quality:  function () {
+        tasks.jshint();
+        tasks.jsonlint();
+        tasks.scsslint();
+    },
     clean: function (isBuild) {
         var glob = [config.temp];
         if (isBuild) {
@@ -67,6 +72,14 @@ var tasks = {
         return gulp.src(glob, { read: false })
             .pipe($.rimraf({ force: true }));
     },<% } %>
+    _cleanDistCss: function (isBuild) {
+        if (isBuild) {
+            var glob = path.join(config.dist, config.buildEnvironment, 'app/styles/app.css');
+            $.util.log('Cleaning ', $.util.colors.magenta(glob));
+            return gulp.src(glob, { read: false })
+                .pipe($.rimraf({ force: true }));
+        }
+    },
     scsslint: function () {
         $.util.log('Linting SASS files...');
         var glob = path.join(config.app, '**/*.scss');
@@ -291,6 +304,7 @@ function buildProject () {
         'clean',
         'jshint',
         'jsonlint',
+        'scsslint',
         'sass',
         'jade',
         'image',
@@ -299,7 +313,8 @@ function buildProject () {
         '_copyServer',
         '_copyCommon',
         '_copyPackage',
-        '_addBanner'
+        '_addBanner',
+        '_cleanDistCss'
     ];
     return queueItUp(taskList, true);
 }<% if (edgeplate.features.cordova) { %>
@@ -337,6 +352,7 @@ environments.forEach(function (environment) {
     });
 });
 
+
 // serve alias for server
 gulp.task('serve', ['server']);
 gulp.task('server', function() {
@@ -351,7 +367,6 @@ gulp.task('server', function() {
                 .pipe($.util.buffer(function () {
                     server.changed(file.path);
                 }));
-
         });
         gulp.watch(path.join(config.app, '**/*.jade'), function (file) {
             $.util.log('File updated', $.util.colors.magenta(file.path));
@@ -393,6 +408,8 @@ gulp.task('server', function() {
             .once('start', function () {
                 // delay a second, express is not always immediately ready
                 setTimeout(function() {
+                    // hostname, port and baseurl now come from config.json file
+                    // these values may be mismatched
                     openApp('http://' + config.hostname + ':' + config.port + config.baseUrl);
                 }, 1000);
             })
